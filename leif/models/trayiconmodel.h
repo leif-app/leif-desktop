@@ -19,8 +19,8 @@ class TrayIconModelPrivate;
 class TrayIconModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int sessionCarbon READ sessionCarbon WRITE setSessionCarbon NOTIFY sessionCarbonChanged)
-    Q_PROPERTY(int totalCarbon READ totalCarbon NOTIFY totalCarbonChanged)
+    Q_PROPERTY(int sessionCarbon READ sessionCarbon NOTIFY sessionCarbonChanged)
+    Q_PROPERTY(int lifetimeCarbon READ lifetimeCarbon NOTIFY lifetimeCarbonChanged)
     Q_PROPERTY(CarbonUsageLevel carbonUsageLevel READ carbonUsageLevel WRITE setCarbonUsageLevel NOTIFY carbonUsageLevelChanged)
     Q_PROPERTY(ChargeForecast chargeForecast READ chargeForecast WRITE setChargeForecast NOTIFY chargeForecastChanged)
     Q_PROPERTY(bool configured READ configured NOTIFY configuredChanged)
@@ -36,9 +36,7 @@ public:
     virtual ~TrayIconModel();
 
     int sessionCarbon() const;
-    void setSessionCarbon(int newSessionCarbon);
-
-    int totalCarbon() const;
+    int lifetimeCarbon() const;
 
     CarbonUsageLevel carbonUsageLevel() const;
     void setCarbonUsageLevel(CarbonUsageLevel newCarbonUsageLevel);
@@ -52,9 +50,12 @@ public Q_SLOTS:
     void resetStats();
     void showDialog();
 
+private Q_SLOTS:
+    void onConfiguredChanged();
+
 signals:
     void sessionCarbonChanged();
-    void totalCarbonChanged();
+    void lifetimeCarbonChanged();
     void carbonUsageLevelChanged();
     void chargeForecastChanged();
     void configuredChanged();

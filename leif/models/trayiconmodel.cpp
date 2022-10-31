@@ -1,26 +1,28 @@
+#include "models/carbonmodel.h"
 #include "models/trayiconmodel.h"
 #include "models/settingsmodel.h"
+#include "plugin/carbonpluginmanager.h"
 
 class TrayIconModelPrivate
 {
     TrayIconModelPrivate();
     ~TrayIconModelPrivate();
 
-    int sessionCarbon;
     TrayIconModel::CarbonUsageLevel carbonUsageLevel;
     TrayIconModel::ChargeForecast chargeForecast;
     QQmlApplicationEngine *qmlEngine;
     SettingsModel *settingsModel;
+    CarbonModel *carbonModel;
 
     friend class TrayIconModel;
 };
 
 TrayIconModelPrivate::TrayIconModelPrivate():
-    sessionCarbon{0},
     carbonUsageLevel{TrayIconModel::Medium},
     chargeForecast{TrayIconModel::ChargeWhenNeeded},
     qmlEngine{new QQmlApplicationEngine},
-    settingsModel{new SettingsModel}
+    settingsModel{new SettingsModel},
+    carbonModel{new CarbonModel}
 {}
 
 TrayIconModelPrivate::~TrayIconModelPrivate()
@@ -30,14 +32,28 @@ TrayIconModelPrivate::~TrayIconModelPrivate()
 
     delete settingsModel;
     settingsModel = nullptr;
+
+    delete carbonModel;
+    carbonModel = nullptr;
 }
 
 TrayIconModel::TrayIconModel(QObject *parent /* = nullptr */):
     QObject(parent),
     d{new TrayIconModelPrivate}
 {
-    connect(d->settingsModel, &SettingsModel::lifetimeCarbonChanged, this, &TrayIconModel::totalCarbonChanged);
+    connect(d->carbonModel, &CarbonModel::lifetimeCarbonChanged, this, &TrayIconModel::lifetimeCarbonChanged);
     connect(d->settingsModel, &SettingsModel::countryChanged, this, &TrayIconModel::configuredChanged);
+    connect(d->settingsModel, &SettingsModel::regionIdChanged, this, &TrayIconModel::configuredChanged);
+
+    if(configured())
+    {
+        CarbonPluginManager *manager = CarbonPluginManager::Instance();
+
+        if(manager != nullptr)
+        {
+            manager->loadPlugin(d->settingsModel->country());
+        }
+    }
 }
 
 TrayIconModel::~TrayIconModel()
@@ -49,30 +65,25 @@ TrayIconModel::~TrayIconModel()
 int TrayIconModel::sessionCarbon() const
 {
     Q_ASSERT(d != nullptr);
-    return d->sessionCarbon;
-}
 
-void TrayIconModel::setSessionCarbon(int newSessionCarbon)
-{
-    Q_ASSERT(d != nullptr);
-
-    if (d->sessionCarbon == newSessionCarbon)
-        return;
-
-    d->sessionCarbon = newSessionCarbon;
-    emit sessionCarbonChanged();
-}
-
-int TrayIconModel::totalCarbon() const
-{
-    Q_ASSERT(d != nullptr);
-
-    if(d->settingsModel == nullptr)
+    if(d->carbonModel == nullptr)
     {
         return 0;
     }
 
-    return d->settingsModel->lifetimeCarbon();
+    return d->carbonModel->sessionCarbon();
+}
+
+int TrayIconModel::lifetimeCarbon() const
+{
+    Q_ASSERT(d != nullptr);
+
+    if(d->carbonModel == nullptr)
+    {
+        return 0;
+    }
+
+    return d->carbonModel->lifetimeCarbon();
 }
 
 TrayIconModel::CarbonUsageLevel TrayIconModel::carbonUsageLevel() const
@@ -105,6 +116,7 @@ void TrayIconModel::setChargeForecast(ChargeForecast newChargeForecast)
 
     if (d->chargeForecast == newChargeForecast)
         return;
+
     d->chargeForecast = newChargeForecast;
     emit chargeForecastChanged();
 }
@@ -113,13 +125,12 @@ void TrayIconModel::resetStats()
 {
     Q_ASSERT(d != nullptr);
 
-    if(d->settingsModel == nullptr)
+    if(d->carbonModel == nullptr)
     {
         return;
     }
 
-    d->settingsModel->setLifetimeCarbon(0);
-    setSessionCarbon(0);
+    d->carbonModel->clearStats();
 }
 
 void TrayIconModel::showDialog()
@@ -132,6 +143,17 @@ void TrayIconModel::showDialog()
     }
 }
 
+void TrayIconModel::onConfiguredChanged()
+{
+    Q_ASSERT(d != nullptr);
+
+    CarbonPluginManager *manager = CarbonPluginManager::Instance();
+    if(manager != nullptr)
+    {
+        manager->loadPlugin(d->settingsModel->country());
+    }
+}
+
 bool TrayIconModel::configured() const
 {
     Q_ASSERT(d != nullptr);
@@ -141,5 +163,21 @@ bool TrayIconModel::configured() const
         return false;
     }
 
-    return d->settingsModel->country() != QLocale::AnyCountry;
+    if(d->settingsModel->country() == QLocale::AnyCountry)
+    {
+        return false;
+    }
+
+    CarbonPluginManager *manager = CarbonPluginManager::Instance();
+    if(manager == nullptr)
+    {
+        return false;
+    }
+
+    if(manager->regionIds(d->settingsModel->country()).isEmpty())
+    {
+        return true;
+    }
+
+    return !d->settingsModel->regionId().isEmpty();
 }

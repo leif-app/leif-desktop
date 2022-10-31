@@ -72,12 +72,16 @@ void LeifSettings::saveCountry(const QLocale::Country &country)
 {
     QSettings settings;
     settings.setValue(LeifSettingsPrivate::CountryKey, country);
+
+    emit countryChanged(country);
 }
 
 void LeifSettings::saveRegionId(const QString &regionId)
 {
     QSettings settings;
     settings.setValue(LeifSettingsPrivate::RegionKey, regionId);
+
+    emit regionIdChanged(regionId);
 }
 
 QLocale::Country LeifSettings::country() const
@@ -100,6 +104,8 @@ void LeifSettings::saveLifetimeCarbon(int lifeTime)
     QSettings settings;
 
     settings.setValue(LeifSettingsPrivate::LifeTimeCarbonKey, lifeTime);
+
+    emit lifeTimeCarbonChanged(lifeTime);
 }
 
 int LeifSettings::lifeTimeCarbon() const

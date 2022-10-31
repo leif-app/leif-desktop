@@ -17,6 +17,7 @@ int main(int argc, char *argv[]);
 
 void loadTranslations(QTranslator *translator);
 void setStyleSheet();
+void cleanup();
 
 
 

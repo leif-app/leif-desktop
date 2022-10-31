@@ -3,7 +3,15 @@
 
 SettingsModel::SettingsModel(QObject *parent)
     : QObject{parent}
-{}
+{
+    LeifSettings *settings = LeifSettings::Instance();
+    if(settings != nullptr)
+    {
+        connect(settings, &LeifSettings::countryChanged, this, [=]() { emit countryChanged();});
+        connect(settings, &LeifSettings::regionIdChanged, this, [=]() { emit regionIdChanged();});
+        connect(settings, &LeifSettings::lifeTimeCarbonChanged, this, [=]() { emit lifetimeCarbonChanged();});
+    }
+}
 
 QLocale::Country SettingsModel::country() const
 {
@@ -27,7 +35,6 @@ void SettingsModel::setCountry(const QLocale::Country &newCountry)
     if(settings->country() != newCountry)
     {
         settings->saveCountry(newCountry);
-        emit countryChanged();
     }
 }
 
@@ -44,6 +51,7 @@ QString SettingsModel::regionId() const
 
 void SettingsModel::setRegionId(const QString &newRegionId)
 {
+    qDebug("setRegionId");
     LeifSettings *settings = LeifSettings::Instance();
     if(settings == nullptr)
     {
@@ -53,7 +61,6 @@ void SettingsModel::setRegionId(const QString &newRegionId)
     if(settings->regionId() != newRegionId)
     {
         settings->saveRegionId(newRegionId);
-        emit regionIdChanged();
     }
 }
 
@@ -79,6 +86,5 @@ void SettingsModel::setLifetimeCarbon(int newLifetimeCarbon)
     if(settings->lifeTimeCarbon() != newLifetimeCarbon)
     {
         settings->saveLifetimeCarbon(newLifetimeCarbon);
-        emit lifetimeCarbonChanged();
     }
 }

@@ -33,7 +33,7 @@ private:
 
 private:
     Q_DISABLE_COPY_MOVE(PowerInfo)
-    class PowerInfoPrivate *d;
+    PowerInfoPrivate *d;
 };
 
 #endif // POWERINFO_H

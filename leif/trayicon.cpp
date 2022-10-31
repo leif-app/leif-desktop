@@ -41,7 +41,7 @@ void TrayIcon::onTotalCarbonChanged()
 {
     Q_ASSERT(d.model != nullptr);
 
-    d.totalCarbonAction->setText(TrayIcon::totalCarbonLabel(d.model->totalCarbon()));
+    d.totalCarbonAction->setText(TrayIcon::totalCarbonLabel(d.model->lifetimeCarbon()));
 }
 
 void TrayIcon::onCarbonUsageLevelChanged()
@@ -149,7 +149,7 @@ void TrayIcon::connectModel()
     Q_ASSERT(d.model != nullptr);
 
     connect(d.model, &TrayIconModel::sessionCarbonChanged, this, &TrayIcon::onSessionCarbonChanged);
-    connect(d.model, &TrayIconModel::totalCarbonChanged, this, &TrayIcon::onTotalCarbonChanged);
+    connect(d.model, &TrayIconModel::lifetimeCarbonChanged, this, &TrayIcon::onTotalCarbonChanged);
     connect(d.model, &TrayIconModel::carbonUsageLevelChanged, this, &TrayIcon::onCarbonUsageLevelChanged);
     connect(d.model, &TrayIconModel::chargeForecastChanged, this, &TrayIcon::onChargeForecastChanged);
     connect(d.model, &TrayIconModel::configuredChanged, this, &TrayIcon::onConfiguredChanged);

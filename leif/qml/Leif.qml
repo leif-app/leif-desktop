@@ -57,6 +57,8 @@ ApplicationWindow {
 
     ButtonRow {}
 
+    StatusPage {}
+
     LocationPage {}
 
     AboutPage {}

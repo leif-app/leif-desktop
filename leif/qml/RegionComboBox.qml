@@ -7,13 +7,14 @@ LeifComboBox {
 
     defaultIcon: "../img/pin.png"
     defaultText: qsTr("Select your region")
-    model: ["North Scotland", "South Scotland", "North West England", "North East England", "Yorkshire", "North Wales", "South Wales", "West Midlands", "East Midlands", "East England", "South West England", "South England", "London", "South East England", "England", "Scotland", "Wales"]
+    textRole: "name"
+    valueRole: "id"
 
     delegate: ItemDelegate {
         width: control.width
         palette.text: control.palette.buttonText
         font: control.font
-        text: modelData
+        text: name
         highlighted: control.highlightedIndex === index
         spacing: control.spacing
         indicator: Image {

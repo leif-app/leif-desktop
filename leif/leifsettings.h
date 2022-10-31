@@ -19,6 +19,7 @@ public:
     void saveLocation(const QLocale::Country &country, const QString &regionId);
     void saveCountry(const QLocale::Country &country);
     void saveRegionId(const QString &regionId);
+
     QLocale::Country country() const;
     QString regionId() const;
 
@@ -27,7 +28,8 @@ public:
     void clearLifeTimeCarbon();
 
 signals:
-    void locationChanged(const QLocale::Country country, const QString &regionId);
+    void countryChanged(const QLocale::Country country);
+    void regionIdChanged(const QString &regionId);
     void lifeTimeCarbonChanged(int lifeTime);
 
 private:

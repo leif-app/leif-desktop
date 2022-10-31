@@ -5,8 +5,10 @@ QT += quick widgets
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        carbonprocessor.cpp \
         leifsettings.cpp \
         models/countrymodel.cpp \
+        models/regionmodel.cpp \
         models/settingsmodel.cpp \
         plugin/carbonplugin.cpp \
         main.cpp \
@@ -47,8 +49,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    carbonprocessor.h \
     leifsettings.h \
     models/countrymodel.h \
+    models/regionmodel.h \
     models/settingsmodel.h \
     plugin/carbonplugin.h \
     include/carbondata.h \

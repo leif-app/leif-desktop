@@ -8,23 +8,15 @@ LeifComboBox {
     defaultIcon: "../img/globe.png"
     defaultText: qsTr("Select your country")
     textRole: "name"
-    valueRole: "iso"
-    model: [
-        { name: "France", iso: "fr"},
-        { name: "Germany", iso: "de" },
-        { name: "Republic of Ireland", iso: "irl"},
-        { name: "Italy", iso: "ita"},
-        { name: "Spain", iso: "esp"},
-        {name: "United Kingdom", iso: "gbr"}
-    ]
+    valueRole: "code"
 
     delegate: ItemDelegate {
         width: control.width
         palette.text: control.palette.buttonText
         font: control.font
-        text: modelData.name
+        text: name
         highlighted: control.highlightedIndex === index
-        icon.source: "../img/flags/" + modelData.iso + ".png"
+        icon.source: "../img/flags/" + code + ".png"
         icon.color: "transparent"
         spacing: control.spacing
         indicator: Image {

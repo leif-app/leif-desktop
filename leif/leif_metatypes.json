@@ -2,6 +2,47 @@
     {
         "classes": [
             {
+                "className": "CarbonProcessor",
+                "object": true,
+                "qualifiedClassName": "CarbonProcessor",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "sessionCarbonChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "lifetimeCarbonChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "name": "clearStats",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "calculateCarbon",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "carbonprocessor.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
                 "className": "LeifSettings",
                 "object": true,
                 "qualifiedClassName": "LeifSettings",
@@ -12,13 +53,20 @@
                             {
                                 "name": "country",
                                 "type": "QLocale::Country"
-                            },
+                            }
+                        ],
+                        "name": "countryChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
                             {
                                 "name": "regionId",
                                 "type": "QString"
                             }
                         ],
-                        "name": "locationChanged",
+                        "name": "regionIdChanged",
                         "returnType": "void"
                     },
                     {
@@ -42,6 +90,75 @@
             }
         ],
         "inputFile": "leifsettings.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "classInfos": [
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
+                "className": "CountryModel",
+                "object": true,
+                "qualifiedClassName": "CountryModel",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QAbstractListModel"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "countrymodel.h",
+        "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "classInfos": [
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
+                "className": "RegionModel",
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "country",
+                        "notify": "countryChanged",
+                        "read": "country",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QLocale::Country",
+                        "user": false,
+                        "write": "setCountry"
+                    }
+                ],
+                "qualifiedClassName": "RegionModel",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "countryChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QAbstractListModel"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "regionmodel.h",
         "outputRevision": 67
     },
     {
@@ -131,9 +248,62 @@
     {
         "classes": [
             {
+                "classInfos": [
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
                 "className": "CarbonModel",
                 "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "sessionCarbon",
+                        "notify": "sessionCarbonChanged",
+                        "read": "sessionCarbon",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "lifetimeCarbon",
+                        "notify": "lifetimeCarbonChanged",
+                        "read": "lifetimeCarbon",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    }
+                ],
                 "qualifiedClassName": "CarbonModel",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "sessionCarbonChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "lifetimeCarbonChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "name": "clearStats",
+                        "returnType": "void"
+                    }
+                ],
                 "superClasses": [
                     {
                         "access": "public",
@@ -187,16 +357,15 @@
                         "scriptable": true,
                         "stored": true,
                         "type": "int",
-                        "user": false,
-                        "write": "setSessionCarbon"
+                        "user": false
                     },
                     {
                         "constant": false,
                         "designable": true,
                         "final": false,
-                        "name": "totalCarbon",
-                        "notify": "totalCarbonChanged",
-                        "read": "totalCarbon",
+                        "name": "lifetimeCarbon",
+                        "notify": "lifetimeCarbonChanged",
+                        "read": "lifetimeCarbon",
                         "required": false,
                         "scriptable": true,
                         "stored": true,
@@ -254,7 +423,7 @@
                     },
                     {
                         "access": "public",
-                        "name": "totalCarbonChanged",
+                        "name": "lifetimeCarbonChanged",
                         "returnType": "void"
                     },
                     {
@@ -282,6 +451,11 @@
                     {
                         "access": "public",
                         "name": "showDialog",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "onConfiguredChanged",
                         "returnType": "void"
                     }
                 ],

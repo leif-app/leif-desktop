@@ -3,10 +3,12 @@
 
 #include <QObject>
 #include <QAbstractListModel>
+#include <QQmlEngine>
 
 class CountryModel : public QAbstractListModel
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
     explicit CountryModel(QObject *parent = nullptr);
 

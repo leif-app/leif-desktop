@@ -46,7 +46,7 @@ QHash<int, QByteArray> CountryModel::roleNames() const
     static QHash<int, QByteArray> _names;
     if(_names.isEmpty())
     {
-        _names.insert(Qt::DisplayRole, "display");
+        _names.insert(Qt::DisplayRole, "name");
         _names.insert(Qt::UserRole, "code");
     }
 

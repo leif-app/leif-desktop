@@ -17,6 +17,9 @@
 #include "trayicon.h"
 #include "models/trayiconmodel.h"
 
+#include "carbonprocessor.h"
+#include "leifsettings.h"
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -46,7 +49,11 @@ int main(int argc, char *argv[])
     QScopedPointer<TrayIcon> tray(new TrayIcon(trayModel.data()));
     tray->show();
 
-    return app.exec();
+    int result = app.exec();
+
+    cleanup();
+
+    return result;
 }
 
 void loadTranslations(QTranslator *translator)
@@ -86,4 +93,10 @@ void setStyleSheet()
                         "color: #a8a8a8;"
                         "}"
                         );
+}
+
+void cleanup()
+{
+    CarbonProcessor::Destroy();
+    LeifSettings::Destroy();
 }

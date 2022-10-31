@@ -29,7 +29,6 @@ class PowerInfoPrivate
     int avarageDischargeRate;
     PowerInfo::State state;
 
-
     friend class PowerInfo;
 };
 

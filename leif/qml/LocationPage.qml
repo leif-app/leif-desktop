@@ -28,10 +28,31 @@ BasePage {
 
             CountryComboBox {
                 id: countryBox
+
+                model: CountryModel {}
+
+                Component.onCompleted: currentIndex = indexOfValue(settings.country)
+                onCurrentValueChanged: settings.country = currentValue
             }
 
             RegionComboBox {
                 id: control
+
+                model: RegionModel {
+                    id: regionModel
+
+                    country: countryBox.currentValue
+                }
+
+                Component.onCompleted: {
+                    regionModel.country = settings.country;
+                    currentIndex = indexOfValue(settings.regionId);
+                }
+
+                onCurrentValueChanged: {
+                    console.log("Current value changed!");
+                    settings.regionId = currentValue;
+                }
             }
         }
     }

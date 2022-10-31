@@ -214,6 +214,11 @@ QString Utils::CarbonPluginData::translatedRegion(const QLocale::Country country
         if(!region.isEmpty() && region.id() == regionId)
         {
             translated = region.translatedId();
+            if(translated.isEmpty())
+            {
+                translated = region.id();
+            }
+
             break;
         }
     }
