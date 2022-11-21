@@ -1,5 +1,5 @@
 /**
- * @brief Defines the CarbonData reply structure.
+ * \brief Defines the CarbonData reply structure.
  *
  * The CarbonData reply structure contains the cost of a kilowatt hour in
  * grams of CO2 and may contain an error, if there was an issue getting the data.
@@ -7,6 +7,8 @@
  * \sa IDataProvider
  *
  * \author Dariusz Scharsig
+ *
+ * \copyright Tim Stone
  *
  * \date 17.09.2022
  */

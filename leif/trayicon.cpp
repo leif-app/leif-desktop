@@ -7,7 +7,7 @@
 #include "trayicon.h"
 
 TrayIcon::TrayIcon(TrayIconModel *model, QObject *parent /* = nullptr */):
-    TrayIcon(QIcon(TrayIcon::usageLevelToIconName(TrayIconModel::VeryHigh)), parent)
+    TrayIcon(QIcon(TrayIcon::usageLevelToIconName(CarbonProcessor::VeryHigh)), parent)
 {
     Q_ASSERT(model != nullptr);
 
@@ -180,7 +180,7 @@ QString TrayIcon::carbonLabel(const QString &labelText, double value)
     return label;
 }
 
-QString TrayIcon::intensityLabel(TrayIconModel::CarbonUsageLevel usageLevel)
+QString TrayIcon::intensityLabel(CarbonProcessor::CarbonUsageLevel usageLevel)
 {
     QString intensity = QStringLiteral("%1: %2");
     intensity = intensity.arg(tr("Current intensity", "Power usage intensity."), TrayIcon::usageLevelToString(usageLevel));
@@ -223,9 +223,9 @@ QString TrayIcon::chargeForecastLabel(TrayIconModel::ChargeForecast chargeForeca
     return str;
 }
 
-QString TrayIcon::usageLevelToString(TrayIconModel::CarbonUsageLevel usageLevel)
+QString TrayIcon::usageLevelToString(CarbonProcessor::CarbonUsageLevel usageLevel)
 {
-    static QHash<TrayIconModel::CarbonUsageLevel, QString> usageLevelStrings;
+    static QHash<CarbonProcessor::CarbonUsageLevel, QString> usageLevelStrings;
 
     if(usageLevelStrings.contains(usageLevel))
     {
@@ -235,24 +235,24 @@ QString TrayIcon::usageLevelToString(TrayIconModel::CarbonUsageLevel usageLevel)
     QString str;
     switch(usageLevel)
     {
-    case(TrayIconModel::VeryHigh):
+    case(CarbonProcessor::VeryHigh):
         //: The carbon usage intensity is very high
         str = tr("Very high");
         break;
 
-    case(TrayIconModel::High):
+    case(CarbonProcessor::High):
         str = tr("High");
         break;
 
-    case(TrayIconModel::Medium):
+    case(CarbonProcessor::Medium):
         str = tr("Medium");
         break;
 
-    case(TrayIconModel::Low):
+    case(CarbonProcessor::Low):
         str = tr("Low");
         break;
 
-    case(TrayIconModel::VeryLow):
+    case(CarbonProcessor::VeryLow):
         str = tr("Very low");
         break;
 
@@ -266,9 +266,9 @@ QString TrayIcon::usageLevelToString(TrayIconModel::CarbonUsageLevel usageLevel)
     return str;
 }
 
-QString TrayIcon::usageLevelToIconName(TrayIconModel::CarbonUsageLevel usageLevel)
+QString TrayIcon::usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLevel)
 {
-    static QHash<TrayIconModel::CarbonUsageLevel, QString> usageLevelIconNames;
+    static QHash<CarbonProcessor::CarbonUsageLevel, QString> usageLevelIconNames;
 
     if(usageLevelIconNames.contains(usageLevel))
     {
@@ -278,24 +278,24 @@ QString TrayIcon::usageLevelToIconName(TrayIconModel::CarbonUsageLevel usageLeve
     QString str;
     switch(usageLevel)
     {
-    case(TrayIconModel::VeryHigh):
+    case(CarbonProcessor::VeryHigh):
         //: The carbon usage intensity is very high
         str = QStringLiteral("VerySadD.png");
         break;
 
-    case(TrayIconModel::High):
+    case(CarbonProcessor::High):
         str = QStringLiteral("SadD.png");
         break;
 
-    case(TrayIconModel::Medium):
+    case(CarbonProcessor::Medium):
         str = QStringLiteral("FairD.png");
         break;
 
-    case(TrayIconModel::Low):
+    case(CarbonProcessor::Low):
         str = QStringLiteral("HappyD.png");
         break;
 
-    case(TrayIconModel::VeryLow):
+    case(CarbonProcessor::VeryLow):
         str = QStringLiteral("VeryHappyD.png");
         break;
 

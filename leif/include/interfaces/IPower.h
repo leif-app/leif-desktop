@@ -1,13 +1,15 @@
 /**
- * @brief Defines the IPower interface.
+ * \brief Defines the IPower interface.
  *
  * The IPower interface defines common methods that power draw information
  * providers must implement. We will use it to calculate the current CO2
  * consumption.
  *
- * @author Dariusz Scharsig
+ * \author Dariusz Scharsig
  *
- * @date 23.09.2022
+ * \copyright Tim Stone
+ *
+ * \date 23.09.2022
  */
 #ifndef IPOWER_H
 #define IPOWER_H

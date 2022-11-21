@@ -1,5 +1,5 @@
 /**
- * @brief Defines the IDataProvider interface.
+ * \brief Defines the IDataProvider interface.
  *
  * The IDataProvider interface provides the information needed to determine the
  * CO2 cost of energy in a specific country/region.
@@ -7,6 +7,8 @@
  * \sa IDataProvider
  *
  * \author Dariusz Scharsig
+ *
+ * \copyright Tim Stone
  *
  * \date 16.09.2022
  */

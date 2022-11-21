@@ -14,6 +14,8 @@
 #include <QObject>
 #include <QQmlApplicationEngine>
 
+#include "carbonprocessor.h"
+
 class TrayIconModelPrivate;
 
 class TrayIconModel : public QObject
@@ -21,14 +23,11 @@ class TrayIconModel : public QObject
     Q_OBJECT
     Q_PROPERTY(int sessionCarbon READ sessionCarbon NOTIFY sessionCarbonChanged)
     Q_PROPERTY(int lifetimeCarbon READ lifetimeCarbon NOTIFY lifetimeCarbonChanged)
-    Q_PROPERTY(CarbonUsageLevel carbonUsageLevel READ carbonUsageLevel WRITE setCarbonUsageLevel NOTIFY carbonUsageLevelChanged)
+    Q_PROPERTY(CarbonProcessor::CarbonUsageLevel carbonUsageLevel READ carbonUsageLevel NOTIFY carbonUsageLevelChanged)
     Q_PROPERTY(ChargeForecast chargeForecast READ chargeForecast WRITE setChargeForecast NOTIFY chargeForecastChanged)
     Q_PROPERTY(bool configured READ configured NOTIFY configuredChanged)
 
 public:
-    enum CarbonUsageLevel { VeryLow, Low, Medium, High, VeryHigh };
-    Q_ENUM(CarbonUsageLevel)
-
     enum ChargeForecast { ChargeNow, ChargeIn30, ChargeIn60, ChargeWhenNeeded };
     Q_ENUM(ChargeForecast)
 
@@ -38,8 +37,7 @@ public:
     int sessionCarbon() const;
     int lifetimeCarbon() const;
 
-    CarbonUsageLevel carbonUsageLevel() const;
-    void setCarbonUsageLevel(CarbonUsageLevel newCarbonUsageLevel);
+    CarbonProcessor::CarbonUsageLevel carbonUsageLevel() const;
 
     ChargeForecast chargeForecast() const;
     void setChargeForecast(ChargeForecast newChargeForecast);

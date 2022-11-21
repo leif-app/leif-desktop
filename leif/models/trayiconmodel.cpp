@@ -8,7 +8,6 @@ class TrayIconModelPrivate
     TrayIconModelPrivate();
     ~TrayIconModelPrivate();
 
-    TrayIconModel::CarbonUsageLevel carbonUsageLevel;
     TrayIconModel::ChargeForecast chargeForecast;
     QQmlApplicationEngine *qmlEngine;
     SettingsModel *settingsModel;
@@ -18,7 +17,6 @@ class TrayIconModelPrivate
 };
 
 TrayIconModelPrivate::TrayIconModelPrivate():
-    carbonUsageLevel{TrayIconModel::Medium},
     chargeForecast{TrayIconModel::ChargeWhenNeeded},
     qmlEngine{new QQmlApplicationEngine},
     settingsModel{new SettingsModel},
@@ -41,7 +39,9 @@ TrayIconModel::TrayIconModel(QObject *parent /* = nullptr */):
     QObject(parent),
     d{new TrayIconModelPrivate}
 {
+    connect(d->carbonModel, &CarbonModel::sessionCarbonChanged, this, &TrayIconModel::sessionCarbonChanged);
     connect(d->carbonModel, &CarbonModel::lifetimeCarbonChanged, this, &TrayIconModel::lifetimeCarbonChanged);
+    connect(d->carbonModel, &CarbonModel::carbonUsageLevelChanged, this, &TrayIconModel::carbonUsageLevelChanged);
     connect(d->settingsModel, &SettingsModel::countryChanged, this, &TrayIconModel::configuredChanged);
     connect(d->settingsModel, &SettingsModel::regionIdChanged, this, &TrayIconModel::configuredChanged);
 
@@ -86,21 +86,16 @@ int TrayIconModel::lifetimeCarbon() const
     return d->carbonModel->lifetimeCarbon();
 }
 
-TrayIconModel::CarbonUsageLevel TrayIconModel::carbonUsageLevel() const
+CarbonProcessor::CarbonUsageLevel TrayIconModel::carbonUsageLevel() const
 {
     Q_ASSERT(d != nullptr);
 
-    return d->carbonUsageLevel;
-}
+    if(d->carbonModel == nullptr)
+    {
+        return CarbonProcessor::VeryHigh;
+    }
 
-void TrayIconModel::setCarbonUsageLevel(CarbonUsageLevel newCarbonUsageLevel)
-{
-    Q_ASSERT(d != nullptr);
-
-    if (d->carbonUsageLevel == newCarbonUsageLevel)
-        return;
-    d->carbonUsageLevel = newCarbonUsageLevel;
-    emit carbonUsageLevelChanged();
+    return d->carbonModel->carbonUsageLevel();
 }
 
 TrayIconModel::ChargeForecast TrayIconModel::chargeForecast() const

@@ -194,6 +194,7 @@ bool CarbonPluginManager::loadPlugin(const QLocale::Country country)
         return true;
     }
 
+    d->currentPlugin = plugin;
     return plugin->load();
 }
 
@@ -215,7 +216,7 @@ CarbonData CarbonPluginManager::carbonPerKiloWatt(const QLocale::Country country
 {
     Q_ASSERT(d != nullptr);
 
-    if(!hasCurrentPlugin())
+    if(!hasCurrentPlugin() && !loadPlugin(country))
     {
         return CarbonData::error("No country/region selected yet.");
     }

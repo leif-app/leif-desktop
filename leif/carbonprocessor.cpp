@@ -1,4 +1,5 @@
 #include <QTimer>
+#include <QDebug>
 
 #include "carbonprocessor.h"
 #include "leifsettings.h"
@@ -14,6 +15,7 @@ class CarbonProcessorPrivate
 
     int session;
     int lifetime;
+    CarbonProcessor::CarbonUsageLevel usageLevel;
     IPower *powerInfo;
 
     QTimer calculateTimer;
@@ -29,6 +31,7 @@ CarbonProcessor::CarbonProcessor(QObject *parent)
 {
     d->session = 0;
     d->lifetime = 0;
+    d->usageLevel = VeryHigh;
     d->powerInfo = PowerFactory::getPowerInterface();
 
     LeifSettings *settings = LeifSettings::Instance();
@@ -41,6 +44,7 @@ CarbonProcessor::CarbonProcessor(QObject *parent)
     checkTimer->setInterval(1000 * 60);
     checkTimer->setSingleShot(false);
     connect(checkTimer, &QTimer::timeout, this, &CarbonProcessor::calculateCarbon);
+    calculateCarbon();
 }
 
 CarbonProcessor::~CarbonProcessor()
@@ -91,6 +95,13 @@ int CarbonProcessor::lifetimeCarbon() const
     return d->lifetime;
 }
 
+CarbonProcessor::CarbonUsageLevel CarbonProcessor::carbonUsageLevel() const
+{
+    Q_ASSERT(d != nullptr);
+
+    return d->usageLevel;
+}
+
 void CarbonProcessor::clearStats()
 {
     setSessionCarbon(0);
@@ -121,7 +132,38 @@ void CarbonProcessor::calculateCarbon()
         float carbon = (powerDraw * static_cast<float>(data.co2PerKiloWattHour)) / 60;
         setSessionCarbon(sessionCarbon() + carbon);
         setLifetimeCarbon(lifetimeCarbon() + carbon);
+        calculateUsageLevel(data.co2PerKiloWattHour);
     }
+}
+
+void CarbonProcessor::calculateUsageLevel(int co2PerkWh)
+{
+    qDebug() << co2PerkWh;
+
+    CarbonUsageLevel newLevel = CarbonProcessor::VeryHigh;
+
+    if(co2PerkWh <= 49)
+    {
+        newLevel = CarbonProcessor::VeryLow;
+    }
+    else if(co2PerkWh <= 129)
+    {
+        newLevel = CarbonProcessor::Low;
+    }
+    else if(co2PerkWh <= 209)
+    {
+        newLevel = CarbonProcessor::Medium;
+    }
+    else if(co2PerkWh <= 310)
+    {
+        newLevel = CarbonProcessor::High;
+    }
+    else
+    {
+        newLevel = CarbonProcessor::VeryHigh;
+    }
+
+    setCarbonUsageLevel(newLevel);
 }
 
 void CarbonProcessor::setSessionCarbon(int newSessionCarbon)
@@ -143,5 +185,16 @@ void CarbonProcessor::setLifetimeCarbon(int newLifetimeCarbon)
     {
         d->lifetime = newLifetimeCarbon;
         emit lifetimeCarbonChanged();
+    }
+}
+
+void CarbonProcessor::setCarbonUsageLevel(CarbonUsageLevel newLevel)
+{
+    Q_ASSERT(d != nullptr);
+
+    if(d->usageLevel != newLevel)
+    {
+        d->usageLevel = newLevel;
+        emit carbonUsageLevelChanged();
     }
 }

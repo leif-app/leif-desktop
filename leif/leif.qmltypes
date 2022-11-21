@@ -15,6 +15,11 @@ Module {
         exportMetaObjectRevisions: [0]
         Property { name: "sessionCarbon"; type: "int"; isReadonly: true }
         Property { name: "lifetimeCarbon"; type: "int"; isReadonly: true }
+        Property {
+            name: "carbonUsageLevel"
+            type: "CarbonProcessor::CarbonUsageLevel"
+            isReadonly: true
+        }
         Method { name: "clearStats" }
     }
     Component {

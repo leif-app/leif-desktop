@@ -3,6 +3,20 @@
         "classes": [
             {
                 "className": "CarbonProcessor",
+                "enums": [
+                    {
+                        "isClass": false,
+                        "isFlag": false,
+                        "name": "CarbonUsageLevel",
+                        "values": [
+                            "VeryLow",
+                            "Low",
+                            "Medium",
+                            "High",
+                            "VeryHigh"
+                        ]
+                    }
+                ],
                 "object": true,
                 "qualifiedClassName": "CarbonProcessor",
                 "signals": [
@@ -15,6 +29,11 @@
                         "access": "public",
                         "name": "lifetimeCarbonChanged",
                         "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "carbonUsageLevelChanged",
+                        "returnType": "void"
                     }
                 ],
                 "slots": [
@@ -26,6 +45,17 @@
                     {
                         "access": "private",
                         "name": "calculateCarbon",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "co2PerkWh",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "calculateUsageLevel",
                         "returnType": "void"
                     }
                 ],
@@ -282,6 +312,19 @@
                         "stored": true,
                         "type": "int",
                         "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "name": "carbonUsageLevel",
+                        "notify": "carbonUsageLevelChanged",
+                        "read": "carbonUsageLevel",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "CarbonProcessor::CarbonUsageLevel",
+                        "user": false
                     }
                 ],
                 "qualifiedClassName": "CarbonModel",
@@ -294,6 +337,11 @@
                     {
                         "access": "public",
                         "name": "lifetimeCarbonChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "carbonUsageLevelChanged",
                         "returnType": "void"
                     }
                 ],
@@ -320,18 +368,6 @@
             {
                 "className": "TrayIconModel",
                 "enums": [
-                    {
-                        "isClass": false,
-                        "isFlag": false,
-                        "name": "CarbonUsageLevel",
-                        "values": [
-                            "VeryLow",
-                            "Low",
-                            "Medium",
-                            "High",
-                            "VeryHigh"
-                        ]
-                    },
                     {
                         "isClass": false,
                         "isFlag": false,
@@ -382,9 +418,8 @@
                         "required": false,
                         "scriptable": true,
                         "stored": true,
-                        "type": "CarbonUsageLevel",
-                        "user": false,
-                        "write": "setCarbonUsageLevel"
+                        "type": "CarbonProcessor::CarbonUsageLevel",
+                        "user": false
                     },
                     {
                         "constant": false,

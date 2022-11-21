@@ -34,12 +34,12 @@ private:
     static QString sessionCarbonLabel(double value);
     static QString totalCarbonLabel(double value);
     static QString carbonLabel(const QString &labelText, double value);
-    static QString intensityLabel(TrayIconModel::CarbonUsageLevel usageLevel);
+    static QString intensityLabel(CarbonProcessor::CarbonUsageLevel usageLevel);
     static QString chargeForecastLabel(TrayIconModel::ChargeForecast chargeForecast);
 
     static QString co2Unit();
-    static QString usageLevelToString(TrayIconModel::CarbonUsageLevel usageLevel);
-    static QString usageLevelToIconName(TrayIconModel::CarbonUsageLevel usageLevel);
+    static QString usageLevelToString(CarbonProcessor::CarbonUsageLevel usageLevel);
+    static QString usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLevel);
 
 private:
     struct TrayIconData

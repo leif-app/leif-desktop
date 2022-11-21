@@ -11,7 +11,7 @@
 #include <QNetworkReply>
 #include <QScopeGuard>
 #include <QUrl>
-
+#include <QDebug>
 #include "utilities.h"
 
 /**
@@ -197,10 +197,21 @@ QVariantHash Utilities::flatJsonHash(const QJsonObject &object)
         for(const QString &key : keys)
         {
             QVariant value = checkMap.value(key);
+            qDebug() << value.type();
 
             if(value.type() == QVariant::Type::Map)
             {
                 check << value.toMap();
+            }
+            else if(value.type() == QVariant::Type::List)
+            {
+                const QVariantList vList = value.toList();
+                for(const QVariant &vListValue : vList)
+                {
+                    if(vListValue.type() == QVariant::Type::Map) {
+                        check << vListValue.toMap();
+                    }
+                }
             }
             else
             {

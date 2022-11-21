@@ -15,8 +15,12 @@ public:
     static CarbonProcessor *Instance();
     static void Destroy();
 
+    enum CarbonUsageLevel { VeryLow, Low, Medium, High, VeryHigh };
+    Q_ENUM(CarbonUsageLevel)
+
     int sessionCarbon() const;
     int lifetimeCarbon() const;
+    CarbonUsageLevel carbonUsageLevel() const;
 
 public slots:
     void clearStats();
@@ -24,13 +28,16 @@ public slots:
 signals:
     void sessionCarbonChanged();
     void lifetimeCarbonChanged();
+    void carbonUsageLevelChanged();
 
 private slots:
     void calculateCarbon();
+    void calculateUsageLevel(int co2PerkWh);
 
 private:
     void setSessionCarbon(int newSessionCarbon);
     void setLifetimeCarbon(int newLifetimeCarbon);
+    void setCarbonUsageLevel(CarbonUsageLevel newLevel);
 
 private:
     Q_DISABLE_COPY_MOVE(CarbonProcessor);

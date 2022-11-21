@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
     */
 
     QScopedPointer<TrayIconModel> trayModel(new TrayIconModel);
-    trayModel->setCarbonUsageLevel(TrayIconModel::Medium);
     trayModel->setChargeForecast(TrayIconModel::ChargeIn30);
 
     QScopedPointer<TrayIcon> tray(new TrayIcon(trayModel.data()));
