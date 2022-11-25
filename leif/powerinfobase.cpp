@@ -37,6 +37,7 @@ PowerInfoBase::PowerInfoBase(QObject *parent /* = nullptr */):
     checkTimer->setInterval(d->checkIntervalInMinutes * 1000);
     checkTimer->setSingleShot(false);
     connect(checkTimer, &QTimer::timeout, this, &PowerInfoBase::checkLevels);
+    checkTimer->start();
 }
 
 PowerInfoBase::~PowerInfoBase()
@@ -123,11 +124,13 @@ void PowerInfoBase::updateState()
         return;
     }
 
+    /*
     if(batteryFullyCharged())
     {
         d->state = PowerInfoBase::FullyCharged;
         return;
     }
+    */
 
     if(batteryCharging())
     {
