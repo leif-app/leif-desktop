@@ -22,16 +22,16 @@
 class CarbonModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int sessionCarbon READ sessionCarbon NOTIFY sessionCarbonChanged)
-    Q_PROPERTY(int lifetimeCarbon READ lifetimeCarbon NOTIFY lifetimeCarbonChanged)
+    Q_PROPERTY(float sessionCarbon READ sessionCarbon NOTIFY sessionCarbonChanged)
+    Q_PROPERTY(float lifetimeCarbon READ lifetimeCarbon NOTIFY lifetimeCarbonChanged)
     Q_PROPERTY(CarbonProcessor::CarbonUsageLevel carbonUsageLevel READ carbonUsageLevel NOTIFY carbonUsageLevelChanged)
     QML_ELEMENT;
 
 public:
     explicit CarbonModel(QObject *parent = nullptr);
 
-    int sessionCarbon() const;
-    int lifetimeCarbon() const;
+    float sessionCarbon() const;
+    float lifetimeCarbon() const;
     CarbonProcessor::CarbonUsageLevel carbonUsageLevel() const;
 
 public slots:

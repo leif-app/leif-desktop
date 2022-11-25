@@ -28,7 +28,7 @@ BasePage {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 CenteredText {
-                    text: carbonModel.sessionCarbon
+                    text: carbonModel.sessionCarbon.toFixed(2)
                     font.pointSize: 40
                     color: "#FE2831"
                 }
@@ -55,7 +55,7 @@ BasePage {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 CenteredText {
-                    text: carbonModel.lifetimeCarbon
+                    text: carbonModel.lifetimeCarbon.toFixed(1)
                     font.pointSize: 40
                 }
 

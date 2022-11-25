@@ -15,13 +15,17 @@ SOURCES += \
         models/carbonmodel.cpp \
         models/trayiconmodel.cpp \
         plugin/carbonpluginmanager.cpp \
-        powerfactory_win.cpp \
-        powerinfo.cpp \
+        powerinfobase.cpp \
         trayicon.cpp \
         utils/carbonplugindata.cpp \
         utils/territory.cpp \
         utils/translatedstring.cpp \
         utils/translation.cpp
+		
+win32: SOURCES += \
+               win/powerinfo.cpp \
+			   win/powerfactory_win.cpp
+			      
 
 RESOURCES += qml.qrc
 
@@ -63,12 +67,14 @@ HEADERS += \
     models/trayiconmodel.h \
     plugin/carbonpluginmanager.h \
     powerfactory.h \
-    powerinfo.h \
+    powerinfobase.h \
     trayicon.h \
     utils/carbonplugindata.h \
     utils/territory.h \
     utils/translatedstring.h \
     utils/translation.h
+	
+win32: HEADERS += win/powerinfo.h
 
 
 win32: LIBS *= PowrProf.lib

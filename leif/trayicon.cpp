@@ -304,7 +304,7 @@ QString TrayIcon::usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLe
         break;
     }
 
-    str.prepend(QStringLiteral("img/"));
+    str.prepend(QStringLiteral(":/img/"));
 
     usageLevelIconNames.insert(usageLevel, str);
 

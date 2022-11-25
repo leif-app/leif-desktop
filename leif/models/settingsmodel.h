@@ -10,7 +10,7 @@ class SettingsModel : public QObject
     Q_OBJECT
     Q_PROPERTY(QLocale::Country country READ country WRITE setCountry NOTIFY countryChanged)
     Q_PROPERTY(QString regionId READ regionId WRITE setRegionId NOTIFY regionIdChanged)
-    Q_PROPERTY(int lifetimeCarbon READ lifetimeCarbon WRITE setLifetimeCarbon NOTIFY lifetimeCarbonChanged)
+    Q_PROPERTY(float lifetimeCarbon READ lifetimeCarbon WRITE setLifetimeCarbon NOTIFY lifetimeCarbonChanged)
     QML_ELEMENT
 
 public:
@@ -22,8 +22,8 @@ public:
     QString regionId() const;
     void setRegionId(const QString &newRegionId);
 
-    int lifetimeCarbon() const;
-    void setLifetimeCarbon(int newLifetimeCarbon);
+    float lifetimeCarbon() const;
+    void setLifetimeCarbon(float newLifetimeCarbon);
 
 signals:
     void countryChanged();

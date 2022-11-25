@@ -13,8 +13,8 @@ Module {
         prototype: "QObject"
         exports: ["Leif/CarbonModel 1.0"]
         exportMetaObjectRevisions: [0]
-        Property { name: "sessionCarbon"; type: "int"; isReadonly: true }
-        Property { name: "lifetimeCarbon"; type: "int"; isReadonly: true }
+        Property { name: "sessionCarbon"; type: "float"; isReadonly: true }
+        Property { name: "lifetimeCarbon"; type: "float"; isReadonly: true }
         Property {
             name: "carbonUsageLevel"
             type: "CarbonProcessor::CarbonUsageLevel"
@@ -320,6 +320,6 @@ Module {
         exportMetaObjectRevisions: [0]
         Property { name: "country"; type: "QLocale::Country" }
         Property { name: "regionId"; type: "string" }
-        Property { name: "lifetimeCarbon"; type: "int" }
+        Property { name: "lifetimeCarbon"; type: "float" }
     }
 }

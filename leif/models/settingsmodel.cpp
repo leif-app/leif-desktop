@@ -64,7 +64,7 @@ void SettingsModel::setRegionId(const QString &newRegionId)
     }
 }
 
-int SettingsModel::lifetimeCarbon() const
+float SettingsModel::lifetimeCarbon() const
 {
     LeifSettings *settings = LeifSettings::Instance();
     if(settings == nullptr)
@@ -75,7 +75,7 @@ int SettingsModel::lifetimeCarbon() const
     return settings->lifeTimeCarbon();
 }
 
-void SettingsModel::setLifetimeCarbon(int newLifetimeCarbon)
+void SettingsModel::setLifetimeCarbon(float newLifetimeCarbon)
 {
     LeifSettings *settings = LeifSettings::Instance();
     if(settings == nullptr)

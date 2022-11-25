@@ -134,7 +134,7 @@ void TrayIconModel::showDialog()
 
     if(d->qmlEngine != nullptr)
     {
-        d->qmlEngine->load("qml/main.qml");
+        d->qmlEngine->load("qrc:///qml/main.qml");
     }
 }
 

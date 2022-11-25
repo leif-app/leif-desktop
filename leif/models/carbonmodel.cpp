@@ -32,7 +32,7 @@ CarbonModel::CarbonModel(QObject *parent /* = nullptr */):
  *
  * @return The session carbon count in grams as an \c integer.
  */
-int CarbonModel::sessionCarbon() const
+float CarbonModel::sessionCarbon() const
 {
     CarbonProcessor *carbon = CarbonProcessor::Instance();
     if(carbon != nullptr)
@@ -40,7 +40,7 @@ int CarbonModel::sessionCarbon() const
         return carbon->sessionCarbon();
     }
 
-    return 0;
+    return 0.0;
 }
 
 /**
@@ -48,7 +48,7 @@ int CarbonModel::sessionCarbon() const
  *
  * @return The lifetime carbon count in grams as an \c integer.
  */
-int CarbonModel::lifetimeCarbon() const
+float CarbonModel::lifetimeCarbon() const
 {
     CarbonProcessor *carbon = CarbonProcessor::Instance();
     if(carbon != nullptr)
@@ -56,7 +56,7 @@ int CarbonModel::lifetimeCarbon() const
         return carbon->lifetimeCarbon();
     }
 
-    return 0;
+    return 0.0;
 }
 
 /**

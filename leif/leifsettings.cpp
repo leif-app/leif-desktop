@@ -10,6 +10,7 @@ class LeifSettingsPrivate
     static QString LifeTimeCarbonKey;
 
     static int toInt(const QVariant &value, int defaultValue);
+    static float toFloat(const QVariant &value, float defaultValue);
 
     friend class LeifSettings;
 };
@@ -30,6 +31,19 @@ int LeifSettingsPrivate::toInt(const QVariant &value, int defaultValue)
     }
 
     return iValue;
+}
+
+float LeifSettingsPrivate::toFloat(const QVariant &value, float defaultValue)
+{
+    bool ok = false;
+    float fValue = value.toFloat(&ok);
+
+    if(!ok)
+    {
+        return defaultValue;
+    }
+
+    return fValue;
 }
 
 LeifSettings::LeifSettings(QObject *parent /* = nullptr */):
@@ -99,7 +113,7 @@ QString LeifSettings::regionId() const
     return settings.value(LeifSettingsPrivate::RegionKey).toString();
 }
 
-void LeifSettings::saveLifetimeCarbon(int lifeTime)
+void LeifSettings::saveLifetimeCarbon(float lifeTime)
 {
     QSettings settings;
 
@@ -108,12 +122,12 @@ void LeifSettings::saveLifetimeCarbon(int lifeTime)
     emit lifeTimeCarbonChanged(lifeTime);
 }
 
-int LeifSettings::lifeTimeCarbon() const
+float LeifSettings::lifeTimeCarbon() const
 {
     QSettings settings;
 
     QVariant value = settings.value(LeifSettingsPrivate::LifeTimeCarbonKey);
-    int totalCarbon = LeifSettingsPrivate::toInt(value, 0);
+    float totalCarbon = LeifSettingsPrivate::toFloat(value, 0);
 
     return totalCarbon;
 }

@@ -18,8 +18,8 @@ public:
     enum CarbonUsageLevel { VeryLow, Low, Medium, High, VeryHigh };
     Q_ENUM(CarbonUsageLevel)
 
-    int sessionCarbon() const;
-    int lifetimeCarbon() const;
+    float sessionCarbon() const;
+    float lifetimeCarbon() const;
     CarbonUsageLevel carbonUsageLevel() const;
 
 public slots:
@@ -35,8 +35,8 @@ private slots:
     void calculateUsageLevel(int co2PerkWh);
 
 private:
-    void setSessionCarbon(int newSessionCarbon);
-    void setLifetimeCarbon(int newLifetimeCarbon);
+    void setSessionCarbon(float newSessionCarbon);
+    void setLifetimeCarbon(float newLifetimeCarbon);
     void setCarbonUsageLevel(CarbonUsageLevel newLevel);
 
 private:

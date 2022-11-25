@@ -13,8 +13,8 @@ class CarbonProcessorPrivate
 {
     static CarbonProcessor *Instance;
 
-    int session;
-    int lifetime;
+    float session;
+    float lifetime;
     CarbonProcessor::CarbonUsageLevel usageLevel;
     IPower *powerInfo;
 
@@ -29,8 +29,8 @@ CarbonProcessor::CarbonProcessor(QObject *parent)
     : QObject{parent},
       d{new CarbonProcessorPrivate}
 {
-    d->session = 0;
-    d->lifetime = 0;
+    d->session = 0.0;
+    d->lifetime = 0.0;
     d->usageLevel = VeryHigh;
     d->powerInfo = PowerFactory::getPowerInterface();
 
@@ -81,14 +81,14 @@ void CarbonProcessor::Destroy()
     }
 }
 
-int CarbonProcessor::sessionCarbon() const
+float CarbonProcessor::sessionCarbon() const
 {
     Q_ASSERT(d != nullptr);
 
     return d->session;
 }
 
-int CarbonProcessor::lifetimeCarbon() const
+float CarbonProcessor::lifetimeCarbon() const
 {
     Q_ASSERT(d != nullptr);
 
@@ -129,7 +129,7 @@ void CarbonProcessor::calculateCarbon()
 
     if(data.isValid)
     {
-        float carbon = (powerDraw * static_cast<float>(data.co2PerKiloWattHour)) / 60;
+        float carbon = (powerDraw * static_cast<float>(data.co2PerKiloWattHour)) / (60*1000);
         setSessionCarbon(sessionCarbon() + carbon);
         setLifetimeCarbon(lifetimeCarbon() + carbon);
         calculateUsageLevel(data.co2PerKiloWattHour);
@@ -166,7 +166,7 @@ void CarbonProcessor::calculateUsageLevel(int co2PerkWh)
     setCarbonUsageLevel(newLevel);
 }
 
-void CarbonProcessor::setSessionCarbon(int newSessionCarbon)
+void CarbonProcessor::setSessionCarbon(float newSessionCarbon)
 {
     Q_ASSERT(d != nullptr);
 
@@ -177,7 +177,7 @@ void CarbonProcessor::setSessionCarbon(int newSessionCarbon)
     }
 }
 
-void CarbonProcessor::setLifetimeCarbon(int newLifetimeCarbon)
+void CarbonProcessor::setLifetimeCarbon(float newLifetimeCarbon)
 {
     Q_ASSERT(d != nullptr);
 

@@ -104,7 +104,7 @@
                         "arguments": [
                             {
                                 "name": "lifeTime",
-                                "type": "int"
+                                "type": "float"
                             }
                         ],
                         "name": "lifeTimeCarbonChanged",
@@ -241,7 +241,7 @@
                         "required": false,
                         "scriptable": true,
                         "stored": true,
-                        "type": "int",
+                        "type": "float",
                         "user": false,
                         "write": "setLifetimeCarbon"
                     }
@@ -297,7 +297,7 @@
                         "required": false,
                         "scriptable": true,
                         "stored": true,
-                        "type": "int",
+                        "type": "float",
                         "user": false
                     },
                     {
@@ -310,7 +310,7 @@
                         "required": false,
                         "scriptable": true,
                         "stored": true,
-                        "type": "int",
+                        "type": "float",
                         "user": false
                     },
                     {
@@ -508,7 +508,7 @@
     {
         "classes": [
             {
-                "className": "PowerInfo",
+                "className": "PowerInfoBase",
                 "enums": [
                     {
                         "isClass": false,
@@ -524,7 +524,7 @@
                     }
                 ],
                 "object": true,
-                "qualifiedClassName": "PowerInfo",
+                "qualifiedClassName": "PowerInfoBase",
                 "slots": [
                     {
                         "access": "private",
@@ -544,7 +544,7 @@
                 ]
             }
         ],
-        "inputFile": "powerinfo.h",
+        "inputFile": "powerinfobase.h",
         "outputRevision": 67
     },
     {
