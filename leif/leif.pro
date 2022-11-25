@@ -22,9 +22,13 @@ SOURCES += \
         utils/translatedstring.cpp \
         utils/translation.cpp
 		
+mac: SOURCES += \
+                mac/powerinfo.cpp \
+                mac/powerfactory_mac.cpp
+
 win32: SOURCES += \
-               win/powerinfo.cpp \
-			   win/powerfactory_win.cpp
+                win/powerinfo.cpp \
+                win/powerfactory_win.cpp
 			      
 
 RESOURCES += qml.qrc
@@ -74,7 +78,8 @@ HEADERS += \
     utils/translatedstring.h \
     utils/translation.h
 	
-win32: HEADERS += win/powerinfo.h
+mac: HEADERS += mac/powerinfo.h
 
+win32: HEADERS += win/powerinfo.h
 
 win32: LIBS *= PowrProf.lib
