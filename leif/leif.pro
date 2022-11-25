@@ -83,3 +83,6 @@ mac: HEADERS += mac/powerinfo.h
 win32: HEADERS += win/powerinfo.h
 
 win32: LIBS *= PowrProf.lib
+
+mac: LIBS += -framework IOKit
+mac: LIBS += -framework CoreFoundation

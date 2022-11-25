@@ -26,7 +26,7 @@ bool PowerInfo::hasBattery()
     }
 
     bool isBatteryInstalled = false;
-    QString batteryInstalledKey = "BatteryInstalled"
+    QString batteryInstalledKey = "BatteryInstalled";
 
     CFTypeRef prop = IORegistryEntryCreateCFProperty(m_service, batteryInstalledKey.toCFString(), NULL, 0);
 
@@ -34,12 +34,13 @@ bool PowerInfo::hasBattery()
     {
         Boolean bValue = CFBooleanGetValue((CFBooleanRef)prop);
 
-        bool isBatteryInstalled = bValue != 0;
+        isBatteryInstalled = bValue != 0;
 
         CFRelease(prop);
         prop = nullptr;
     }
 
+    if(isBatteryInstalled) qDebug("Battery is loaded");
     return isBatteryInstalled;
 }
 
@@ -51,7 +52,7 @@ bool PowerInfo::batteryFullyCharged()
     }
 
     bool isFullyCharged = false;
-    QString fullyChargedKey = "FullyCharged"
+    QString fullyChargedKey = "FullyCharged";
 
     CFTypeRef prop = IORegistryEntryCreateCFProperty(m_service, fullyChargedKey.toCFString(), NULL, 0);
 
@@ -65,6 +66,7 @@ bool PowerInfo::batteryFullyCharged()
         prop = nullptr;
     }
 
+    if(isFullyCharged) qDebug("Battery is fully charged.");
     return isFullyCharged;
 }
 
@@ -90,6 +92,7 @@ bool PowerInfo::batteryCharging()
         prop = nullptr;
     }
 
+    if(isCharging) qDebug("Battery is charging.");
     return isCharging;
 }
 
@@ -120,6 +123,8 @@ int PowerInfo::chargeRate()
         prop = nullptr;
     }
 
+    qDebug("Charge rate is:");
+    qDebug(QString::number(adapterPower).toLatin1().constData());
     return adapterPower;
 }
 
