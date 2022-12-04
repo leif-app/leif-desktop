@@ -3,6 +3,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QTimer>
+#include <QSysInfo>
 
 #include "trayicon.h"
 
@@ -157,7 +158,7 @@ void TrayIcon::connectModel()
 
 QString TrayIcon::co2Unit()
 {
-    return QString("gCO2");
+    return QString("gCO₂e");
 }
 
 QString TrayIcon::sessionCarbonLabel(double value)
@@ -280,30 +281,44 @@ QString TrayIcon::usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLe
     {
     case(CarbonProcessor::VeryHigh):
         //: The carbon usage intensity is very high
-        str = QStringLiteral("VerySadD.png");
+        str = QStringLiteral("VerySad");
         break;
 
     case(CarbonProcessor::High):
-        str = QStringLiteral("SadD.png");
+        str = QStringLiteral("Sad");
         break;
 
     case(CarbonProcessor::Medium):
-        str = QStringLiteral("FairD.png");
+        str = QStringLiteral("Fair");
         break;
 
     case(CarbonProcessor::Low):
-        str = QStringLiteral("HappyD.png");
+        str = QStringLiteral("Happy");
         break;
 
     case(CarbonProcessor::VeryLow):
-        str = QStringLiteral("VeryHappyD.png");
+        str = QStringLiteral("VeryHappy");
         break;
 
     default:
-        str = QStringLiteral("VerySadD.png");
+        str = QStringLiteral("VerySad");
         break;
     }
 
+#ifdef Q_OS_WIN
+if(QSysInfo::productVersion() == QStringLiteral("11"))
+{
+    str.append(QStringLiteral("L"));
+}
+else
+{
+    str.append(QStringLiteral("D"));
+}
+#else
+    str.append(QStringLiteral("D"));
+#endif
+
+    str.append(QStringLiteral(".png"));
     str.prepend(QStringLiteral(":/img/"));
 
     usageLevelIconNames.insert(usageLevel, str);

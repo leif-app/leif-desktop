@@ -34,7 +34,7 @@ BasePage {
                 }
 
                 CenteredText {
-                    text: "grCO2"
+                    text: "gCO₂e"
                 }
 
             }
@@ -60,7 +60,7 @@ BasePage {
                 }
 
                 CenteredText {
-                    text: "grCO2"
+                    text: "gCO₂e"
                 }
             }
         }

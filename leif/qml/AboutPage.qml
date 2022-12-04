@@ -15,7 +15,7 @@ BasePage {
         }
 
         CenteredText {
-            text: qsTr("Dekstop App for\nWindows version 1.2")
+            text: qsTr("Desktop App for\nWindows version 1.2")
             lineHeight: 1.5
             horizontalAlignment: Text.AlignHCenter
         }

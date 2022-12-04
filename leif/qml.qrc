@@ -36,5 +36,10 @@
         <file>qml/RegionComboBox.qml</file>
         <file>img/flags/224.png</file>
         <file>qml/StatusPage.qml</file>
+        <file>img/FairL.png</file>
+        <file>img/HappyL.png</file>
+        <file>img/SadL.png</file>
+        <file>img/VeryHappyL.png</file>
+        <file>img/VerySadL.png</file>
     </qresource>
 </RCC>

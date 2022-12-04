@@ -94,7 +94,7 @@ CarbonData CarbonPlugin::carbonPerKiloWatt(const QLocale::Country country, const
 
 QList<CarbonPlugin *> CarbonPlugin::getPlugins()
 {
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
     QString pluginPath = QCoreApplication::applicationDirPath() + QStringLiteral("/plugins");
 #else
     QString pluginPath = QCoreApplication::applicationDirPath() + QStringLiteral("/../../../plugins");
