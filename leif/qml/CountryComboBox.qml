@@ -12,6 +12,7 @@ LeifComboBox {
 
     delegate: ItemDelegate {
         width: control.width
+        height: control.height
         palette.text: control.palette.buttonText
         font: control.font
         text: name

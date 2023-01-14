@@ -1,0 +1,6 @@
+QMAKE_TARGET_COMPANY = Tim Stone
+QMAKE_TARGET_DESCRIPTION = Leif
+QMAKE_TARGET_COPYRIGHT = Tim Stone 2022
+QMAKE_TARGET_PRODUCT = Leif Desktop App
+
+include(version.pri)

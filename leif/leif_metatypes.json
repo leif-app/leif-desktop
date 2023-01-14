@@ -523,6 +523,14 @@
                         ]
                     }
                 ],
+                "interfaces": [
+                    [
+                        {
+                            "className": "IPower",
+                            "id": "\"org.leif.DataProvider.IPower/1.0\""
+                        }
+                    ]
+                ],
                 "object": true,
                 "qualifiedClassName": "PowerInfoBase",
                 "slots": [

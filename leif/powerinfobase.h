@@ -13,6 +13,7 @@ Q_OBJECT
 public:
     enum State {Unknown, NoBattery, FullyCharged, Charging, Discharging};
     Q_ENUM(State)
+    Q_INTERFACES(IPower)
 
     explicit PowerInfoBase(QObject *parent = nullptr);
     virtual ~PowerInfoBase();

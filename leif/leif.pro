@@ -86,3 +86,5 @@ win32: LIBS *= PowrProf.lib
 
 mac: LIBS += -framework IOKit
 mac: LIBS += -framework CoreFoundation
+
+include('pri/appinfo.pri')

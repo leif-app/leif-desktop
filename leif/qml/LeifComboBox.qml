@@ -60,7 +60,7 @@ ComboBox {
     popup: Popup {
         y: control.height - (implicitHeight / 2)
         width: control.width
-        implicitHeight: contentItem.implicitHeight
+        implicitHeight: contentItem.implicitHeight + 2 * verticalPadding
         verticalPadding: 10
         horizontalPadding: 0
 
