@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Leif" Language="1033" Version="1.0.0.0" Manufacturer="Tim Stone" UpgradeCode="0ea8e437-ec05-4096-932e-e4ec50cbacb9">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes"/>
+
+		<Feature Id="ProductFeature" Title="Leif" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Leif" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents">
+			<ComponentRef Id="cmp27E4072622A14AF0916AF1DCACE6D7B5"/>
+			<ComponentRef Id="cmpAA167EC632E24DD0938AD6B2489AE2D7"/>
+			<ComponentRef Id="cmpC1A8AC18D1A34EA597E67F74CA1B6A1F"/>
+			<ComponentRef Id="cmp61F09BBE846540EFB028486F64ECFCB8"/>
+			<ComponentRef Id="cmpBDC12D0F1F1D4167B662B06CE23F8AED"/>
+			<ComponentRef Id="cmpCDB83F3416CD4F5BAD8469DE17DAFDD2"/>
+			<ComponentRef Id="cmp9CA177B8304D4F6DBCEC11CF8B21F1EF"/>
+			<ComponentRef Id="cmpB412E387C9FA4CF485312C8836F27F7D"/>
+			<ComponentRef Id="cmpB0F176C3417345168CE59D968207FCAB"/>
+			<ComponentRef Id="cmp0B64991526DA4705B372A0BBA694926B"/>
+			<ComponentRef Id="cmp5BABC011374D4611BB661117018014FB"/>
+			<ComponentRef Id="cmp9A26975BD3914B598134A94772289A7C"/>
+			<ComponentRef Id="cmp0AD170C74A594C3EB9DE3A73F45FEBCD"/>
+			<ComponentRef Id="cmp4326CB1BBE9D4BC4BFF0AB1B5C97A8B3"/>
+			<ComponentRef Id="cmp11B28F63662C4716A463A97420AAA480"/>
+			<ComponentRef Id="cmpD99C784A0C4846A0B5CAE0ABE6E7995F"/>
+			<ComponentRef Id="cmp54125D01B58543D9BDE607AC2AC26060"/>
+			<ComponentRef Id="cmp80FCC5E4CDED492C90886F88BAAD7147"/>
+			<ComponentRef Id="cmp4FF71C887FBA45319CD6409981749BDF"/>
+			<ComponentRef Id="cmp599CC8D17D1346518A9DAB35EE54FE36"/>
+			<ComponentRef Id="cmp2E3087DA5119474D8991AEEC6A8EA960"/>
+			<ComponentRef Id="cmp932EBF16780943CCB95617309F4BD5B8"/>
+			<ComponentRef Id="cmpEF8A21CF22C943F6A8DC0565E02B28A9"/>
+			<ComponentRef Id="cmpF85F8708F6814C22B4EC5ACC61C2A09D"/>
+			<ComponentRef Id="cmp1A5F4070667B40BFB47230AFAFD2474A"/>
+			<ComponentRef Id="cmp0CB914C16D4F4495B78627A4D8289E8A"/>
+		</ComponentGroup>
+	</Fragment>
+</Wix>

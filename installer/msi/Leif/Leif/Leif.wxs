@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<DirectoryRef Id="INSTALLFOLDER">
+			<Component Id="cmp27E4072622A14AF0916AF1DCACE6D7B5" Guid="{5477A172-9A81-4128-B1BB-BB0DC7DA11A0}">
+				<File Id="filDAA1EF6C60744F2D8A8F0373FC230C0F" KeyPath="yes" Source="..\..\..\..\leif\release\leif.exe" />
+				<File Id="fil26C3B6466B7D48FC9EDBE45F273039A7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\d3dcompiler_47.dll" />
+				<File Id="filD46CA7F353D04AFCBB051581CBE19DCB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\libEGL.dll" />
+				<File Id="filA058AF09536F43769D79366D5EB7EC98" KeyPath="no" Source="..\..\..\..\leif\release\deploy\libGLESv2.dll" />
+				<File Id="fil732FFC5DBBEE4017ACEED67AC318967A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\opengl32sw.dll" />
+				<File Id="fil89B1965FF10144B2BE4BA661479FBADB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5Core.dll" />
+				<File Id="filE7DA85FDD2184A4E8DAC2E26B3BCBD7A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5Gui.dll" />
+				<File Id="filC1151E6A4FE44B7BB90194DEC0E480F0" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5Network.dll" />
+				<File Id="filA0E90192C3A04B6D9D52379D199672CC" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5Qml.dll" />
+				<File Id="fil14635BA61C714FC5AA16A97ECEBE096A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5QmlModels.dll" />
+				<File Id="filB9FB3D5BBBA5455FB9D168FA0B0FE457" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5QmlWorkerScript.dll" />
+				<File Id="fil8437CCD223D242D8BC8C34E18AB30C35" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5Quick.dll" />
+				<File Id="fil72320574935547FABF3C20DB2B68965E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5QuickControls2.dll" />
+				<File Id="fil7E79AC7969D3480A8B8AEB922C24C8A5" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5QuickTemplates2.dll" />
+				<File Id="filD44A7EDFDCAD42B388BDBA98C7DA911E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5RemoteObjects.dll" />
+				<File Id="fil00D661D6E9B542388EC4943E1A11D4EF" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5Svg.dll" />
+				<File Id="fil54D29BC1466D4CB3B95F0AD9BC27E843" KeyPath="no" Source="..\..\..\..\leif\release\deploy\Qt5Widgets.dll" />
+				<File Id="filCFBA56FEF4D5442FB38CB49A127C8232" KeyPath="no" Source="..\..\..\..\leif\release\deploy\vc_redist.x86.exe" />
+			</Component>
+			
+			<Directory Id="dirC44D4FC758A4478A8D002F1D9E80B768" Name="bearer">
+				<Component Id="cmpAA167EC632E24DD0938AD6B2489AE2D7" Guid="{667284B0-652D-4D5C-9156-4247BBA5B729}">
+					<File Id="fil6BE81E1F927547AAA0F5B5F5237972A1" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\bearer\qgenericbearer.dll" />
+				</Component>
+			</Directory>
+
+			<Directory Id="dir9347189091D24D6B9B771F57B6B71224" Name="iconengines">
+				<Component Id="cmpC1A8AC18D1A34EA597E67F74CA1B6A1F" Guid="{0ED94E81-89A6-424B-B197-A588369A1E12}">
+					<File Id="fil92939DCA97F849218B0E8BC9D85A6FCC" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\iconengines\qsvgicon.dll" />
+				</Component>
+			</Directory>
+
+			<Directory Id="dir7268DD1261544B93B1C643A365A7A59D" Name="imageformats">
+				<Component Id="cmp61F09BBE846540EFB028486F64ECFCB8" Guid="{3797039B-3401-463E-AF4D-A0FA81E5D5A7}">
+					<File Id="fil576CE758CEBA4C74BE3E55F83881AF28" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\imageformats\qgif.dll" />
+					<File Id="fil72A24E507C314394892F3CEE1636FFAC" KeyPath="no" Source="..\..\..\..\leif\release\deploy\imageformats\qicns.dll" />
+					<File Id="filBB36F72518A64E5BB86503B368C098F4" KeyPath="no" Source="..\..\..\..\leif\release\deploy\imageformats\qico.dll" />
+					<File Id="fil9F1F5C8CCEC447899BE3E277D5B04AF9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\imageformats\qjpeg.dll" />
+					<File Id="fil3AD2996A52F7497FBAF7347B2923BDF9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\imageformats\qsvg.dll" />
+					<File Id="fil743AC5029D1E4628A1167B96D297F82D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\imageformats\qtga.dll" />
+					<File Id="fil1D06A6D898D94EFFA5D779DD0898543B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\imageformats\qtiff.dll" />
+					<File Id="filA875925F8B7840DDA1DEA5CE006C16E2" KeyPath="no" Source="..\..\..\..\leif\release\deploy\imageformats\qwbmp.dll" />
+					<File Id="filD914325F6B63451BA88CAE2BB6AFD645" KeyPath="no" Source="..\..\..\..\leif\release\deploy\imageformats\qwebp.dll" />
+				</Component>
+			</Directory>
+
+			<Directory Id="dir8A66386CD6624FE1B13748B8D9A2913C" Name="platforms">
+				<Component Id="cmpBDC12D0F1F1D4167B662B06CE23F8AED" Guid="{8246CCC3-85EA-45EC-840B-2A3E05747047}">
+					<File Id="filAC44992EADDC483BB5ECAF8A79825761" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\platforms\qwindows.dll" />
+				</Component>
+			</Directory>
+
+			<Directory Id="dir6187EC49EBE44981B11C6837184CE415" Name="plugins">
+				<Component Id="cmpCDB83F3416CD4F5BAD8469DE17DAFDD2" Guid="{D5D47D22-DA3E-44BE-8DA9-1ED64FEF5082}">
+					<File Id="fil8C6E728264414AD3BCBED151D13C616A" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\plugins\uk.dll" />
+					<File Id="filDC445D5233604CF5BEA619245C88EA92" KeyPath="no" Source="..\..\..\..\leif\release\deploy\plugins\uk.json" />
+				</Component>
+			</Directory>
+
+			<Directory Id="dirDDDE67D18C8E4811B84BD946A7EAE4C9" Name="qmltooling">
+				<Component Id="cmp9CA177B8304D4F6DBCEC11CF8B21F1EF" Guid="{5453216C-FE20-4CBC-B951-292B72508CAB}">
+					<File Id="filD2523E18FCEF4D4787423B7424E4A512" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_debugger.dll" />
+					<File Id="fil1414CA6D33514EC6A4CB19F27D815F8C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_inspector.dll" />
+					<File Id="fil7C6048A3BC274E92B423950E05D50145" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_local.dll" />
+					<File Id="fil933F9A1EF218420CA22D78E610B192D8" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_messages.dll" />
+					<File Id="fil63DB99677FC847EE83E637C77E564AB8" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_native.dll" />
+					<File Id="fil229CD8C17FDC45B1BA00AE43A1321B87" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_nativedebugger.dll" />
+					<File Id="filC646F61F226347499EBCFB5F1EB5B431" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_preview.dll" />
+					<File Id="fil4DF7AFEC7F894A19BC813865AA860EF6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_profiler.dll" />
+					<File Id="filB7000CB8B52E45B2A747582C8E7A8DC5" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_quickprofiler.dll" />
+					<File Id="fil162B579EB8F34E8E88F7DE3FC302F7D3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_server.dll" />
+					<File Id="fil62A1BEFFF13E4AD08D12E1218C464FE4" KeyPath="no" Source="..\..\..\..\leif\release\deploy\qmltooling\qmldbg_tcp.dll" />
+				</Component>
+			</Directory>
+
+			<Directory Id="dirD32CAF81CC21497390A0BF910E000B05" Name="QtGraphicalEffects">
+				
+				<Directory Id="dir6EEB7ABD9F874471B1FADAE892D3A586" Name="private">
+					<Component Id="cmpB412E387C9FA4CF485312C8836F27F7D" Guid="{3FC2D0C0-7500-4D30-BE4F-3780E8501821}">
+						<File Id="fil0E40DC922C854C6886F66B9BB370781A" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\DropShadowBase.qml" />
+						<File Id="filC203F75E6C3D4085839DA31B54DAD65B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\DropShadowBase.qmlc" />
+						<File Id="fil2A4A2326309A45089A18FEFF856D701A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\FastGlow.qml" />
+						<File Id="filC51719B3974D409980DC9D94319C6356" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\FastGlow.qmlc" />
+						<File Id="fil2381DBB27B124690A7B5FC44FA1CDA54" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\FastInnerShadow.qml" />
+						<File Id="fil430C02F4EF1542EBA79C565AD329AE27" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\FastInnerShadow.qmlc" />
+						<File Id="fil0042CCE7EE614D21834C8FF9B5BF7CC1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\FastMaskedBlur.qml" />
+						<File Id="fil220D76558A1F4BA7A8B4A1E6E9DE2F93" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\FastMaskedBlur.qmlc" />
+						<File Id="fil6035F29ACB2B48E3AA1493879A9904E6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\GaussianDirectionalBlur.qml" />
+						<File Id="fil2D60FDA737AD49DA8EC2633431DB63C7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\GaussianDirectionalBlur.qmlc" />
+						<File Id="fil6F254BA5F989498A8AB6564429426CFB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\GaussianGlow.qml" />
+						<File Id="fil30D160C5948F425F804E4B49E5981257" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\GaussianGlow.qmlc" />
+						<File Id="filC638FC13FA414040B3B5FF88418FFC1F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\GaussianInnerShadow.qml" />
+						<File Id="fil94CAD19F567A4250B90769139168135D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\GaussianInnerShadow.qmlc" />
+						<File Id="filE28F529CBA404E43B16C161EC6B3C038" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\GaussianMaskedBlur.qml" />
+						<File Id="filCCCD2D5A9CF24AF88866312CB9717108" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\GaussianMaskedBlur.qmlc" />
+						<File Id="fil3EBEF7CEDFB244C08774AA985EBFC222" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\qmldir" />
+						<File Id="fil9B46562276B24D0980BAFCD163C30BD6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\private\qtgraphicaleffectsprivate.dll" />
+					</Component>
+				</Directory>
+
+				<Component Id="cmpB0F176C3417345168CE59D968207FCAB" Guid="{979C09A4-3086-4761-8B7F-1DD3D7F31E8A}">
+					<File Id="fil0A9358C51CDF461E9B0743B90F9F5D4F" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\Blend.qml" />
+					<File Id="fil5904F68599274293A4BD19D9861E8940" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\BrightnessContrast.qml" />
+					<File Id="fil0480900F20344BF2952397CC7D9542E4" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\Colorize.qml" />
+					<File Id="filDBD5C401B6B04BD3B50545B8E9D63008" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\ColorOverlay.qml" />
+					<File Id="fil3AAC2522EF1742E2861BB378921EFC32" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\ConicalGradient.qml" />
+					<File Id="filCF619127E1E94FF3B0104710D701416E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\Desaturate.qml" />
+					<File Id="filF5769F5C202B46D18F2EB152339F0357" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\DirectionalBlur.qml" />
+					<File Id="fil86A16A6844E04189AD489C980C6B2D9D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\Displace.qml" />
+					<File Id="fil216CC5C96A1B4E9FB8169DB094195CE6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\DropShadow.qml" />
+					<File Id="fil54D98ABB8A9A4FDCBAF27D35F3940553" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\FastBlur.qml" />
+					<File Id="filC711D8B9C2D341A481706979B3AC0615" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\GammaAdjust.qml" />
+					<File Id="fil617E604C51064E4FADE30B8BC482CA82" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\GaussianBlur.qml" />
+					<File Id="fil6E3FCB87EF324DB0823D31B934C09ABF" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\Glow.qml" />
+					<File Id="filDB963257AF7742ACBEA0B0BE59BFBC31" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\HueSaturation.qml" />
+					<File Id="filC4C2BF0BB78C4AD785C5BB21353836F9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\InnerShadow.qml" />
+					<File Id="fil5A59E031ADCE47D886278191B0A42CAB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\LevelAdjust.qml" />
+					<File Id="filA28DAA533A554BC784EB6F9D4DC0461A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\LinearGradient.qml" />
+					<File Id="fil5FA612F236474FF9B6497E6460E7B6C6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\MaskedBlur.qml" />
+					<File Id="filF0657694B024452E8139BF1DC93F718B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\OpacityMask.qml" />
+					<File Id="fil7C4D33F1CEAC4459BE35BEFC3AB589F0" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\plugins.qmltypes" />
+					<File Id="fil0599B521B91147969C40019613DDD7F0" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\qmldir" />
+					<File Id="fil0B10B8D0A09343A2917D0B3904F591E4" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\qtgraphicaleffectsplugin.dll" />
+					<File Id="fil02B462C2F43A4C4EBEF5022020BC9F23" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\RadialBlur.qml" />
+					<File Id="fil6EF0EE9FF0BF4561BEA8427FC8450BD9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\RadialGradient.qml" />
+					<File Id="fil9DAA1329F2E641C5A8B87BE4D9966788" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\RectangularGlow.qml" />
+					<File Id="filBB0C8BD3BA62484EB69AD07C238135D5" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\RecursiveBlur.qml" />
+					<File Id="fil2FC283F8CBC74003B68FF5702FECF6B8" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\ThresholdMask.qml" />
+					<File Id="filC42F7069E25B46AFB74F6628B456AD01" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtGraphicalEffects\ZoomBlur.qml" />
+				</Component>
+			</Directory>
+
+			<Directory Id="dirA0A93C1D96ED4D199D4CCD751FE3BED3" Name="QtQml">
+
+				<Directory Id="dir98FF7F923C0C4F87AF22B5BAD35BDCB7" Name="Models.2">
+					<Component Id="cmp0B64991526DA4705B372A0BBA694926B" Guid="{0D852BD8-3C2A-42FB-BDDC-371A2CD77815}">
+						<File Id="filBA23A0EDD7A04EB0AE9C5F8AB917F797" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQml\Models.2\modelsplugin.dll" />
+						<File Id="fil9E4E5FA5EBC74AC789A3C6E139876F03" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\Models.2\plugins.qmltypes" />
+						<File Id="filD09F670F67514DBFBA1A347A2252FA5C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\Models.2\qmldir" />
+					</Component>
+				</Directory>
+
+				<Directory Id="dir442C27E224AE4D79AD49BC09AFD184F3" Name="RemoteObjects">
+					<Component Id="cmp5BABC011374D4611BB661117018014FB" Guid="{33EF41F4-4DEC-40F5-B118-8DE6171C4A4C}">
+						<File Id="fil27528D0F843C4C339EEC328B250ECF97" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQml\RemoteObjects\qtqmlremoteobjects.dll"/>
+						<File Id="fil174593C7D5CA47CBB4876A31839BC147" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\RemoteObjects\plugins.qmltypes"/>
+						<File Id="fil7D68F294854B438ABDBCB0DCC69DB793" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\RemoteObjects\qmldir"/>
+					</Component>
+				</Directory>
+
+				<Directory Id="dir8D75FC9C7F94426A9C43836E9C2D1935" Name="StateMachine">
+					<Component Id="cmp9A26975BD3914B598134A94772289A7C" Guid="{F8BB808E-CB62-4903-B5B1-D579F03DAD29}">
+						<File Id="fil927D78CFF3534B72B0088A2EFCE3080A" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQml\StateMachine\qtqmlstatemachine.dll"/>
+						<File Id="fil8E8DBA2DB41C48BAB35AC587C5BF729F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\StateMachine\plugins.qmltypes"/>
+						<File Id="fil12B851C601FF4208902C865EAC494612" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\StateMachine\qmldir"/>
+					</Component>
+				</Directory>
+
+				<Directory Id="dir93C342EE4FFB4E989B0412364D2F503E" Name="WorkerScript.2">
+					<Component Id="cmp0AD170C74A594C3EB9DE3A73F45FEBCD" Guid="{4C0A352B-3BF1-4B67-892C-8A214CB1655D}">
+						<File Id="filACCCC6C5F43242E4A06AD9524513877B" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQml\WorkerScript.2\workerscriptplugin.dll"/>
+						<File Id="fil986A01102E4E4C2BAF9A80F003153D0E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\WorkerScript.2\plugins.qmltypes"/>
+						<File Id="filF60FD6E9293E4E889E7AB55F4D26A2F3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\WorkerScript.2\qmldir"/>
+					</Component>
+				</Directory>
+
+				<Component Id="cmp4326CB1BBE9D4BC4BFF0AB1B5C97A8B3" Guid="{12A77703-36F3-4E30-8895-F2023E86F5E2}">
+					<File Id="fil05B2A7C8E3A049F2BF66C61B53114B2C" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQml\qmlplugin.dll"/>
+					<File Id="fil853F3BF5F5B24DEEAD525B7CF67E6974" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\plugins.qmltypes"/>
+					<File Id="filE9DD3CE1D3FB474D8078C0A114343F78" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQml\qmldir"/>
+				</Component>				
+			</Directory>
+
+			<Directory Id="dir165416CC9A1A4027884DE9C20CEC00F2" Name="QtQuick">
+
+				<Directory Id="dirC41866862701480F8704794D02911CF0" Name="Controls.2">
+
+					<Directory Id="dirC58743C65CFD485883D1D14E8FFD4F5A" Name="Fusion">
+						<Component Id="cmp11B28F63662C4716A463A97420AAA480" Guid="{3899F5A4-951F-45FB-9BC9-FC98D747FF93}">
+							<File Id="filEE2833C858104691BC1E659B70E0EBEA" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ApplicationWindow.qml" />
+							<File Id="fil4D169A879D2D4FF98E294A1309F7B179" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\BusyIndicator.qml" />
+							<File Id="filC78D09938BCB4C21AD5C720E2B5813E7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Button.qml" />
+							<File Id="filED06C4F033524B5693A013BD7ED3F010" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ButtonPanel.qml" />
+							<File Id="fil93A324F1308647C493E1170E99B60FE4" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\CheckBox.qml" />
+							<File Id="fil4F30E15B7AAD48FE8EA4BE6A0B5083E9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\CheckDelegate.qml" />
+							<File Id="filD3E213A57BA44EB9AA51F2E01783B77C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\CheckIndicator.qml" />
+							<File Id="fil5726362C95A64F9E95DCEAD6125FEF6D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ComboBox.qml" />
+							<File Id="filC97048813ED14FACA5C01783D0192E88" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\DelayButton.qml" />
+							<File Id="fil8F21216E87A84B35B027FE77BE94F25A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Dial.qml" />
+							<File Id="filBAF049238F0F40E48D31DCC38CE1FCBB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Dialog.qml" />
+							<File Id="filB38CB14D6219489DACD534C847D7D565" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\DialogButtonBox.qml" />
+							<File Id="fil68FAEBE9809D49B0B060A52B740ABEF7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Drawer.qml" />
+							<File Id="fil26E3F98B728A47A5A28084F9FD0D73DB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Frame.qml" />
+							<File Id="fil3033B52F27834BD0828EFEAFC23BE0E6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\GroupBox.qml" />
+							<File Id="fil9820E7ADA1974813A77B897773EE94E9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\HorizontalHeaderView.qml" />
+							<File Id="filAE2B276CA8234D0AAA312AE883965654" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ItemDelegate.qml" />
+							<File Id="fil1C96516466F4400D919AFBD5F7CB586B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Label.qml" />
+							<File Id="filA3A13AA9E6A0444AB4D5706AC47C3708" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Menu.qml" />
+							<File Id="filFC0A7440F2EE468699F044475BF9E58F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\MenuBar.qml" />
+							<File Id="fil5AEE9DC8A9EB460AA6F0FA4F24B252A7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\MenuBarItem.qml" />
+							<File Id="filCFD6FA7CB7A44E80AEA0B0F5F6472B1E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\MenuItem.qml" />
+							<File Id="fil10625477D803410BA16E7AEA9E307A54" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\MenuSeparator.qml" />
+							<File Id="fil5F6FB577CC734D40825FFC75EEF4BC65" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Page.qml" />
+							<File Id="fil1E882265E5E24FA082D34E95A05C6697" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\PageIndicator.qml" />
+							<File Id="fil327CE85325A54118A30FCC1C79E5DD01" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Pane.qml" />
+							<File Id="filD161DA23246F41F9A6D5CDCB9F88A5F6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\plugins.qmltypes" />
+							<File Id="filE89F198F6C9D46789B20B173C1430306" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Popup.qml" />
+							<File Id="fil843755CB2F1640A59F21460BC4B658D1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ProgressBar.qml" />
+							<File Id="filEEAF3B8EB4CB429DAE9469DF5CA72011" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\qmldir" />
+							<File Id="fil7251593EFE154E199D1128DEF75F4076" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\qtquickcontrols2fusionstyleplugin.dll" />
+							<File Id="fil7701287724F84965A3D9C57D97405E21" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\RadioButton.qml" />
+							<File Id="fil2A3F89863AED46BD96CC909D208A925E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\RadioDelegate.qml" />
+							<File Id="fil092A2110578A4FF1AC675131BF43EA87" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\RadioIndicator.qml" />
+							<File Id="filB679C739E7324AD6A9BAAC7256BA4354" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\RangeSlider.qml" />
+							<File Id="filAAFDA03B594941C1914127E7E630D7D1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\RoundButton.qml" />
+							<File Id="filE8997C68261741FBB81444D0421186E5" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ScrollBar.qml" />
+							<File Id="filC946B6463EB947D6BE105A65E1D93C3D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ScrollIndicator.qml" />
+							<File Id="fil68F6AA9022464096AF1F3DFA471647DB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Slider.qml" />
+							<File Id="filE42D9777EB6F47B797FEF01DB13F1EB9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\SliderGroove.qml" />
+							<File Id="filD7B9072EEAE448C2BF951058B80783B9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\SliderHandle.qml" />
+							<File Id="fil9999C5EEDD3D4638B1232129B86F21C6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\SpinBox.qml" />
+							<File Id="filCD4B2701FEB24817B0BF20DAD7637E27" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\SplitView.qml" />
+							<File Id="filF18B10A0A4D84286969A0624DA935550" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\SwipeDelegate.qml" />
+							<File Id="filF9D4B3B7DEFB4091BA928A4B7CA06DD4" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Switch.qml" />
+							<File Id="fil8045A19D088D4E209DB573870F533724" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\SwitchDelegate.qml" />
+							<File Id="filF20BC32CBA7747719862D8E343046EA2" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\SwitchIndicator.qml" />
+							<File Id="filF18A96286F7E42EA81DB05D1AE8EA33E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\TabBar.qml" />
+							<File Id="filF3FB4CD4FAF244E5AB501DCF0BADC567" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\TabButton.qml" />
+							<File Id="filC5F222C98A4644799C2C509AA1B862D9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\TextArea.qml" />
+							<File Id="fil6919A03E86AA46DCBD2247620D632C5E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\TextField.qml" />
+							<File Id="fil90610EF9388C4A95B640C71AAA754471" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ToolBar.qml" />
+							<File Id="filEAD41FA77EAD47DAAF3B8E4350968F1C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ToolButton.qml" />
+							<File Id="filFE7B32DA950C41E1A85D81F33FDC8381" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ToolSeparator.qml" />
+							<File Id="fil2E73998FF8AB4C688C26390EFD77CFD5" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\ToolTip.qml" />
+							<File Id="filA0008A8903664C249FAD0C2D0F437B19" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\Tumbler.qml" />
+							<File Id="filC21AB7B287E44175BFEA86536EF643BC" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Fusion\VerticalHeaderView.qml" />
+						</Component>
+					</Directory>
+
+					<Directory Id="dirB4E04E3267D846CF850328B17424694F" Name="Imagine">
+						<Component Id="cmpD99C784A0C4846A0B5CAE0ABE6E7995F" Guid="{D0C1F512-6D60-4B67-8AD0-B1E3BEB557D2}">
+							<File Id="fil117097AE664649C6AA951206A2C1720D" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ApplicationWindow.qml" />
+							<File Id="fil7E29BA97815747429BB03F65DD40C986" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\BusyIndicator.qml" />
+							<File Id="filCBCFBB82A63D41D1B63C7F08CFC78C9D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Button.qml" />
+							<File Id="fil4C298617F7624F069DD3CE506DEB27EA" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\CheckBox.qml" />
+							<File Id="fil8775A3EAE48C48E78BBA29DAB6BB5F6B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\CheckDelegate.qml" />
+							<File Id="filD51F426815C94A9EBA9348ADAD416BAE" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ComboBox.qml" />
+							<File Id="filA769139700884058BCAD208EDF96B726" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\DelayButton.qml" />
+							<File Id="fil290B27FB9A65410CB5CC1106E9BD46AB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Dial.qml" />
+							<File Id="filD2F6BD14275D427E926C10992C012D3D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Dialog.qml" />
+							<File Id="fil9B73F1B221354B45981E6FF074FD1972" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\DialogButtonBox.qml" />
+							<File Id="fil138DEE4C749A4855BC7A9847F3CBFF2F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Drawer.qml" />
+							<File Id="fil34DE2EE52CB54AC7875A786B1329C9E3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Frame.qml" />
+							<File Id="fil2FC1AF835BDF4C33BECB60E30AAD375E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\GroupBox.qml" />
+							<File Id="fil3659F39D7B4F4D8AB4631938043A246D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\HorizontalHeaderView.qml" />
+							<File Id="filAF207E99F94249048A3C009E077E8F86" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ItemDelegate.qml" />
+							<File Id="fil6559C26B578F4BD090840E0061F934BC" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Label.qml" />
+							<File Id="fil81BA4BBFA00C48E2854246E3A12E8E60" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Menu.qml" />
+							<File Id="fil94992DC5E348460B8F8C652B0994C64B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\MenuItem.qml" />
+							<File Id="fil5706D9D1303948DA8538A9002CEA29C1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\MenuSeparator.qml" />
+							<File Id="fil57AAF1B9C298467881CA79732C54B875" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Page.qml" />
+							<File Id="fil7F7C82A888774C6FB5568A47181CBB47" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\PageIndicator.qml" />
+							<File Id="fil1191C0414DD042EBBE8310FA9675C642" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Pane.qml" />
+							<File Id="fil5AA26C2BBC3D490795F1A19464CB8CE6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\plugins.qmltypes" />
+							<File Id="fil47EA94E26C624EFAAD11FB26874A2636" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Popup.qml" />
+							<File Id="fil2E1762136FA84E4B817065E27CBBEE01" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ProgressBar.qml" />
+							<File Id="filAAC577712235427D938582D096318920" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\qmldir" />
+							<File Id="fil10CA0BED86E247C59F5D8B8AAE1A77C6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\qtquickcontrols2imaginestyleplugin.dll" />
+							<File Id="filBD761FF9F3D44304AAD9179E95122931" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\RadioButton.qml" />
+							<File Id="filB0E34174A5C44C2CA461EE9791348DFE" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\RadioDelegate.qml" />
+							<File Id="filE20D0C3DF103423CB9827B0C87FDEBF0" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\RangeSlider.qml" />
+							<File Id="fil5C20A4396FDD436A86C427BA33BA3C1B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\RoundButton.qml" />
+							<File Id="filA8840CA4D9474FF091F2E635FF72335D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ScrollBar.qml" />
+							<File Id="fil35AF7A3DABAB4F37A82726CCAB5C941B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ScrollIndicator.qml" />
+							<File Id="filDB6F65DDA4E54B289A123E49159BFA91" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Slider.qml" />
+							<File Id="fil83AF70104BAE4A1C8CE450D23C2AE01A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\SpinBox.qml" />
+							<File Id="fil798703F446E64DF3B8D29C94B5B73759" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\SplitView.qml" />
+							<File Id="fil40DFB54A8D024338A49817F7864507A3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\StackView.qml" />
+							<File Id="filF648A64F52B04EF3AC5822A688FB4C90" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\SwipeDelegate.qml" />
+							<File Id="fil7536FD8D7042420CB0C35113DC748B04" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\SwipeView.qml" />
+							<File Id="filBBDD2BE1EE7543DAA2424C95C6C193BE" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Switch.qml" />
+							<File Id="fil8671BC43E8014C4EB878607F5AB3ED60" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\SwitchDelegate.qml" />
+							<File Id="filE2AFAF842FBE406880967B126DDBD6D7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\TabBar.qml" />
+							<File Id="filEA4883E537874A8A9DC435CE6BA158D3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\TabButton.qml" />
+							<File Id="filEC30612986974B2383BBF88F0A255728" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\TextArea.qml" />
+							<File Id="filA7544A57161D42529F3AEEE2E4CBEEF5" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\TextField.qml" />
+							<File Id="filFDC6BCD96CE04F3C839D7F61B31AA3C6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ToolBar.qml" />
+							<File Id="fil607DECAC66B441409432C171C8BF707E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ToolButton.qml" />
+							<File Id="fil0EAAED9B5A7E4FEAA1255496918190EB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ToolSeparator.qml" />
+							<File Id="fil408C9AE7593F4617819BF6D0F6DFAA8A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\ToolTip.qml" />
+							<File Id="fil01006601406246468AE1DF0E877156B0" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\Tumbler.qml" />
+							<File Id="filCC234F5C318F41098F94AD5B62916959" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Imagine\VerticalHeaderView.qml" />
+						</Component>
+					</Directory>
+
+					<Directory Id="dir47AE6CC6B6C247C794FABA5E89380BF2" Name="Material">
+						<Component Id="cmp54125D01B58543D9BDE607AC2AC26060" Guid="{42321B72-E24E-4E92-8221-BEF0FDABB5B9}">
+							<File Id="fil8DBCB78CECE44BBE96D1833065B354C6" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ApplicationWindow.qml" />
+							<File Id="filE60017E7ED8B4E4FAFC89CF5BC3404B7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\BoxShadow.qml" />
+							<File Id="fil4111227E2A1741DCA6D8CAE4607D2FB3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\BusyIndicator.qml" />
+							<File Id="fil942AEE51275E436DBD939ACD7437677D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Button.qml" />
+							<File Id="filE0665A8D06A4456E905EA5A96D94F426" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\CheckBox.qml" />
+							<File Id="fil9B504F40F6FC48C7A04416F95382CAE1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\CheckDelegate.qml" />
+							<File Id="fil06B1D3C9D9CC408A89F358D6CD0CA2E2" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\CheckIndicator.qml" />
+							<File Id="filB87DDA3A46AB46648AFD4812D9842B93" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ComboBox.qml" />
+							<File Id="fil4B793D5317B543589C177156D6318301" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\CursorDelegate.qml" />
+							<File Id="filFEFB066F9E8F4D3A8BA12A4E7AB46DAE" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\DelayButton.qml" />
+							<File Id="fil578C6720697E48A9A6FF963C06473C4A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Dial.qml" />
+							<File Id="fil2490384CA331466D90922FFEE9F8AEC3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Dialog.qml" />
+							<File Id="filE1C6AD37EB1E4FADA93EA95750E3E027" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\DialogButtonBox.qml" />
+							<File Id="fil3EAF4718C189431DABB6779EB07C0DE1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Drawer.qml" />
+							<File Id="fil22A885223D1E40AB87FA68845AC1DBA2" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ElevationEffect.qml" />
+							<File Id="fil2D35704A2B6143F7ACDEAB28F8814A37" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Frame.qml" />
+							<File Id="fil430DF2E3634C4AE4B214DBC49A52472B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\GroupBox.qml" />
+							<File Id="fil7A5C8E95E1964F1F81BFD6B31CF3253F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\HorizontalHeaderView.qml" />
+							<File Id="filF07793389CA144C2B1138F6BCF0B314D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ItemDelegate.qml" />
+							<File Id="fil9E38CA36C5194C02A7827987CD4E4D47" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Label.qml" />
+							<File Id="fil96B0A819A0564705B52AC058A60EF105" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Menu.qml" />
+							<File Id="fil4E890539193F430F9CDEFBC2719A010C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\MenuBar.qml" />
+							<File Id="filA46C116E662D4712A199753482D88223" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\MenuBarItem.qml" />
+							<File Id="fil2682C185A1994A71A12C9FEDC27D5E07" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\MenuItem.qml" />
+							<File Id="filC2C06FBFC1ED466180185002F75E3C10" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\MenuSeparator.qml" />
+							<File Id="filDF7AE724D75342A98E37734CEA1A24F9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Page.qml" />
+							<File Id="fil8D23DD76403A4FA4A87DFC680775BDE7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\PageIndicator.qml" />
+							<File Id="filA2EE4A06DE104217B90A27C7BED996AE" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Pane.qml" />
+							<File Id="filF227960707CF45C287E2EB6821C0BAB9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\plugins.qmltypes" />
+							<File Id="fil3B6C122C881E41209FF281F66D37F59D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Popup.qml" />
+							<File Id="filFD36E52BD37944C589B598574D9FDB05" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ProgressBar.qml" />
+							<File Id="filD396EE5167F64F5ABC38B9AD2BE5B570" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\qmldir" />
+							<File Id="fil6D293498B39F4BCB9E495EEB9ECCF187" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\qtquickcontrols2materialstyleplugin.dll" />
+							<File Id="fil4A532DD5C0AE4C6E845FB79C19167E01" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\RadioButton.qml" />
+							<File Id="fil722006B8279B4AC189584473FCD4FC69" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\RadioDelegate.qml" />
+							<File Id="fil659EE189A3D8485EAF28A142251F1293" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\RadioIndicator.qml" />
+							<File Id="fil3A67E9324C864AB69A660C2D2277280B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\RangeSlider.qml" />
+							<File Id="filBBD376C1646A4D7FA380B26FD9DE19F6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\RectangularGlow.qml" />
+							<File Id="fil07A647F9629F45B5B4A554E21E1C2D49" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\RoundButton.qml" />
+							<File Id="fil6ED550E2E94849F08749A6313C6C571D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ScrollBar.qml" />
+							<File Id="filA4A3FD85641A4A2EB47AA2720E239BA0" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ScrollIndicator.qml" />
+							<File Id="filB0BD2573A2C8466A8BA354CB45309B4B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Slider.qml" />
+							<File Id="filED003101B2874EEB8A2FF11186FD5511" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\SliderHandle.qml" />
+							<File Id="fil1D339B248EFF4C71B8584CE961BA042C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\SpinBox.qml" />
+							<File Id="filD88A01E164A142789C05AF6525083C26" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\SplitView.qml" />
+							<File Id="fil30F828E98EE640D180606CC9AB88A8DA" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\StackView.qml" />
+							<File Id="fil276BB517DA2F4BFC8CDB1298EDFAE22B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\SwipeDelegate.qml" />
+							<File Id="fil857F79C6B0E24C1E98318EE6057AB5D4" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\SwipeView.qml" />
+							<File Id="fil3B008CE35A32408CB4453388E52F43AD" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Switch.qml" />
+							<File Id="filED451DC3ED404663BC9F813E4003CFEA" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\SwitchDelegate.qml" />
+							<File Id="fil757F6FA810F24725BA17C12FF2581298" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\SwitchIndicator.qml" />
+							<File Id="fil93D8B2BAFDC544258EA04A48EBC7FEED" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\TabBar.qml" />
+							<File Id="fil530CC9096CC947A9A2D5A676786F29F6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\TabButton.qml" />
+							<File Id="fil76E912B464F34C8F85E78B6E0A37DDD7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\TextArea.qml" />
+							<File Id="filF13DF687E95A4D4B834D76555095973B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\TextField.qml" />
+							<File Id="fil1DBFF32E49254526B080B7F205F9F6E3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ToolBar.qml" />
+							<File Id="fil334F8CD3B46E4CCA9AB674051DB85473" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ToolButton.qml" />
+							<File Id="fil07C9FC1BCFDF4746953BDCADC3BAFB8D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ToolSeparator.qml" />
+							<File Id="fil8672FC9ED5DE491E92E9052E9C0DCE6E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\ToolTip.qml" />
+							<File Id="fil08CC70650641484E9D5F36FE416F8209" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\Tumbler.qml" />
+							<File Id="filC7F6B5EAB299417A9881E0AFE643DDFE" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Material\VerticalHeaderView.qml" />
+						</Component>
+					</Directory>
+
+					<Directory Id="dir52CDA1D27DF14B21BD3E174704CE430D" Name="Universal">
+						<Component Id="cmp80FCC5E4CDED492C90886F88BAAD7147" Guid="{0C5D6A25-B2D4-488D-891F-70D070E3387C}">
+							<File Id="filF08E91ED4D9A4301941B254782C1578B" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ApplicationWindow.qml" />
+							<File Id="fil2F7A5AED71BF41FABD06617204C2DD0F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\BusyIndicator.qml" />
+							<File Id="filAE221EFE81F24A0DAE11B142706C4F22" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Button.qml" />
+							<File Id="filF1E846A491464622A5EDC60D15A2E178" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\CheckBox.qml" />
+							<File Id="fil37AC73D6393444249FFA7A45FF1BA206" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\CheckDelegate.qml" />
+							<File Id="filB2B2CC625DB44E5D820D93ADC2346EDD" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\CheckIndicator.qml" />
+							<File Id="filDFD062F02F8F4F13891B975E43DDEC0A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ComboBox.qml" />
+							<File Id="filDBCBF4048D3F45BB95F4CC33011DE0A9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\DelayButton.qml" />
+							<File Id="fil481A14D46CED43808BF4B9BF773EEF34" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Dial.qml" />
+							<File Id="filDF305EBB87AF48EF8FB311C8F4B0C91A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Dialog.qml" />
+							<File Id="fil98EB422B1E6F4A2FBC9D24248FD1A8FE" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\DialogButtonBox.qml" />
+							<File Id="filD80A9FD042CA42EA92F777B4563FD7CF" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Drawer.qml" />
+							<File Id="fil21B803FD2ADF4D4D88132B31220BE034" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Frame.qml" />
+							<File Id="filB24402395B0242EBAE74D9CC7D065273" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\GroupBox.qml" />
+							<File Id="fil3EFC9C4F74E040AFA4F18A02049F7510" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\HorizontalHeaderView.qml" />
+							<File Id="filBCA464608B2B426EBA6B4F2F64E24FAC" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ItemDelegate.qml" />
+							<File Id="filFBFDEBDAB29E48E6A552B75CA4681DB2" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Label.qml" />
+							<File Id="filC72583468C404A4CBD5F329580E7D8CC" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Menu.qml" />
+							<File Id="fil385C1316C589476F824EA09CFA7D07B3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\MenuBar.qml" />
+							<File Id="filF892AFF9028D42F2B87B7C92B2B195FC" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\MenuBarItem.qml" />
+							<File Id="fil30DF5CF5FE744553A00F13F96F95119C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\MenuItem.qml" />
+							<File Id="filD27F65663D05419DA301C4912FC767B3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\MenuSeparator.qml" />
+							<File Id="filDBB707A75BFA4DE29FD12FC18181391C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Page.qml" />
+							<File Id="fil35B16580833C4D1DBE1D90CFD82D1CB9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\PageIndicator.qml" />
+							<File Id="filBB8702ABB47143EFB248F53DF8E58337" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Pane.qml" />
+							<File Id="filCF7CD6125370407E97603D2F2297F3BB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\plugins.qmltypes" />
+							<File Id="filC5A539E9B3BB46499A6ADA7E4EEDE96B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Popup.qml" />
+							<File Id="filBDFA3872AFFC4BE1A633CC4F8F176314" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ProgressBar.qml" />
+							<File Id="filD4007E872B364A03A292F43BE655F4D0" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\qmldir" />
+							<File Id="fil33B9B889E31D4DF4AB715399827E464F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\qtquickcontrols2universalstyleplugin.dll" />
+							<File Id="fil34E4294F8294469AB040699FCDEDC7EB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\RadioButton.qml" />
+							<File Id="fil5F13644F346548A98180C2E6FB01FC9E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\RadioDelegate.qml" />
+							<File Id="filF07D365FDE5B48699BD0F88793582E54" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\RadioIndicator.qml" />
+							<File Id="filFDCB0F4CB11C4A54BA6375B0781E1144" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\RangeSlider.qml" />
+							<File Id="fil7D9B3AAB90AF4545AB7EDD70E2903904" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\RoundButton.qml" />
+							<File Id="fil77B8EF691C784DBD90E84EBB0B57CE45" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ScrollBar.qml" />
+							<File Id="filB024757A91814E6691076A299E2FCE09" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ScrollIndicator.qml" />
+							<File Id="fil3DA227AE53B14E50B9ED1B97D1C26F53" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Slider.qml" />
+							<File Id="fil7992BEA0E01D44DBA334228F91142BF5" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\SpinBox.qml" />
+							<File Id="fil298DEE0B3D714184AC56FBF45E0EB083" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\SplitView.qml" />
+							<File Id="fil2103B68418AE4C2F897E327A8B82961F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\StackView.qml" />
+							<File Id="filD10BF56AAEDC4C5BA631BC579229627A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\SwipeDelegate.qml" />
+							<File Id="fil3DF5F537DB8543C591A61475EE428C18" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Switch.qml" />
+							<File Id="fil7513158C16C44BE68402272E9E1FF559" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\SwitchDelegate.qml" />
+							<File Id="fil718C8AFFF5AA46A68DE95FAE1F0548BB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\SwitchIndicator.qml" />
+							<File Id="fil62B3D32A79D044DAA4E19CC8B16DA36D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\TabBar.qml" />
+							<File Id="fil28426615A224403D96E003E4D135E535" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\TabButton.qml" />
+							<File Id="filBC4FCD9F568A499DB6591C880E5C0D15" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\TextArea.qml" />
+							<File Id="filAEF15530BEB54BEDABA5A8BA529C5A09" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\TextField.qml" />
+							<File Id="fil01326C5D193A4B72B17C7CF590EE7BD7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ToolBar.qml" />
+							<File Id="fil9EDA59C7A1124D5D9B2287B05C8F43B3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ToolButton.qml" />
+							<File Id="filCDBB9CECF5F34E608D35E7A32735FD05" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ToolSeparator.qml" />
+							<File Id="filF3DA9130A4884F59B31AA154F64E860A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\ToolTip.qml" />
+							<File Id="filDC11C373EDF84A59A4DCAE642F08D1E7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\Tumbler.qml" />
+							<File Id="filE69089085624430D97FE1EB5BDDAC58E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Universal\VerticalHeaderView.qml" />
+						</Component>
+					</Directory>
+
+					<Component Id="cmp4FF71C887FBA45319CD6409981749BDF" Guid="{BFB1D033-5FA7-41C0-AF6A-A962193BAC80}">
+						<File Id="filACD7EEA2897C443DAF98578624EA65B3" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\AbstractButton.qml" />
+						<File Id="filAC3D4E9427974CD89FFCBA97125B3E7B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Action.qml" />
+						<File Id="fil0365157458A949A7987B9F5DD29E420F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ActionGroup.qml" />
+						<File Id="fil8369A5D56E0B4899B4A22F996175D775" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ApplicationWindow.qml" />
+						<File Id="fil7FABFA66F69D4C0983657F54A919DF34" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\BusyIndicator.qml" />
+						<File Id="fil11FEC4D0314949318D36EEBF886A7E98" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Button.qml" />
+						<File Id="fil671B1B51DD7F4218B37A6031B41DDAAD" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ButtonGroup.qml" />
+						<File Id="fil651D64E9025E41DE9B9A327CA3048199" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\CheckBox.qml" />
+						<File Id="fil2824FF88CA4D42FCB6A05E613B1DF694" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\CheckDelegate.qml" />
+						<File Id="filF51B0B6889974B15866926C4728BB010" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ComboBox.qml" />
+						<File Id="fil158F118C2C4444DF855CD7422C5E82C1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Container.qml" />
+						<File Id="filE351B22458604B3187657F70A0EB4563" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Control.qml" />
+						<File Id="fil012080AE03E8471F9D0AAF1CA271328F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\DelayButton.qml" />
+						<File Id="filC157541993334EFB8827635755BC1958" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Dial.qml" />
+						<File Id="fil00B425AE350B4CC3B4106884106CEE3C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Dialog.qml" />
+						<File Id="fil363EEF9941154A50B5A1B7C0A99642C0" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\DialogButtonBox.qml" />
+						<File Id="fil1B470B14505445169DE03942868F8B13" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Drawer.qml" />
+						<File Id="filDD19F461D98E439FACF23AA3BD212917" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Frame.qml" />
+						<File Id="fil7B7B3B5D8990459FA63606C3657FEEC8" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\GroupBox.qml" />
+						<File Id="filCCD5ECD219774574A1CC653ADE742607" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\HorizontalHeaderView.qml" />
+						<File Id="fil10F15F4CB9014E64AA5BED753B5AC4E2" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ItemDelegate.qml" />
+						<File Id="fil9DCB52EA08D14BCB99116454E223733D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Label.qml" />
+						<File Id="fil885FFC8220B2457FA522BEB144B1198A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Menu.qml" />
+						<File Id="filBBF310AC93F949E9BCBD3F2B647A101F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\MenuBar.qml" />
+						<File Id="filAB20737D9EEE470F8A17DDC3DB18279A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\MenuBarItem.qml" />
+						<File Id="filAC715F5E552D4F2F8E3F96B148DBD6D6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\MenuItem.qml" />
+						<File Id="fil631A471BDEFF431481D1BB9D3BD2A58E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\MenuSeparator.qml" />
+						<File Id="filF5F3C9B9FFF248EEBBC66FB9D79B1663" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Page.qml" />
+						<File Id="filE3925333D1F84AB7935DE16D7A1F5C2E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\PageIndicator.qml" />
+						<File Id="fil4A7D071CD79446E79E7271713C6B6CC2" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Pane.qml" />
+						<File Id="fil515C94FA130B4FA2A7868CF04403CEC7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\plugins.qmltypes" />
+						<File Id="fil70D54D1441B84539A9112A4CE9384AEF" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Popup.qml" />
+						<File Id="filA31721120F5445239AD06E20785C3BE1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ProgressBar.qml" />
+						<File Id="filD44A7AC8E12F47DCBCCB0AB1DEDC16D5" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\qmldir" />
+						<File Id="fil845B0EBF78CB4FBD84F731B6B92BF28F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\qtquickcontrols2plugin.dll" />
+						<File Id="fil9ECC9BBD3E744FE6A46F360174AF0944" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\RadioButton.qml" />
+						<File Id="fil0BD6D2D4BE6D4B17A2273FB180A9A11F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\RadioDelegate.qml" />
+						<File Id="filC3150B9392B3423BB59773E67AD45F68" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\RangeSlider.qml" />
+						<File Id="fil91AA258FE60F40D1B147057123060027" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\RoundButton.qml" />
+						<File Id="fil0A3F7CE922FC4056B8675403403111E3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ScrollBar.qml" />
+						<File Id="fil7B3D5DE7E175414289692F5F47BBE230" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ScrollIndicator.qml" />
+						<File Id="filF01EFB572AA7421F8F335E0025AC7DF8" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ScrollView.qml" />
+						<File Id="fil5F2DDED9685B460AB7F1863B983C1FFB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Slider.qml" />
+						<File Id="filA93A13E8098B44B185A30D7BE1D37A9D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\SpinBox.qml" />
+						<File Id="fil2611AC59B5AB4B4C89E45ADA5BE656A7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\SplitView.qml" />
+						<File Id="filB4ECFD82ACBF43C7A68BBC1BB4F6533B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\StackView.qml" />
+						<File Id="filF8CD889EB95B4877B297EEEFE5A4F28C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\SwipeDelegate.qml" />
+						<File Id="fil9AB46060D1B448A5B7FA96E1C804F444" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\SwipeView.qml" />
+						<File Id="filE240ACB941F94FDFB6A807F0CBCBAFD4" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Switch.qml" />
+						<File Id="fil1F001381237043068DE55F88DE8E103B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\SwitchDelegate.qml" />
+						<File Id="fil0E4665B6431147C3A3865EB2D0C81977" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\TabBar.qml" />
+						<File Id="fil58028949004841F78233B9B2EE53482C" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\TabButton.qml" />
+						<File Id="fil95E39BE2EB124D998DC1C2CD9E5BEC50" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\TextArea.qml" />
+						<File Id="filBDA19978269045F3A6FBF564FC7AE25D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\TextField.qml" />
+						<File Id="filA7AF5AC57C0C45F29F14B03EF166B145" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ToolBar.qml" />
+						<File Id="filE1ADFF10C4BC4CF8906FF67C498349D1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ToolButton.qml" />
+						<File Id="fil1E652DCBD95B490DA3DF8FB6E30E4235" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ToolSeparator.qml" />
+						<File Id="fil6C9813E76E8C442CAD3747E0D311A748" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\ToolTip.qml" />
+						<File Id="fil3B6531CF7D924BC3877962D2A24028DE" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\Tumbler.qml" />
+						<File Id="fil882DBE83CBF44EF18C7849A939BCA6B6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Controls.2\VerticalHeaderView.qml" />
+					</Component>
+				</Directory>
+
+				<Directory Id="dir541FBF9EE2ED40C99F59B18404AF6A13" Name="Templates.2">
+					<Component Id="cmp599CC8D17D1346518A9DAB35EE54FE36" Guid="{C38E8B49-0355-488C-ABD3-A04BA2EAA2C7}">
+						<File Id="fil4D62F7D014E3439A8CA95A9F960AF213" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQuick\Templates.2\qtquicktemplates2plugin.dll"/>
+						<File Id="fil5427BCBAC5C54FE4AD06D79721F1BDB9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Templates.2\plugins.qmltypes"/>
+						<File Id="filC80BDE2095D14D61AB0AB08D5667AA5D" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Templates.2\qmldir"/>						
+					</Component>
+				</Directory>
+
+				<Directory Id="dir8497F696595C4511AB70B34BFABC822F" Name="Window.2">
+					<Component Id="cmp2E3087DA5119474D8991AEEC6A8EA960" Guid="{E8809C35-12D5-415E-851A-1347FABDD780}">
+						<File Id="fil72D51BEEFB9842F68A796D768932B3B1" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQuick\Window.2\windowplugin.dll"/>
+						<File Id="fil8DC3AFE7420748478509A811294FD75F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Window.2\plugins.qmltypes"/>
+						<File Id="filC0BB1ACD9991414C80C59EA97F19FDB6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick\Window.2\qmldir"/>
+					</Component>
+				</Directory>
+			</Directory>
+
+			<Directory Id="dir3A9E67CA2EF0452E8AFF61E54C905CF5" Name="QtQuick.2">
+				<Component Id="cmp932EBF16780943CCB95617309F4BD5B8" Guid="{932EBF16-7809-43CC-B956-17309F4BD5B8}">
+					<File Id="fil7B6C03EC4F704FBE81957A38873AB24B" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\QtQuick.2\qtquick2plugin.dll"/>
+					<File Id="fil1E1952FEF1574B7BA3A2BC0D08292B99" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick.2\plugins.qmltypes"/>
+					<File Id="fil640B3CBD3BE946AA9E35D2A93704975F" KeyPath="no" Source="..\..\..\..\leif\release\deploy\QtQuick.2\qmldir"/>
+				</Component>
+			</Directory>
+
+			<Directory Id="dir74EAEE7DFE8B404485EF637B78C4A6E7" Name="scenegraph">
+				<Component Id="cmpEF8A21CF22C943F6A8DC0565E02B28A9" Guid="{2894FBEE-2D78-41A6-84BE-6D7C96C4D437}">
+					<File Id="fil3FDA54B0B63443C6AE5831C513B067E4" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\scenegraph\qsgd3d12backend.dll" />
+				</Component>
+			</Directory>
+
+			<Directory Id="dir702E3575B965448C8D6879C7E8B091F0" Name="styles">
+				<Component Id="cmpF85F8708F6814C22B4EC5ACC61C2A09D" Guid="{29E42124-0350-4EFB-A6C3-A8BDEF58AEFC}">
+					<File Id="filC56C9522CD5D449586C27F4308B0DF83" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\styles\qwindowsvistastyle.dll" />
+				</Component>
+			</Directory>
+
+			<Directory Id="dir50C9F7A9773943C198D88199E84CABF9" Name="translations">
+				<Component Id="cmp1A5F4070667B40BFB47230AFAFD2474A" Guid="{F622D9AE-2B52-4987-95C7-B01603C30095}">
+					<File Id="filCF1BDB5F5F0E4E939C35A18723F0F68C" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\translations\qt_ar.qm" />
+					<File Id="fil5FFFF07EDEC94BB9A6AECFB48113ADF6" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_bg.qm" />
+					<File Id="fil58FA0ADD0C1C4D5D9E35A5D0142A3184" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_ca.qm" />
+					<File Id="filD3CE9C47474B4C54A95C9C8580DC9B27" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_cs.qm" />
+					<File Id="fil58BB0E457ED94A7C93E069EB9B3507A3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_da.qm" />
+					<File Id="fil109D6129951C45BEA5D252813CA135E3" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_de.qm" />
+					<File Id="fil85425B7527C74C568C9B64EC12B14FEB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_en.qm" />
+					<File Id="fil36A3194FD9294A3788520A190AEF7635" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_es.qm" />
+					<File Id="fil30912427853F41B38A43F26907F4D361" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_fi.qm" />
+					<File Id="fil48E9D59F2DB948F595BC578EAD8F6479" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_fr.qm" />
+					<File Id="fil4C1123342AD34990A750BA9F5AC333E9" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_gd.qm" />
+					<File Id="fil947F7098919D48499E40BD1C0AF5CBB2" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_he.qm" />
+					<File Id="fil9CD15ED625F3447B892CA8F81FA33C55" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_hu.qm" />
+					<File Id="fil924529CC42314B78998496F8D58F3BE7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_it.qm" />
+					<File Id="fil48F7F68FD37A42EA8D0FB214006E2015" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_ja.qm" />
+					<File Id="filEC4A985DD3AB4C28B6ACAA2BBBE5E31A" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_ko.qm" />
+					<File Id="fil7D16160261304F3B9C60B84D34A80878" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_lv.qm" />
+					<File Id="filC794C01C9F444FCBB7C36458001AA17E" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_pl.qm" />
+					<File Id="fil945259354BBC4C93AE6E4545C8B60311" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_ru.qm" />
+					<File Id="fil6F57C8F53774432D99789A8DFA5758C1" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_sk.qm" />
+					<File Id="fil5B4986E87DD3490EB8BE9482BCB5A817" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_tr.qm" />
+					<File Id="fil76C7F27CE68A40FFA70FAE85F7BECB7B" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_uk.qm" />
+					<File Id="fil6D36A047BBAF44A49636F9DBB8C58394" KeyPath="no" Source="..\..\..\..\leif\release\deploy\translations\qt_zh_TW.qm" />
+				</Component>
+			</Directory>
+		</DirectoryRef>
+
+		<Component Id="cmp0CB914C16D4F4495B78627A4D8289E8A" Guid="{A1D8D540-65DA-45B8-9B98-7D9A51E96432}" Directory="INSTALLFOLDER">
+			<RegistryValue Id="regF02039F0CE50423A9CD9BB46C6B7380D" Root="HKLM" Action="write"
+						   Key="Software\Microsoft\Windows\CurrentVersion\Run"
+						   Name="Leif.exe"
+						   Value="[INSTALLFOLDER]Leif.exe"
+						   Type="string" />
+		</Component>
+	</Fragment>
+</Wix>

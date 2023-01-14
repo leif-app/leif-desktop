@@ -101,3 +101,4 @@ Makefile.*
 leif.pro.user
 leif/qml_qmlcache.qrc
 tests/plugins/uk/UtilitiesTests/target_wrapper.bat
+installer/msi/Leif/.vs/Leif/v16/.suo
