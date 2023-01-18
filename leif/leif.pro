@@ -88,3 +88,4 @@ mac: LIBS += -framework IOKit
 mac: LIBS += -framework CoreFoundation
 
 include('pri/appinfo.pri')
+include('pri/predeps.pri')

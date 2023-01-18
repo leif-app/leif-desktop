@@ -40,3 +40,5 @@ QMAKE_EXTRA_TARGETS += copyplugin precopyplugin
 
 QMAKE_CLEAN *= ../../leif/release/plugins/uk.json \
                ../../leif/release/plugins/uk.dll
+
+POST_TARGETDEPS *= copyplugin
