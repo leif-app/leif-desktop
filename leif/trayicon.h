@@ -26,6 +26,7 @@ private Q_SLOTS:
     void onPreferencesClicked();
     void onConfiguredChanged();
     void doCheckConfigured();
+    void doIconContrastModeToggled();
 
 private:
     void setupMenu();
@@ -39,7 +40,10 @@ private:
 
     static QString co2Unit();
     static QString usageLevelToString(CarbonProcessor::CarbonUsageLevel usageLevel);
-    static QString usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLevel);
+    static QString usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLevel, bool contrastMode = false);
+
+    static bool iconContrastMode();
+    static void saveIconContrastMode(bool iconContrastMode);
 
 private:
     struct TrayIconData
@@ -50,6 +54,7 @@ private:
         QAction *totalCarbonAction;
         QAction *carbonUsageLevelAction;
         QAction *chargeForecastAction;
+        QAction *iconContrastMode;
     } d;
 };
 

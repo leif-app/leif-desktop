@@ -109,6 +109,17 @@
                         ],
                         "name": "lifeTimeCarbonChanged",
                         "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "iconContrastMode",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "iconContrastModeChanged",
+                        "returnType": "void"
                     }
                 ],
                 "superClasses": [
@@ -600,6 +611,11 @@
                     {
                         "access": "private",
                         "name": "doCheckConfigured",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "doIconContrastModeToggled",
                         "returnType": "void"
                     }
                 ],

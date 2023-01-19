@@ -8,9 +8,10 @@ class LeifSettingsPrivate
     static QString CountryKey;
     static QString RegionKey;
     static QString LifeTimeCarbonKey;
+    static QString IconContrastModeKey;
 
     static int toInt(const QVariant &value, int defaultValue);
-    static float toFloat(const QVariant &value, float defaultValue);
+    static float toFloat(const QVariant &value, float defaultValue);    
 
     friend class LeifSettings;
 };
@@ -19,6 +20,7 @@ LeifSettings * LeifSettingsPrivate::Instance = nullptr;
 QString LeifSettingsPrivate::CountryKey = QStringLiteral("COUNTRY");
 QString LeifSettingsPrivate::RegionKey = QStringLiteral("REGION");
 QString LeifSettingsPrivate::LifeTimeCarbonKey = QStringLiteral("LIFECARBON");
+QString LeifSettingsPrivate::IconContrastModeKey = QStringLiteral("ICONCONTRASTMODE");
 
 int LeifSettingsPrivate::toInt(const QVariant &value, int defaultValue)
 {
@@ -98,6 +100,14 @@ void LeifSettings::saveRegionId(const QString &regionId)
     emit regionIdChanged(regionId);
 }
 
+void LeifSettings::saveIconContrastMode(bool iconContrastMode)
+{
+    QSettings settings;
+    settings.setValue(LeifSettingsPrivate::IconContrastModeKey, iconContrastMode);
+
+    emit iconContrastModeChanged(iconContrastMode);
+}
+
 QLocale::Country LeifSettings::country() const
 {
     QSettings settings;
@@ -111,6 +121,13 @@ QString LeifSettings::regionId() const
     QSettings settings;
 
     return settings.value(LeifSettingsPrivate::RegionKey).toString();
+}
+
+bool LeifSettings::iconContrastMode() const
+{
+    QSettings settings;
+
+    return settings.value(LeifSettingsPrivate::IconContrastModeKey).toBool();
 }
 
 void LeifSettings::saveLifetimeCarbon(float lifeTime)

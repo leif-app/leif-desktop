@@ -5,10 +5,11 @@
 #include <QTimer>
 #include <QSysInfo>
 
+#include "leifsettings.h"
 #include "trayicon.h"
 
 TrayIcon::TrayIcon(TrayIconModel *model, QObject *parent /* = nullptr */):
-    TrayIcon(QIcon(TrayIcon::usageLevelToIconName(CarbonProcessor::VeryHigh)), parent)
+    TrayIcon(QIcon(TrayIcon::usageLevelToIconName(CarbonProcessor::VeryHigh,TrayIcon::iconContrastMode())), parent)
 {
     Q_ASSERT(model != nullptr);
 
@@ -29,6 +30,7 @@ TrayIcon::TrayIcon(const QIcon &icon, QObject *parent /* = nullptr */):
     d.totalCarbonAction = nullptr;
     d.carbonUsageLevelAction = nullptr;
     d.chargeForecastAction = nullptr;
+    d.iconContrastMode = nullptr;
 }
 
 void TrayIcon::onSessionCarbonChanged()
@@ -52,7 +54,7 @@ void TrayIcon::onCarbonUsageLevelChanged()
     d.carbonUsageLevelAction->setText(TrayIcon::intensityLabel(d.model->carbonUsageLevel()));
 
     // Also set the icon
-    setIcon(QIcon(TrayIcon::usageLevelToIconName(d.model->carbonUsageLevel())));
+    setIcon(QIcon(TrayIcon::usageLevelToIconName(d.model->carbonUsageLevel(), iconContrastMode())));
 }
 
 void TrayIcon::onChargeForecastChanged()
@@ -113,6 +115,12 @@ void TrayIcon::doCheckConfigured()
     }
 }
 
+void TrayIcon::doIconContrastModeToggled()
+{
+   setIcon(QIcon(TrayIcon::usageLevelToIconName(d.model->carbonUsageLevel(), d.iconContrastMode->isChecked())));
+   saveIconContrastMode(d.iconContrastMode->isChecked());
+}
+
 void TrayIcon::setupMenu()
 {
     QMenu *menu = new QMenu;
@@ -138,6 +146,10 @@ void TrayIcon::setupMenu()
 
     menu->addAction(tr("Preferences..."), this, &TrayIcon::onPreferencesClicked);
     menu->addAction(tr("Reset stats"), this, &TrayIcon::onResetStatsClicked, Qt::Key_R);
+
+    d.iconContrastMode = menu->addAction(tr("Icon contrast mode"), this, &TrayIcon::doIconContrastModeToggled);
+    d.iconContrastMode->setCheckable(true);
+    d.iconContrastMode->setChecked(iconContrastMode());
 
     menu->addSeparator();
     menu->addAction(tr("Quit"), qApp, &QApplication::quit, Qt::Key_Q);
@@ -267,15 +279,9 @@ QString TrayIcon::usageLevelToString(CarbonProcessor::CarbonUsageLevel usageLeve
     return str;
 }
 
-QString TrayIcon::usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLevel)
+QString TrayIcon::usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLevel,
+                                       bool contrastMode /* = false */)
 {
-    static QHash<CarbonProcessor::CarbonUsageLevel, QString> usageLevelIconNames;
-
-    if(usageLevelIconNames.contains(usageLevel))
-    {
-        return usageLevelIconNames.value(usageLevel);
-    }
-
     QString str;
     switch(usageLevel)
     {
@@ -305,6 +311,7 @@ QString TrayIcon::usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLe
         break;
     }
 
+#if 0
 #ifdef Q_OS_WIN
 if(QSysInfo::productVersion() == QStringLiteral("11"))
 {
@@ -317,11 +324,29 @@ else
 #else
     str.append(QStringLiteral("D"));
 #endif
+#endif
+
+    if(contrastMode)
+    {
+        str.append(QStringLiteral("L"));
+    }
+    else
+    {
+        str.append(QStringLiteral("D"));
+    }
 
     str.append(QStringLiteral(".png"));
     str.prepend(QStringLiteral(":/img/"));
 
-    usageLevelIconNames.insert(usageLevel, str);
-
     return str;
+}
+
+bool TrayIcon::iconContrastMode()
+{
+    return LeifSettings::Instance()->iconContrastMode();
+}
+
+void TrayIcon::saveIconContrastMode(bool iconContrastMode)
+{
+    LeifSettings::Instance()->saveIconContrastMode(iconContrastMode);
 }

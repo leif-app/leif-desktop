@@ -19,9 +19,11 @@ public:
     void saveLocation(const QLocale::Country &country, const QString &regionId);
     void saveCountry(const QLocale::Country &country);
     void saveRegionId(const QString &regionId);
+    void saveIconContrastMode(bool iconContrastMode);
 
     QLocale::Country country() const;
     QString regionId() const;
+    bool iconContrastMode() const;
 
     void saveLifetimeCarbon(float lifeTime);
     float lifeTimeCarbon() const;
@@ -31,6 +33,7 @@ signals:
     void countryChanged(const QLocale::Country country);
     void regionIdChanged(const QString &regionId);
     void lifeTimeCarbonChanged(float lifeTime);
+    void iconContrastModeChanged(bool iconContrastMode);
 
 private:
     Q_DISABLE_COPY_MOVE(LeifSettings);
