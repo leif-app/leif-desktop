@@ -16,7 +16,7 @@
 			<Custom Action="LaunchInstalledExe" After="InstallFinalize" />
 		</InstallExecuteSequence>
 		
-		<CustomAction Id="LaunchInstalledExe" FileKey="filDAA1EF6C60744F2D8A8F0373FC230C0F" ExeCommand="" Execute="immediate" Impersonate="yes" Return="ignore" />
+		<CustomAction Id="LaunchInstalledExe" FileKey="filDAA1EF6C60744F2D8A8F0373FC230C0F" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
 	</Product>
 
 	<Fragment>
