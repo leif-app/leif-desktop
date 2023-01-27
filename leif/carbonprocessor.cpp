@@ -9,6 +9,8 @@
 
 #include "interfaces/IPower.h"
 
+#include "log/log.h"
+
 class CarbonProcessorPrivate
 {
     static CarbonProcessor *Instance;
@@ -110,26 +112,36 @@ void CarbonProcessor::clearStats()
 
 void CarbonProcessor::calculateCarbon()
 {
+    DBG_CALLED;
     Q_ASSERT(d != nullptr);
 
     LeifSettings *settings = LeifSettings::Instance();
     if(settings == nullptr)
     {
+        ERR("Can't calculate carbon, LeifSettings not available.");
         return;
     }
 
     CarbonPluginManager *manager = CarbonPluginManager::Instance();
     if(manager == nullptr)
     {
+        ERR("Can't calcuate carbon, CarbonPluginManager not available.");
         return;
     }
 
     float powerDraw = d->powerInfo->powerDrawInWatts();
     CarbonData data = manager->carbonPerKiloWatt(settings->country(), settings->regionId());
 
+    DBG(QString("Current power draw: %1.").arg(powerDraw));
+    DBG(QString("Received carbon data is: %1.").arg(data.isValid ? QStringLiteral("valid") : QStringLiteral("invali")));
+
     if(data.isValid)
     {
+        DBG(QString("Carbon usage is: %1.").arg(data.co2PerKiloWattHour));
+
         float carbon = (powerDraw * static_cast<float>(data.co2PerKiloWattHour)) / (60*1000);
+        DBG(QString("Calculated carbon usage is: %1").arg(carbon));
+
         setSessionCarbon(sessionCarbon() + carbon);
         setLifetimeCarbon(lifetimeCarbon() + carbon);
         calculateUsageLevel(data.co2PerKiloWattHour);
@@ -138,28 +150,33 @@ void CarbonProcessor::calculateCarbon()
 
 void CarbonProcessor::calculateUsageLevel(int co2PerkWh)
 {
-    qDebug() << co2PerkWh;
+    DBG_CALLED;
 
     CarbonUsageLevel newLevel = CarbonProcessor::VeryHigh;
 
     if(co2PerkWh <= 49)
     {
+        DBG("Carbon usage is very low.");
         newLevel = CarbonProcessor::VeryLow;
     }
     else if(co2PerkWh <= 129)
     {
+        DBG("Carbon usage is low.");
         newLevel = CarbonProcessor::Low;
     }
     else if(co2PerkWh <= 209)
     {
+        DBG("Carbon usage is medium.");
         newLevel = CarbonProcessor::Medium;
     }
     else if(co2PerkWh <= 310)
     {
+        DBG("Carbon usage is high.");
         newLevel = CarbonProcessor::High;
     }
     else
     {
+        DBG("Carbon usage is very high.");
         newLevel = CarbonProcessor::VeryHigh;
     }
 

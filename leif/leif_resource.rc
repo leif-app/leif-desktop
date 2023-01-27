@@ -1,8 +1,8 @@
 #include <windows.h>
 
 VS_VERSION_INFO VERSIONINFO
-	FILEVERSION 1,0,0,1
-	PRODUCTVERSION 1,0,0,1
+	FILEVERSION 1,0,0,2
+	PRODUCTVERSION 1,0,0,2
 	FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
 	FILEFLAGS VS_FF_DEBUG
@@ -19,11 +19,11 @@ VS_VERSION_INFO VERSIONINFO
 			BEGIN
 				VALUE "CompanyName", "Tim Stone\0"
 				VALUE "FileDescription", "Leif\0"
-				VALUE "FileVersion", "1.0.0.1\0"
+				VALUE "FileVersion", "1.0.0.2\0"
 				VALUE "LegalCopyright", "Tim Stone 2022\0"
 				VALUE "OriginalFilename", "leif.exe\0"
 				VALUE "ProductName", "Leif Desktop App\0"
-				VALUE "ProductVersion", "1.0.0.1\0"
+				VALUE "ProductVersion", "1.0.0.2\0"
 			END
 		END
 		BLOCK "VarFileInfo"

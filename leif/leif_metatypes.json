@@ -629,5 +629,35 @@
         ],
         "inputFile": "trayicon.h",
         "outputRevision": 67
+    },
+    {
+        "classes": [
+            {
+                "className": "QmlWarningLogger",
+                "object": true,
+                "qualifiedClassName": "Utils::QmlWarningLogger",
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "warnings",
+                                "type": "QList<QQmlError>"
+                            }
+                        ],
+                        "name": "onWarnings",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "qmlwarninglogger.h",
+        "outputRevision": 67
     }
 ]

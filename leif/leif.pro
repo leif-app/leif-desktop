@@ -7,6 +7,11 @@ QT += quick widgets
 SOURCES += \
         carbonprocessor.cpp \
         leifsettings.cpp \
+        log/filelogger.cpp \
+        log/iodevicelogger.cpp \
+        log/loggerbase.cpp \
+        log/logmanager.cpp \
+        log/logsystem.cpp \
         models/countrymodel.cpp \
         models/regionmodel.cpp \
         models/settingsmodel.cpp \
@@ -18,6 +23,7 @@ SOURCES += \
         powerinfobase.cpp \
         trayicon.cpp \
         utils/carbonplugindata.cpp \
+        utils/qmlwarninglogger.cpp \
         utils/territory.cpp \
         utils/translatedstring.cpp \
         utils/translation.cpp
@@ -59,6 +65,16 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     carbonprocessor.h \
     leifsettings.h \
+    log/filelogger.h \
+    log/ilogger.h \
+    log/ilogmanager.h \
+    log/iodevicelogger.h \
+    log/log.h \
+    log/log_internal.h \
+    log/loggerbase.h \
+    log/logmanager.h \
+    log/logsystem.h \
+    log/messagetype.h \
     models/countrymodel.h \
     models/regionmodel.h \
     models/settingsmodel.h \
@@ -74,6 +90,7 @@ HEADERS += \
     powerinfobase.h \
     trayicon.h \
     utils/carbonplugindata.h \
+    utils/qmlwarninglogger.h \
     utils/territory.h \
     utils/translatedstring.h \
     utils/translation.h

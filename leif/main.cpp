@@ -20,6 +20,9 @@
 #include "carbonprocessor.h"
 #include "leifsettings.h"
 
+#include "log/log.h"
+#include "log/filelogger.h"
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -37,6 +40,13 @@ int main(int argc, char *argv[])
     setStyleSheet();
 #endif
 
+    // Initialize Log System
+    Log::LogSystem::logManager()->registerLogger(new Log::FileLogger);
+
+    INF("===============================");
+    INF("Leif application is starting...");
+    INF("===============================");
+
     /*
     QScopedPointer<QTranslator> translator(new QTranslator);
     loadTranslations(translator.data());
@@ -49,6 +59,10 @@ int main(int argc, char *argv[])
     tray->show();
 
     int result = app.exec();
+
+    INF("==================================");
+    INF("Leif application is shutting down.");
+    INF("==================================");
 
     cleanup();
 
@@ -98,4 +112,5 @@ void cleanup()
 {
     CarbonProcessor::Destroy();
     LeifSettings::Destroy();
+    Log::LogSystem::Destroy();
 }

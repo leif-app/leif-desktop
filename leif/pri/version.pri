@@ -2,7 +2,7 @@
 MAJOR_VER = 1
 MINOR_VER = 0
 PATCH_VER = 0
-BUILD_VER = 1
+BUILD_VER = 3
 #######################
 
 include(version_internal.pri)

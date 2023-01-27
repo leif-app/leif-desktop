@@ -2,6 +2,7 @@
 #include "models/trayiconmodel.h"
 #include "models/settingsmodel.h"
 #include "plugin/carbonpluginmanager.h"
+#include "utils/qmlwarninglogger.h"
 
 class TrayIconModelPrivate
 {
@@ -54,6 +55,9 @@ TrayIconModel::TrayIconModel(QObject *parent /* = nullptr */):
             manager->loadPlugin(d->settingsModel->country());
         }
     }
+
+    // Install QmlWarningLogger
+    new Utils::QmlWarningLogger(d->qmlEngine);
 }
 
 TrayIconModel::~TrayIconModel()
