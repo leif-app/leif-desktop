@@ -19,6 +19,7 @@ class CarbonProcessorPrivate
     float lifetime;
     CarbonProcessor::CarbonUsageLevel usageLevel;
     IPower *powerInfo;
+    CarbonData cachedData;
 
     QTimer calculateTimer;
 
@@ -46,6 +47,7 @@ CarbonProcessor::CarbonProcessor(QObject *parent)
     checkTimer->setInterval(1000 * 60);
     checkTimer->setSingleShot(false);
     connect(checkTimer, &QTimer::timeout, this, &CarbonProcessor::calculateCarbon);
+    checkTimer->start();
     calculateCarbon();
 }
 
@@ -130,23 +132,29 @@ void CarbonProcessor::calculateCarbon()
     }
 
     float powerDraw = d->powerInfo->powerDrawInWatts();
-    CarbonData data = manager->carbonPerKiloWatt(settings->country(), settings->regionId());
+    CarbonData data = d->cachedData;
+    if(isOutOfDate(data))
+    {
+        DBG("Cached expired or invalid. Retrieving carbon data from plugin.");
+        data = manager->carbonPerKiloWatt(settings->country(), settings->regionId());
+    }
 
-    DBG(QString("Current power draw: %1.").arg(powerDraw));
-    DBG(QString("Received carbon data is: %1.").arg(data.isValid ? QStringLiteral("valid") : QStringLiteral("invali")));
+    INF(QString("Current power draw: %1.").arg(powerDraw));
+    INF(QString("Received carbon data is: %1.").arg(data.isValid ? QStringLiteral("valid") : QStringLiteral("invali")));
 
     if(data.isValid)
     {
         DBG(QString("Carbon usage from: %1.").arg(data.validFrom.toString()));
         DBG(QString("Carbon usage to: %1.").arg(data.validTo.toString()));
-        DBG(QString("Carbon usage is: %1.").arg(data.co2PerKiloWattHour));
+        DBG(QString("Carbon usage is: %1.").arg(data.co2PerkWhNow));
 
-        float carbon = (powerDraw * static_cast<float>(data.co2PerKiloWattHour)) / (60*1000);
+        float carbon = (powerDraw * static_cast<float>(data.co2PerkWhNow)) / (60*1000);
         DBG(QString("Calculated carbon usage is: %1").arg(carbon));
 
         setSessionCarbon(sessionCarbon() + carbon);
         setLifetimeCarbon(lifetimeCarbon() + carbon);
-        calculateUsageLevel(data.co2PerKiloWattHour);
+        calculateUsageLevel(data.co2PerkWhNow);
+        d->cachedData = data;
     }
 }
 
@@ -216,4 +224,19 @@ void CarbonProcessor::setCarbonUsageLevel(CarbonUsageLevel newLevel)
         d->usageLevel = newLevel;
         emit carbonUsageLevelChanged();
     }
+}
+
+bool CarbonProcessor::isOutOfDate(const CarbonData &data)
+{
+    if(!data.isValid)
+    {
+        return true;
+    }
+
+    if(QDateTime::currentDateTime() <= data.validTo)
+    {
+        return false;
+    }
+
+    return true;
 }

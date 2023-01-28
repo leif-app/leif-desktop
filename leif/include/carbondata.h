@@ -21,12 +21,25 @@
 struct CarbonData
 {
     inline CarbonData();
-    inline CarbonData(int _co2PerKiloWattHour, bool _isValid, const QString &_errorString, const QDateTime &_validFrom, const QDateTime &_validTo);
+    inline CarbonData(int _co2Now,
+                      int _co2Next,
+                      int _co2Later,
+                      bool _isValid,
+                      const QString &_errorString,
+                      const QDateTime &_validFrom,
+                      const QDateTime &_validTo);
 
-    inline static CarbonData ok(int _co2PerKiloWattHour, const QDateTime &_validFrom, const QDateTime &_validTo);
+    inline static CarbonData ok(int _co2Now,
+                                int _co2Next,
+                                int _co2Later,
+                                const QDateTime &_validFrom,
+                                const QDateTime &_validTo);
+
     inline static CarbonData error(const QString &_errorString);
 
-    int co2PerKiloWattHour;
+    int co2PerkWhNow;
+    int co2PerkWhNext;
+    int co2PerkWhLater;
     bool isValid;
     QString errorString;
     QDateTime validFrom;
@@ -34,11 +47,19 @@ struct CarbonData
 };
 
 CarbonData::CarbonData():
-    CarbonData(-1, false, QString(), QDateTime(), QDateTime())
+    CarbonData(-1, -1, -1, false, QString(), QDateTime(), QDateTime())
 {}
 
-CarbonData::CarbonData(int _co2PerKiloWattHour, bool _isValid, const QString &_errorString, const QDateTime &_validFrom, const QDateTime &_validTo):
-    co2PerKiloWattHour {_co2PerKiloWattHour},
+CarbonData::CarbonData(int _co2Now,
+                       int _co2Next,
+                       int _co2Later,
+                       bool _isValid,
+                       const QString &_errorString,
+                       const QDateTime &_validFrom,
+                       const QDateTime &_validTo):
+    co2PerkWhNow {_co2Now},
+    co2PerkWhNext {_co2Next},
+    co2PerkWhLater {_co2Later},
     isValid {_isValid},
     errorString {_errorString},
     validFrom {_validFrom},
@@ -46,15 +67,20 @@ CarbonData::CarbonData(int _co2PerKiloWattHour, bool _isValid, const QString &_e
 {}
 
 /* static */
-CarbonData CarbonData::ok(int _co2PerKiloWattHour, const QDateTime &_validFrom, const QDateTime &_validTo)
+CarbonData CarbonData::ok(int _co2Now,
+                          int _co2Next,
+                          int _co2Later,
+                          const QDateTime &_validFrom,
+                          const QDateTime &_validTo)
 {
-    return CarbonData(_co2PerKiloWattHour, true, QString(), _validFrom, _validTo);
+    return CarbonData(_co2Now, _co2Next, _co2Later, true, QString(),
+                      _validFrom, _validTo);
 }
 
 /* static */
 CarbonData CarbonData::error(const QString &_errorString)
 {
-    return CarbonData(-1, false, _errorString, QDateTime(), QDateTime());
+    return CarbonData(-1, -1, -1, false, _errorString, QDateTime(), QDateTime());
 }
 
 #endif // CARBONDATA_H

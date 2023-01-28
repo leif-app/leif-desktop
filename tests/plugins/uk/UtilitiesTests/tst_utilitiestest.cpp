@@ -145,7 +145,7 @@ void UtilitiesTest::fromApiResponse()
     CarbonData replyData = Utilities::fromApiResponse(flatHash);
 
     QVERIFY(replyData.isValid);
-    QCOMPARE(replyData.co2PerKiloWattHour, forecast);
+    QCOMPARE(replyData.co2PerkWhNow, forecast);
 
     if(from.isEmpty())
     {

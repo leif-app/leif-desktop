@@ -161,13 +161,15 @@ CarbonData Utilities::fromApiResponse(const QVariantHash &replyHash)
 
     QString fromStr = replyHash.value(QStringLiteral("from")).toString();
     QString toStr = replyHash.value(QStringLiteral("to")).toString();
-    int forecast = replyHash.value(QStringLiteral("forecast"), 0).toInt();
+    int forecastNow = replyHash.value(QStringLiteral("forecast"), 0).toInt();
+    int forecastNext = -1;
+    int forecastLater = -1;
 
     const QString dateTimeFormat = Utilities::dateTimeFormat();
     QDateTime from = fromStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(fromStr, dateTimeFormat).toTimeSpec(Qt::LocalTime);
     QDateTime to   = toStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(toStr, dateTimeFormat).toTimeSpec(Qt::LocalTime);
 
-    return CarbonData::ok(forecast, from, to);
+    return CarbonData::ok(forecastNow, forecastNext, forecastLater, from, to);
 }
 
 /**

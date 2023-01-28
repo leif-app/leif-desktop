@@ -2,6 +2,7 @@
 #define CARBONPROCESSOR_H
 
 #include <QObject>
+#include "carbondata.h"
 
 class CarbonProcessorPrivate;
 
@@ -38,6 +39,7 @@ private:
     void setSessionCarbon(float newSessionCarbon);
     void setLifetimeCarbon(float newLifetimeCarbon);
     void setCarbonUsageLevel(CarbonUsageLevel newLevel);
+    static bool isOutOfDate(const CarbonData &data);
 
 private:
     Q_DISABLE_COPY_MOVE(CarbonProcessor);
