@@ -137,6 +137,8 @@ void CarbonProcessor::calculateCarbon()
 
     if(data.isValid)
     {
+        DBG(QString("Carbon usage from: %1.").arg(data.validFrom.toString()));
+        DBG(QString("Carbon usage to: %1.").arg(data.validTo.toString()));
         DBG(QString("Carbon usage is: %1.").arg(data.co2PerKiloWattHour));
 
         float carbon = (powerDraw * static_cast<float>(data.co2PerKiloWattHour)) / (60*1000);

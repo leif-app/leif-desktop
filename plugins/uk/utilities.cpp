@@ -37,7 +37,7 @@ CarbonData Utilities::requestCarbonData(QNetworkAccessManager *network, int regi
     QUrl url = QString("https://api.carbonintensity.org.uk/regional/regionid/%1").arg(regionID);
     QNetworkReply *reply = network->get(QNetworkRequest(url));
 
-    // This quarantees that reply will be cleaned up no matter when and how
+    // This guarantees that reply will be cleaned up no matter when and how
     // we exit this method.
     auto cleanup = qScopeGuard([=]() { reply->deleteLater();});
 
@@ -164,8 +164,8 @@ CarbonData Utilities::fromApiResponse(const QVariantHash &replyHash)
     int forecast = replyHash.value(QStringLiteral("forecast"), 0).toInt();
 
     const QString dateTimeFormat = Utilities::dateTimeFormat();
-    QDateTime from = fromStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(fromStr, dateTimeFormat);
-    QDateTime to   = toStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(toStr, dateTimeFormat);
+    QDateTime from = fromStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(fromStr, dateTimeFormat).toTimeSpec(Qt::LocalTime);
+    QDateTime to   = toStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(toStr, dateTimeFormat).toTimeSpec(Qt::LocalTime);
 
     return CarbonData::ok(forecast, from, to);
 }
@@ -230,5 +230,5 @@ QVariantHash Utilities::flatJsonHash(const QJsonObject &object)
  */
 QString Utilities::dateTimeFormat()
 {
-    return QStringLiteral("yyyy-MM-ddThh:mmZ");
+    return QStringLiteral("yyyy-MM-ddThh:mmt");
 }

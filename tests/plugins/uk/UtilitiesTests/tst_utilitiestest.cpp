@@ -88,7 +88,7 @@ void UtilitiesTest::awaitSignalTimeout()
 
 void UtilitiesTest::dateTimeFormat()
 {
-    QCOMPARE(Utilities::dateTimeFormat(), QStringLiteral("yyyy-MM-ddThh:mmZ"));
+    QCOMPARE(Utilities::dateTimeFormat(), QStringLiteral("yyyy-MM-ddThh:mmt"));
 }
 
 void UtilitiesTest::flatJsonHash()

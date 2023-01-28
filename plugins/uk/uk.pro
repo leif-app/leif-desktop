@@ -30,15 +30,5 @@ INCLUDEPATH += ../../leif/include
 DISTFILES += \
     uk.json
 
-procopyplugin.target = ..\..\leif\release\plugins
-precopyplugin.commands = IF NOT EXIST $$procopyplugin.target MD $$procopyplugin.target
-
-copyplugin.commands = for %I in (uk.json release\uk.dll) do copy %I $$procopyplugin.target
-copyplugin.depends = precopyplugin
-
-QMAKE_EXTRA_TARGETS += copyplugin precopyplugin
-
 QMAKE_CLEAN *= ../../leif/release/plugins/uk.json \
                ../../leif/release/plugins/uk.dll
-
-POST_TARGETDEPS *= copyplugin
