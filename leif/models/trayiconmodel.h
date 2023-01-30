@@ -24,23 +24,17 @@ class TrayIconModel : public QObject
     Q_PROPERTY(int sessionCarbon READ sessionCarbon NOTIFY sessionCarbonChanged)
     Q_PROPERTY(int lifetimeCarbon READ lifetimeCarbon NOTIFY lifetimeCarbonChanged)
     Q_PROPERTY(CarbonProcessor::CarbonUsageLevel carbonUsageLevel READ carbonUsageLevel NOTIFY carbonUsageLevelChanged)
-    Q_PROPERTY(ChargeForecast chargeForecast READ chargeForecast WRITE setChargeForecast NOTIFY chargeForecastChanged)
+    Q_PROPERTY(CarbonProcessor::ChargeForecast chargeForecast READ chargeForecast NOTIFY chargeForecastChanged)
     Q_PROPERTY(bool configured READ configured NOTIFY configuredChanged)
 
 public:
-    enum ChargeForecast { ChargeNow, ChargeIn30, ChargeIn60, ChargeWhenNeeded };
-    Q_ENUM(ChargeForecast)
-
     explicit TrayIconModel(QObject *parent = nullptr);
     virtual ~TrayIconModel();
 
     int sessionCarbon() const;
     int lifetimeCarbon() const;
-
     CarbonProcessor::CarbonUsageLevel carbonUsageLevel() const;
-
-    ChargeForecast chargeForecast() const;
-    void setChargeForecast(ChargeForecast newChargeForecast);
+    CarbonProcessor::ChargeForecast chargeForecast() const;
 
     bool configured() const;
 

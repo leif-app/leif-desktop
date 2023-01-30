@@ -25,6 +25,7 @@ class CarbonModel : public QObject
     Q_PROPERTY(float sessionCarbon READ sessionCarbon NOTIFY sessionCarbonChanged)
     Q_PROPERTY(float lifetimeCarbon READ lifetimeCarbon NOTIFY lifetimeCarbonChanged)
     Q_PROPERTY(CarbonProcessor::CarbonUsageLevel carbonUsageLevel READ carbonUsageLevel NOTIFY carbonUsageLevelChanged)
+    Q_PROPERTY(CarbonProcessor::ChargeForecast chargeForecast READ chargeForecast NOTIFY chargeForecastChanged)
     QML_ELEMENT;
 
 public:
@@ -33,6 +34,7 @@ public:
     float sessionCarbon() const;
     float lifetimeCarbon() const;
     CarbonProcessor::CarbonUsageLevel carbonUsageLevel() const;
+    CarbonProcessor::ChargeForecast chargeForecast() const;
 
 public slots:
     void clearStats();
@@ -41,6 +43,7 @@ signals:
     void sessionCarbonChanged();
     void lifetimeCarbonChanged();
     void carbonUsageLevelChanged();
+    void chargeForecastChanged();
 };
 
 #endif // CARBONMODEL_H

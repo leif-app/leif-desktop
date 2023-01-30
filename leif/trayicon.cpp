@@ -201,9 +201,9 @@ QString TrayIcon::intensityLabel(CarbonProcessor::CarbonUsageLevel usageLevel)
     return intensity;
 }
 
-QString TrayIcon::chargeForecastLabel(TrayIconModel::ChargeForecast chargeForecast)
+QString TrayIcon::chargeForecastLabel(CarbonProcessor::ChargeForecast chargeForecast)
 {
-    static QHash<TrayIconModel::ChargeForecast, QString> label;
+    static QHash<CarbonProcessor::ChargeForecast, QString> label;
 
     if(label.contains(chargeForecast))
     {
@@ -214,19 +214,19 @@ QString TrayIcon::chargeForecastLabel(TrayIconModel::ChargeForecast chargeForeca
 
     switch(chargeForecast)
     {
-    case(TrayIconModel::ChargeNow):
+    case(CarbonProcessor::ChargeNow):
         str = tr("Charge now");
         break;
 
-    case(TrayIconModel::ChargeIn30):
+    case(CarbonProcessor::ChargeIn30):
         str = tr("Charge in 30 minutes");
         break;
 
-    case(TrayIconModel::ChargeIn60):
+    case(CarbonProcessor::ChargeIn60):
         str = tr("Charge in an hour or so");
         break;
 
-    case(TrayIconModel::ChargeWhenNeeded):
+    case(CarbonProcessor::ChargeWhenNeeded):
         str = tr("Charge when needed");
         break;
     }

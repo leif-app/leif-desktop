@@ -49,7 +49,6 @@ bool CarbonPlugin::load()
     Q_ASSERT(d.loader != nullptr);
 
     return d.loader->load();
-
 }
 
 bool CarbonPlugin::unload()

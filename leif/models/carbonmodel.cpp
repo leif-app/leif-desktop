@@ -80,6 +80,25 @@ CarbonProcessor::CarbonUsageLevel CarbonModel::carbonUsageLevel() const
 }
 
 /**
+ * @brief Returns the current charge forecast.
+ *
+ * The charge forecast, as represented by the CarbonProcessor::ChargeForecast
+ * value informs the user about the best time to charge the device.
+ *
+ * @return The charge forecast value as an CarbonProcessor::ChargeForecast value.
+ */
+CarbonProcessor::ChargeForecast CarbonModel::chargeForecast() const
+{
+    CarbonProcessor *carbon = CarbonProcessor::Instance();
+    if(carbon != nullptr)
+    {
+        return carbon->chargeForecast();
+    }
+
+    return CarbonProcessor::ChargeWhenNeeded;
+}
+
+/**
  * @brief Clears the stored life time session counter.
  *
  * This method clears the life time session carbon counter. All other instances

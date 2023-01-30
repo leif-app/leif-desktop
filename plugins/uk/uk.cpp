@@ -104,7 +104,10 @@ CarbonData Uk::carbonPerKiloWatt(const QLocale::Country country, const QString &
                                          "region: '%1'. It is unknown.").arg(region));
     }
 
-    return Utilities::requestCarbonData(d->network, regionCode(region));
+    QDateTime from = QDateTime::currentDateTimeUtc();
+    QDateTime to = from.addSecs(90 * 60);
+
+    return Utilities::requestCarbonData(d->network, regionCode(region), from, to);
 }
 
 /**

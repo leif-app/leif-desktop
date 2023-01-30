@@ -18,6 +18,7 @@ class CarbonProcessorPrivate
     float session;
     float lifetime;
     CarbonProcessor::CarbonUsageLevel usageLevel;
+    CarbonProcessor::ChargeForecast chargeForecast;
     IPower *powerInfo;
     CarbonData cachedData;
 
@@ -35,6 +36,7 @@ CarbonProcessor::CarbonProcessor(QObject *parent)
     d->session = 0.0;
     d->lifetime = 0.0;
     d->usageLevel = VeryHigh;
+    d->chargeForecast = ChargeWhenNeeded;
     d->powerInfo = PowerFactory::getPowerInterface();
 
     LeifSettings *settings = LeifSettings::Instance();
@@ -106,6 +108,13 @@ CarbonProcessor::CarbonUsageLevel CarbonProcessor::carbonUsageLevel() const
     return d->usageLevel;
 }
 
+CarbonProcessor::ChargeForecast CarbonProcessor::chargeForecast() const
+{
+    Q_ASSERT(d != nullptr);
+
+    return d->chargeForecast;
+}
+
 void CarbonProcessor::clearStats()
 {
     setSessionCarbon(0);
@@ -140,7 +149,7 @@ void CarbonProcessor::calculateCarbon()
     }
 
     INF(QString("Current power draw: %1.").arg(powerDraw));
-    INF(QString("Received carbon data is: %1.").arg(data.isValid ? QStringLiteral("valid") : QStringLiteral("invali")));
+    INF(QString("Received carbon data is: %1.").arg(data.isValid ? QStringLiteral("valid") : QStringLiteral("invalid")));
 
     if(data.isValid)
     {
@@ -153,12 +162,17 @@ void CarbonProcessor::calculateCarbon()
 
         setSessionCarbon(sessionCarbon() + carbon);
         setLifetimeCarbon(lifetimeCarbon() + carbon);
-        calculateUsageLevel(data.co2PerkWhNow);
+        setCarbonUsageLevel(calculateUsageLevel(data.co2PerkWhNow));
+        setChargeForecast(calculateChargeForecast(data));
         d->cachedData = data;
+    }
+    else
+    {
+        ERR(QString("Carbon data error: %1").arg(data.errorString));
     }
 }
 
-void CarbonProcessor::calculateUsageLevel(int co2PerkWh)
+CarbonProcessor::CarbonUsageLevel CarbonProcessor::calculateUsageLevel(int co2PerkWh)
 {
     DBG_CALLED;
 
@@ -166,31 +180,26 @@ void CarbonProcessor::calculateUsageLevel(int co2PerkWh)
 
     if(co2PerkWh <= 49)
     {
-        DBG("Carbon usage is very low.");
         newLevel = CarbonProcessor::VeryLow;
     }
     else if(co2PerkWh <= 129)
     {
-        DBG("Carbon usage is low.");
         newLevel = CarbonProcessor::Low;
     }
     else if(co2PerkWh <= 209)
     {
-        DBG("Carbon usage is medium.");
         newLevel = CarbonProcessor::Medium;
     }
     else if(co2PerkWh <= 310)
     {
-        DBG("Carbon usage is high.");
         newLevel = CarbonProcessor::High;
     }
     else
     {
-        DBG("Carbon usage is very high.");
         newLevel = CarbonProcessor::VeryHigh;
     }
 
-    setCarbonUsageLevel(newLevel);
+    return newLevel;
 }
 
 void CarbonProcessor::setSessionCarbon(float newSessionCarbon)
@@ -219,6 +228,8 @@ void CarbonProcessor::setCarbonUsageLevel(CarbonUsageLevel newLevel)
 {
     Q_ASSERT(d != nullptr);
 
+    INF(QString("New cabon usage level is: %1").arg(newLevel));
+
     if(d->usageLevel != newLevel)
     {
         d->usageLevel = newLevel;
@@ -226,6 +237,19 @@ void CarbonProcessor::setCarbonUsageLevel(CarbonUsageLevel newLevel)
     }
 }
 
+void CarbonProcessor::setChargeForecast(ChargeForecast newChargeForecast)
+{
+    Q_ASSERT(d != nullptr);
+
+    INF(QString("New charge forecast: %1.").arg(newChargeForecast));
+
+    if(d->chargeForecast != newChargeForecast)
+    {
+        d->chargeForecast = newChargeForecast;
+        emit chargeForecastChanged();
+    }
+}
+/* static */
 bool CarbonProcessor::isOutOfDate(const CarbonData &data)
 {
     if(!data.isValid)
@@ -239,4 +263,30 @@ bool CarbonProcessor::isOutOfDate(const CarbonData &data)
     }
 
     return true;
+}
+/* static */
+CarbonProcessor::ChargeForecast CarbonProcessor::calculateChargeForecast(const CarbonData &data)
+{
+    if(!data.isValid)
+    {
+        return ChargeWhenNeeded;
+    }
+
+    int now = data.co2PerkWhNow;
+    int next = data.co2PerkWhNext;
+    int later = data.co2PerkWhLater;
+
+    // Now is less than anytime in near future
+    if(now <= next && now < later)
+    {
+        return ChargeNow;
+    } else if(now > next)
+    {
+        return ChargeIn30;
+    } else if(now > later)
+    {
+        return ChargeIn60;
+    }
+
+    return ChargeWhenNeeded;
 }

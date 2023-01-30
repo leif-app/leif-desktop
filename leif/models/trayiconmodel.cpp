@@ -9,7 +9,6 @@ class TrayIconModelPrivate
     TrayIconModelPrivate();
     ~TrayIconModelPrivate();
 
-    TrayIconModel::ChargeForecast chargeForecast;
     QQmlApplicationEngine *qmlEngine;
     SettingsModel *settingsModel;
     CarbonModel *carbonModel;
@@ -18,7 +17,6 @@ class TrayIconModelPrivate
 };
 
 TrayIconModelPrivate::TrayIconModelPrivate():
-    chargeForecast{TrayIconModel::ChargeWhenNeeded},
     qmlEngine{new QQmlApplicationEngine},
     settingsModel{new SettingsModel},
     carbonModel{new CarbonModel}
@@ -43,6 +41,7 @@ TrayIconModel::TrayIconModel(QObject *parent /* = nullptr */):
     connect(d->carbonModel, &CarbonModel::sessionCarbonChanged, this, &TrayIconModel::sessionCarbonChanged);
     connect(d->carbonModel, &CarbonModel::lifetimeCarbonChanged, this, &TrayIconModel::lifetimeCarbonChanged);
     connect(d->carbonModel, &CarbonModel::carbonUsageLevelChanged, this, &TrayIconModel::carbonUsageLevelChanged);
+    connect(d->carbonModel, &CarbonModel::chargeForecastChanged, this, &TrayIconModel::chargeForecastChanged);
     connect(d->settingsModel, &SettingsModel::countryChanged, this, &TrayIconModel::configuredChanged);
     connect(d->settingsModel, &SettingsModel::regionIdChanged, this, &TrayIconModel::configuredChanged);
 
@@ -102,22 +101,16 @@ CarbonProcessor::CarbonUsageLevel TrayIconModel::carbonUsageLevel() const
     return d->carbonModel->carbonUsageLevel();
 }
 
-TrayIconModel::ChargeForecast TrayIconModel::chargeForecast() const
+CarbonProcessor::ChargeForecast TrayIconModel::chargeForecast() const
 {
     Q_ASSERT(d != nullptr);
 
-    return d->chargeForecast;
-}
+    if(d->carbonModel == nullptr)
+    {
+        return CarbonProcessor::ChargeWhenNeeded;
+    }
 
-void TrayIconModel::setChargeForecast(ChargeForecast newChargeForecast)
-{
-    Q_ASSERT(d != nullptr);
-
-    if (d->chargeForecast == newChargeForecast)
-        return;
-
-    d->chargeForecast = newChargeForecast;
-    emit chargeForecastChanged();
+    return d->carbonModel->chargeForecast();
 }
 
 void TrayIconModel::resetStats()

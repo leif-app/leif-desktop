@@ -18,23 +18,33 @@
  * @brief Requests the carbon data from the national grid API.
  *
  * For this to happen we need to provide this static method with a valid
- * \p network access manager and a \p regionID.
+ * \p network access manager,a \p regionID, a \p from and a \p to date.
  *
  * \remark This method blocks until the reply is ready, but nor longer than 5
  * seconds.
  *
  * @param network The network access manager to use for the call.
  * @param regionID The region ID to ask the API for.
+ * @param from The start date for the request.
+ * @param to The to date for the request.
  * @return The carbon data as a CarbonData object.
  */
-CarbonData Utilities::requestCarbonData(QNetworkAccessManager *network, int regionID)
+CarbonData Utilities::requestCarbonData(QNetworkAccessManager *network,
+                                        int regionID,
+                                        const QDateTime &from,
+                                        const QDateTime &to)
 {
     if(network == nullptr)
     {
         return CarbonData::error(QStringLiteral("No network object provided."));
     }
 
-    QUrl url = QString("https://api.carbonintensity.org.uk/regional/regionid/%1").arg(regionID);
+    QString format = QStringLiteral("yyyy-MM-ddThh:mm");
+    QString fromString = from.toString(format) + "Z";
+    QString toString = to.toString(format) + "Z";
+
+    QString address = QStringLiteral("https://api.carbonintensity.org.uk/regional/intensity/%1/%2/regionid/%3");
+    QUrl url = QString(address).arg(fromString, toString).arg(regionID);
     QNetworkReply *reply = network->get(QNetworkRequest(url));
 
     // This guarantees that reply will be cleaned up no matter when and how
@@ -49,8 +59,8 @@ CarbonData Utilities::requestCarbonData(QNetworkAccessManager *network, int regi
 
     if(reply->error() != QNetworkReply::NoError)
     {
-        QString msg("Network request could not be processed. Error: %1.");
-        msg = msg.arg(reply->error());
+        QString msg("Network request could not be processed. Error: %1(%2).");
+        msg = msg.arg(reply->error()).arg(reply->errorString());
 
         return CarbonData::error(msg);
     }
@@ -152,18 +162,35 @@ CarbonData Utilities::fromApiError(const QVariantHash &errorHash)
  * \return The CarbonData reply.
  */
 /* static */
-CarbonData Utilities::fromApiResponse(const QVariantHash &replyHash)
+CarbonData Utilities::fromApiResponse(const QMultiHash<QString, QVariant> &replyHash)
 {
     if(replyHash.isEmpty())
     {
         return CarbonData::error("Response data seems corrupt.");
     }
 
+    QVariantList forecastList = replyHash.values(QStringLiteral("forecast"));
+
     QString fromStr = replyHash.value(QStringLiteral("from")).toString();
     QString toStr = replyHash.value(QStringLiteral("to")).toString();
-    int forecastNow = replyHash.value(QStringLiteral("forecast"), 0).toInt();
+    int forecastNow = -1;
     int forecastNext = -1;
     int forecastLater = -1;
+
+    if(!forecastList.isEmpty())
+    {
+        forecastNow = forecastList.first().toInt();
+    }
+
+    if(forecastList.count() >= 2)
+    {
+        forecastNext = forecastList.at(1).toInt();
+    }
+
+    if(forecastList.count() >= 3)
+    {
+        forecastLater = forecastList.at(2).toInt();
+    }
 
     const QString dateTimeFormat = Utilities::dateTimeFormat();
     QDateTime from = fromStr.isEmpty() ? QDateTime::currentDateTime() : QDateTime::fromString(fromStr, dateTimeFormat).toTimeSpec(Qt::LocalTime);
@@ -183,12 +210,12 @@ CarbonData Utilities::fromApiResponse(const QVariantHash &replyHash)
  * @return A variant hash with all key value pairs as a QVariantHash object.
  */
 /* static */
-QVariantHash Utilities::flatJsonHash(const QJsonObject &object)
+QMultiHash<QString, QVariant> Utilities::flatJsonHash(const QJsonObject &object)
 {
     QList<QVariantMap> check;
     check << object.toVariantMap();
 
-    QVariantHash flatHash;
+    QMultiHash<QString, QVariant> flatHash;
 
     for(int i = 0; i < check.count(); i++)
     {
@@ -199,7 +226,6 @@ QVariantHash Utilities::flatJsonHash(const QJsonObject &object)
         for(const QString &key : keys)
         {
             QVariant value = checkMap.value(key);
-            qDebug() << value.type();
 
             if(value.type() == QVariant::Type::Map)
             {

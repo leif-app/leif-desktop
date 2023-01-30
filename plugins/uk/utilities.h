@@ -53,11 +53,11 @@ public:
         waitLoop.exec();
     }
 
-    static CarbonData requestCarbonData(QNetworkAccessManager *network, int regionID);
+    static CarbonData requestCarbonData(QNetworkAccessManager *network, int regionID, const QDateTime &from, const QDateTime &to);
     static CarbonData fromByteArray(const QByteArray &data);
     static CarbonData fromApiError(const QVariantHash &errorHash);
-    static CarbonData fromApiResponse(const QVariantHash &replyHash);
-    static QVariantHash flatJsonHash(const QJsonObject &object);
+    static CarbonData fromApiResponse(const QMultiHash<QString, QVariant> &replyHash);
+    static QMultiHash<QString, QVariant> flatJsonHash(const QJsonObject &object);
     static QString dateTimeFormat();
 };
 

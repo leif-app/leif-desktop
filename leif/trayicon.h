@@ -36,7 +36,7 @@ private:
     static QString totalCarbonLabel(double value);
     static QString carbonLabel(const QString &labelText, double value);
     static QString intensityLabel(CarbonProcessor::CarbonUsageLevel usageLevel);
-    static QString chargeForecastLabel(TrayIconModel::ChargeForecast chargeForecast);
+    static QString chargeForecastLabel(CarbonProcessor::ChargeForecast chargeForecast);
 
     static QString co2Unit();
     static QString usageLevelToString(CarbonProcessor::CarbonUsageLevel usageLevel);
