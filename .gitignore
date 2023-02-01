@@ -102,3 +102,8 @@ leif.pro.user
 leif/qml_qmlcache.qrc
 tests/plugins/uk/UtilitiesTests/target_wrapper.bat
 installer/msi/Leif/.vs/Leif/v16/.suo
+leif/leif.qmltypes
+leif/leif_metatypes.json
+leif/leif_qmltyperegistrations.cpp
+leif/leif_resource.rc
+plugins/uk/uk_resource.rc

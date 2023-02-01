@@ -57,8 +57,7 @@
 
 			<Directory Id="dir6187EC49EBE44981B11C6837184CE415" Name="plugins">
 				<Component Id="cmpCDB83F3416CD4F5BAD8469DE17DAFDD2" Guid="{D5D47D22-DA3E-44BE-8DA9-1ED64FEF5082}">
-					<File Id="fil8C6E728264414AD3BCBED151D13C616A" KeyPath="yes" Source="..\..\..\..\leif\release\deploy\plugins\uk.dll" />
-					<File Id="filDC445D5233604CF5BEA619245C88EA92" KeyPath="no" Source="..\..\..\..\leif\release\deploy\plugins\uk.json" />
+					<File Id="fil8C6E728264414AD3BCBED151D13C616A" KeyPath="yes" Source="..\..\..\..\leif\release\plugins\uk1.dll" />
 				</Component>
 			</Directory>
 

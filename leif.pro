@@ -1,3 +1,6 @@
 TEMPLATE = subdirs
 
-SUBDIRS = leif plugins tests
+SUBDIRS = plugins leif tests
+
+leif.depends = plugins
+test.depeds = leif
