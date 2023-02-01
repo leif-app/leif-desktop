@@ -7,4 +7,7 @@
 		                - Changed the CarbonData, it contains the forcast values now, next and later.
 						- Refactores the UK plugin and the leif code to handle the new CarbonData structure.
 						- Added caching to the CarbonProcessor to prohibit unneccassary data requiest from the API.
+29.01.2023 V1.0.0.5 DS: - Fixed discharge power consumption calculations.
+01.02.2023 V1.0.0.6 DS: - Added discharge consumption to charge consumption.
+                        - Added filtered logging and the predictive file logger.						
 		                
