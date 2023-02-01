@@ -1,5 +1,6 @@
 #include <QTimer>
 
+#include "leifsettings.h"
 #include "powerinfobase.h"
 #include "log/log.h"
 
@@ -26,7 +27,7 @@ PowerInfoBasePrivate::PowerInfoBasePrivate():
     currentCapacity {0},
     currentChargeRate {0},
     currentDischargeRate {0},
-    avarageDischargeRate {0},
+    avarageDischargeRate {LeifSettings::Instance()->averageDischargeRate()},
     state {PowerInfoBase::Unknown}
 {}
 
@@ -35,7 +36,7 @@ PowerInfoBase::PowerInfoBase(QObject *parent /* = nullptr */):
     d {new PowerInfoBasePrivate}
 {
     QTimer *checkTimer = new QTimer(this);
-    checkTimer->setInterval(d->checkIntervalInMinutes * 1000);
+    checkTimer->setInterval(d->checkIntervalInMinutes * 1000 * 60);
     checkTimer->setSingleShot(false);
     connect(checkTimer, &QTimer::timeout, this, &PowerInfoBase::checkLevels);
     checkTimer->start();
@@ -43,6 +44,8 @@ PowerInfoBase::PowerInfoBase(QObject *parent /* = nullptr */):
 
 PowerInfoBase::~PowerInfoBase()
 {
+    LeifSettings::Instance()->saveAverageDischargeRate(d->avarageDischargeRate);
+
     delete d;
     d = nullptr;
 }
@@ -94,8 +97,8 @@ float PowerInfoBase::powerDrawInWatts()
         break;
     }
 
-    DBG(QString("Detected consumption: %1.").arg(consumption));
-    return consumption;
+    DBG(QString("Detected consumption: %1W.").arg(consumption/1000));
+    return consumption / 1000;
 }
 
 void PowerInfoBase::checkLevels()
@@ -109,15 +112,31 @@ void PowerInfoBase::checkLevels()
     if(state() == PowerInfoBase::Discharging)
     {
         DBG("Discharging. Checking discharge rate.");
-        if(d->currentDischargeRate == 0)
+        if(d->currentDischargeRate <= 0)
         {
-            DBG("Discharge rate is zero.");
+            DBG("Discharge rate not available. Calculating...");
             if(d->lastCapacity > 0)
             {
                 DBG(QString("Last capacity greater than zero (%1).").arg(d->lastCapacity));
-                d->avarageDischargeRate = d->lastCapacity - d->currentCapacity;
+                int dischargeRate = ((d->lastCapacity - d->currentCapacity) * 60) / d->checkIntervalInMinutes;
 
-                DBG(QString("AVGDischargeRate = %1 - %2").arg(d->lastCapacity).arg(d->currentChargeRate));
+                if(d->avarageDischargeRate == 0)
+                {
+                    d->avarageDischargeRate = dischargeRate;
+                }
+                else
+                {
+                    d->avarageDischargeRate = (d->avarageDischargeRate + dischargeRate) / 2;
+                }
+
+                DBG(QString("AVG DischargeRate = %1 - %2").arg(d->lastCapacity).arg(d->currentCapacity));
+                DBG(QString("AVG DischargeRate = %1mWh").arg(d->avarageDischargeRate));
+
+                DBG(QString("AVG. discharge conspumption is: %1W").arg(d->avarageDischargeRate / 1000));
+            }
+            else
+            {
+                DBG("Last capacity not set yet. Saving now.");
             }
 
             d->lastCapacity = d->currentCapacity;
@@ -143,13 +162,11 @@ void PowerInfoBase::updateState()
         return;
     }
 
-    /*
     if(batteryFullyCharged())
     {
         d->state = PowerInfoBase::FullyCharged;
         return;
     }
-    */
 
     if(batteryCharging())
     {
@@ -175,12 +192,6 @@ float PowerInfoBase::avarageDischargeConsumption()
 
     Q_ASSERT(d != nullptr);
 
-    if(d->currentDischargeRate > 0 )
-    {
-        DBG(QString("Current discharge rate is: %1.").arg(d->currentDischargeRate));
-        return d->currentDischargeRate;
-    }
-
     DBG(QString("Returning avarage discharge rate: %1.").arg(d->avarageDischargeRate));
     return d->avarageDischargeRate;
 }
@@ -191,15 +202,17 @@ float PowerInfoBase::chargeConsumption()
 
     Q_ASSERT(d != nullptr);
 
-    DBG(QString("Returning charge consumption: %1.").arg(d->currentChargeRate / 1000));
-    return d->currentChargeRate / 1000;
+    int consumption = d->currentChargeRate + avarageDischargeConsumption();
+
+    DBG(QString("Returning charge consumption: %1mW.").arg(consumption));
+    return consumption;
 }
 
 
 float PowerInfoBase::noBatteryPowerEstimate()
 {
     DBG_CALLED;
-    DBG("Returning 200 as a no battery power estimate.");
+    DBG("Returning 60 as a no battery power estimate.");
 
-    return 200;
+    return 60;
 }

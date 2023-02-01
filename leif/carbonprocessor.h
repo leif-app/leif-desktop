@@ -40,8 +40,6 @@ private slots:
     void calculateCarbon();
     CarbonProcessor::CarbonUsageLevel calculateUsageLevel(int co2PerkWh);
 
-
-
 private:
     void setSessionCarbon(float newSessionCarbon);
     void setLifetimeCarbon(float newLifetimeCarbon);

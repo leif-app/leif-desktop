@@ -7,7 +7,7 @@ copyssllib.commands = copy $$system_path($$[QT_INSTALL_PREFIX]/../../Tools/OpenS
 procopyplugin.target = $$system_path($$shadowed(../$$BINPATH/plugins))
 precopyplugin.commands = IF NOT EXIST $$procopyplugin.target MD $$procopyplugin.target
 
-copyplugin.commands = copy $$system_path($$shadowed(../../plugins/uk/$$BINPATH/uk.dll)) $$procopyplugin.target
+copyplugin.commands = copy $$system_path($$shadowed(../../plugins/uk/$$BINPATH/uk1.dll)) $$procopyplugin.target
 copyplugin.depends = precopyplugin
 
 QMAKE_EXTRA_TARGETS += copyplugin precopyplugin copyssllib pathtest

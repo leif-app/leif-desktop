@@ -29,6 +29,7 @@ Log::LogManager::~LogManager()
 }
 
 void Log::LogManager::logMessage(const QString &file,
+                                 const QString &methodName,
                                  const int &codeLine,
                                  const MessageType &type,
                                  const QString &message)
@@ -37,7 +38,7 @@ void Log::LogManager::logMessage(const QString &file,
 
     for(int i = 0; i < d->logger.count(); ++i)
     {
-        d->logger.at(i)->logMessage(file, codeLine, type, message);
+        d->logger.at(i)->logMessage(file, methodName, codeLine, type, message);
     }
 }
 

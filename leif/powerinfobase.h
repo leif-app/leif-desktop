@@ -29,7 +29,6 @@ protected:
     virtual int dischargeRate() = 0;
     virtual int currentCapacity() = 0;
 
-
 private slots:
     void checkLevels();
 

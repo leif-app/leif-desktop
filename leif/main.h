@@ -19,6 +19,4 @@ void loadTranslations(QTranslator *translator);
 void setStyleSheet();
 void cleanup();
 
-
-
 #endif // MAIN_H

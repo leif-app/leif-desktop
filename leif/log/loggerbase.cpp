@@ -3,16 +3,18 @@
 #include "loggerbase.h"
 
 void Log::LoggerBase::logMessage(const QString &file,
+                                 const QString &methodName,
                                  const int &codeLine,
                                  const MessageType &type,
                                  const QString &message)
 {
-    QString toLog = makeMessage(file, codeLine, type, message);
+    QString toLog = makeMessage(file, methodName, codeLine, type, message);
 
     logDigestedMessage(toLog);
 }
 
 QString Log::LoggerBase::makeMessage(const QString &file,
+                                     const QString &methodName,
                                      const int &codeLine,
                                      const MessageType &type,
                                      const QString &message)
@@ -21,17 +23,31 @@ QString Log::LoggerBase::makeMessage(const QString &file,
 
     QString digestedMessage = format.arg(timeStamp(),
                                          typeToString(type),
-                                         location(file, codeLine),
+                                         location(file, methodName, codeLine),
                                          message);
 
     return digestedMessage;
 }
 
-QString Log::LoggerBase::location(const QString &file, const int &codeLine)
+QString Log::LoggerBase::location(const QString &file,
+                                  const QString &methodName,
+                                  const int &codeLine)
 {
-    QString format = QStringLiteral("%1:%2");
+    QString format = QStringLiteral("%1:%2/%3");
 
-    QString locationString = format.arg(file.right(60), QString::number(codeLine));
+    int index = file.lastIndexOf('\\');
+    if(index < 0)
+    {
+        index = 30;
+    }
+    else
+    {
+        index = file.length() - index;
+    }
+
+    QString locationString = format.arg(file.right(index),
+                                        QString::number(codeLine),
+                                        methodName);
 
     return locationString;
 }

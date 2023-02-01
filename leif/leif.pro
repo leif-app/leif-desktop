@@ -7,11 +7,15 @@ QT += quick widgets
 SOURCES += \
         carbonprocessor.cpp \
         leifsettings.cpp \
+        log/consolelogger.cpp \
         log/filelogger.cpp \
         log/iodevicelogger.cpp \
+        log/logfilterbase.cpp \
+        log/logfilterbyfile.cpp \
         log/loggerbase.cpp \
         log/logmanager.cpp \
         log/logsystem.cpp \
+        log/predictivelogger.cpp \
         models/countrymodel.cpp \
         models/regionmodel.cpp \
         models/settingsmodel.cpp \
@@ -65,16 +69,20 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     carbonprocessor.h \
     leifsettings.h \
+    log/consolelogger.h \
     log/filelogger.h \
     log/ilogger.h \
     log/ilogmanager.h \
     log/iodevicelogger.h \
     log/log.h \
     log/log_internal.h \
+    log/logfilterbase.h \
+    log/logfilterbyfile.h \
     log/loggerbase.h \
     log/logmanager.h \
     log/logsystem.h \
     log/messagetype.h \
+    log/predictivelogger.h \
     models/countrymodel.h \
     models/regionmodel.h \
     models/settingsmodel.h \

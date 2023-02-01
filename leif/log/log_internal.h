@@ -3,6 +3,6 @@
 
 #include "logsystem.h"
 
-#define LOG(type, message) Log::LogSystem::logManager()->logMessage(__FILE__, __LINE__, type, message)
+#define LOG(type, message) Log::LogSystem::logManager()->logMessage(__FILE__, __FUNCTION__, __LINE__, type, message)
 
 #endif // LOG_INTERNAL_H

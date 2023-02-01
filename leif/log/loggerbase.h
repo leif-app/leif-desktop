@@ -12,6 +12,7 @@ public:
     virtual ~LoggerBase() = default;
 
     virtual void logMessage(const QString &file,
+                            const QString &methodName,
                             const int &codeLine,
                             const MessageType &type,
                             const QString &message) override;
@@ -19,12 +20,17 @@ public:
 protected:
     virtual void logDigestedMessage(const QString &digestedMessage) = 0;
 
-private:
     static QString makeMessage(const QString &file,
+                               const QString &methodName,
                                const int &codeLine,
                                const MessageType &type,
                                const QString &message);
-    static QString location(const QString &file, const int &codeLine);
+
+private:
+    static QString location(const QString &file,
+                            const QString &methodName,
+                            const int &codeLine);
+
     static QString timeStamp();
     static QString typeToString(const MessageType &type);
 };

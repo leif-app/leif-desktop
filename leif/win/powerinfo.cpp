@@ -47,7 +47,7 @@ bool PowerInfoHelper::batteryFullyCharged(PSYSTEM_BATTERY_STATE pBatteryState)
         return false;
     }
 
-    if(pBatteryState->Rate != BATTERY_UNKNOWN_RATE && pBatteryState->Rate == 0)
+    if(pBatteryState->Rate != BATTERY_UNKNOWN_RATE || pBatteryState->Rate == 0)
     {
         return true;
     }

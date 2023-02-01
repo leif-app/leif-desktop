@@ -20,10 +20,12 @@ public:
     void saveCountry(const QLocale::Country &country);
     void saveRegionId(const QString &regionId);
     void saveIconContrastMode(bool iconContrastMode);
+    void saveAverageDischargeRate(int averageDischargeRate);
 
     QLocale::Country country() const;
     QString regionId() const;
     bool iconContrastMode() const;
+    int averageDischargeRate() const;
 
     void saveLifetimeCarbon(float lifeTime);
     float lifeTimeCarbon() const;
@@ -34,6 +36,7 @@ signals:
     void regionIdChanged(const QString &regionId);
     void lifeTimeCarbonChanged(float lifeTime);
     void iconContrastModeChanged(bool iconContrastMode);
+    void averageDischargeRateChanged(int averageDischargeRate);
 
 private:
     Q_DISABLE_COPY_MOVE(LeifSettings);

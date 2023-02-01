@@ -6,6 +6,23 @@ import Leif 1.0
 BasePage {
     stateShownIn: "STATUS"
 
+    property real sessionDisplay: carbonModel.sessionCarbon
+    property real lifetimeDisplay: carbonModel.lifetimeCarbon
+
+    Behavior on sessionDisplay {
+        NumberAnimation {
+            duration: 1000
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    Behavior on lifetimeDisplay {
+        NumberAnimation {
+            duration: 1000
+            easing.type: Easing.InOutQuad
+        }
+    }
+
     CarbonModel {
         id: carbonModel
     }
@@ -28,7 +45,7 @@ BasePage {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 CenteredText {
-                    text: carbonModel.sessionCarbon.toFixed(2)
+                    text: sessionDisplay.toFixed(2)
                     font.pointSize: 40
                     color: "#FE2831"
                 }
@@ -55,7 +72,7 @@ BasePage {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 CenteredText {
-                    text: carbonModel.lifetimeCarbon.toFixed(1)
+                    text: lifetimeDisplay.toFixed(1)
                     font.pointSize: 40
                 }
 

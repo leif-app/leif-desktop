@@ -13,8 +13,12 @@ public:
     LogManager();
     virtual ~LogManager();
 
-    virtual void logMessage(const QString &file, const int &codeLine,
-                            const MessageType &type, const QString &message) override;
+    virtual void logMessage(const QString &file,
+                            const QString &methodName,
+                            const int &codeLine,
+                            const MessageType &type,
+                            const QString &message) override;
+
     virtual void registerLogger(ILogger *logger) override;
 
 private:

@@ -21,7 +21,12 @@
 #include "leifsettings.h"
 
 #include "log/log.h"
-#include "log/filelogger.h"
+#include "log/predictivelogger.h"
+
+#ifdef _DEBUG
+#include "log/consolelogger.h"
+#include "log/logfilterbyfile.h"
+#endif // ! _DEBUG
 
 int main(int argc, char *argv[])
 {
@@ -41,7 +46,11 @@ int main(int argc, char *argv[])
 #endif
 
     // Initialize Log System
-    Log::LogSystem::logManager()->registerLogger(new Log::FileLogger);
+    Log::LogSystem::logManager()->registerLogger(new Log::PredictiveLogger);
+
+#ifdef _DEBUG
+    Log::LogSystem::logManager()->registerLogger(new Log::LogFilterByFile(QStringLiteral("powerinfobase.cpp"), new Log::ConsoleLogger));
+#endif
 
     INF("===============================");
     INF("Leif application is starting...");

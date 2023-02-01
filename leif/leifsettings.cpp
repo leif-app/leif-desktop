@@ -9,6 +9,7 @@ class LeifSettingsPrivate
     static QString RegionKey;
     static QString LifeTimeCarbonKey;
     static QString IconContrastModeKey;
+    static QString AvgDischargeRateKey;
 
     static int toInt(const QVariant &value, int defaultValue);
     static float toFloat(const QVariant &value, float defaultValue);    
@@ -21,6 +22,7 @@ QString LeifSettingsPrivate::CountryKey = QStringLiteral("COUNTRY");
 QString LeifSettingsPrivate::RegionKey = QStringLiteral("REGION");
 QString LeifSettingsPrivate::LifeTimeCarbonKey = QStringLiteral("LIFECARBON");
 QString LeifSettingsPrivate::IconContrastModeKey = QStringLiteral("ICONCONTRASTMODE");
+QString LeifSettingsPrivate::AvgDischargeRateKey = QStringLiteral("AVGDISCHARGERATE");
 
 int LeifSettingsPrivate::toInt(const QVariant &value, int defaultValue)
 {
@@ -108,6 +110,15 @@ void LeifSettings::saveIconContrastMode(bool iconContrastMode)
     emit iconContrastModeChanged(iconContrastMode);
 }
 
+void LeifSettings::saveAverageDischargeRate(int averageDischargeRate)
+{
+    QSettings settings;
+    settings.setValue(LeifSettingsPrivate::AvgDischargeRateKey,
+                      averageDischargeRate);
+
+    emit averageDischargeRateChanged(averageDischargeRate);
+}
+
 QLocale::Country LeifSettings::country() const
 {
     QSettings settings;
@@ -128,6 +139,13 @@ bool LeifSettings::iconContrastMode() const
     QSettings settings;
 
     return settings.value(LeifSettingsPrivate::IconContrastModeKey).toBool();
+}
+
+int LeifSettings::averageDischargeRate() const
+{
+    QSettings settings;
+
+    return settings.value(LeifSettingsPrivate::AvgDischargeRateKey).toInt();
 }
 
 void LeifSettings::saveLifetimeCarbon(float lifeTime)

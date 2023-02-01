@@ -32,3 +32,5 @@ DISTFILES += \
 
 QMAKE_CLEAN *= ../../leif/release/plugins/uk.json \
                ../../leif/release/plugins/uk.dll
+
+include('pri/appinfo.pri')

@@ -13,8 +13,11 @@ class ILogger
 public:
     virtual ~ILogger() = default;
 
-    virtual void logMessage(const QString &file, const int &codeLine,
-                            const MessageType &type, const QString &message) = 0;
+    virtual void logMessage(const QString &file,
+                            const QString &methodName,
+                            const int &codeLine,
+                            const MessageType &type,
+                            const QString &message) = 0;
 };
 
 }
