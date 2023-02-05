@@ -4,6 +4,8 @@
 		<DirectoryRef Id="INSTALLFOLDER">
 			<Component Id="cmp27E4072622A14AF0916AF1DCACE6D7B5" Guid="{5477A172-9A81-4128-B1BB-BB0DC7DA11A0}">
 				<File Id="filDAA1EF6C60744F2D8A8F0373FC230C0F" KeyPath="yes" Source="..\..\..\..\leif\release\leif.exe" />
+				<File Id="filE6B2ADFC01CB479A9776AA75D1B3EAA3" KeyPath="no" Source="..\..\..\..\leif\release\libcrypto-1_1.dll" />
+				<File Id="fil5B93A4EAE3884A6085493081A14E7A36" KeyPath="no" Source="..\..\..\..\leif\release\libssl-1_1.dll" />
 				<File Id="fil26C3B6466B7D48FC9EDBE45F273039A7" KeyPath="no" Source="..\..\..\..\leif\release\deploy\d3dcompiler_47.dll" />
 				<File Id="filD46CA7F353D04AFCBB051581CBE19DCB" KeyPath="no" Source="..\..\..\..\leif\release\deploy\libEGL.dll" />
 				<File Id="filA058AF09536F43769D79366D5EB7EC98" KeyPath="no" Source="..\..\..\..\leif\release\deploy\libGLESv2.dll" />
