@@ -10,6 +10,10 @@ QIODevice *Log::FileLogger::openDevice()
     {
         return logFile;
     }
+    else
+    {
+        qWarning("Could not open the logfile.");
+    }
 
     delete logFile;
     logFile = nullptr;

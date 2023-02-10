@@ -15,7 +15,7 @@ BasePage {
         }
 
         CenteredText {
-            text: qsTr("Desktop App for\nWindows version") + " " + Qt.application.version
+            text: qsTr("Desktop App\nVersion") + " " + Qt.application.version
             lineHeight: 1.5
             horizontalAlignment: Text.AlignHCenter
         }

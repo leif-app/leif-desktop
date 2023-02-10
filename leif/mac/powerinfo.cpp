@@ -40,7 +40,7 @@ bool PowerInfo::hasBattery()
         prop = nullptr;
     }
 
-    if(isBatteryInstalled) qDebug("Battery is loaded");
+    if(isBatteryInstalled) qDebug("Battery is installed.");
     return isBatteryInstalled;
 }
 
@@ -124,7 +124,7 @@ int PowerInfo::chargeRate()
     }
 
     qDebug("Charge rate is:");
-    qDebug(QString::number(adapterPower).toLatin1().constData());
+    qDebug("%d", adapterPower);
     return adapterPower;
 }
 

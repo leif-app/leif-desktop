@@ -13,6 +13,7 @@
 
 class CarbonProcessorPrivate
 {
+private:
     static CarbonProcessor *Instance;
 
     float session;
