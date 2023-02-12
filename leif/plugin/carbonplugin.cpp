@@ -1,7 +1,10 @@
 #include <QDir>
 #include <QPluginLoader>
 
+#include "log/log.h"
+
 #include "carbonplugin.h"
+
 
 CarbonPlugin::CarbonPlugin(const QString &fileName)
 {
@@ -93,24 +96,32 @@ CarbonData CarbonPlugin::carbonPerKiloWatt(const QLocale::Country country, const
 
 QList<CarbonPlugin *> CarbonPlugin::getPlugins()
 {
+    QStringList pluginPaths;
 #ifdef Q_OS_WIN
-    QString pluginPath = QCoreApplication::applicationDirPath() + QStringLiteral("/plugins");
+    pluginPaths << QCoreApplication::applicationDirPath() + QStringLiteral("/plugins");
 #else
-    QString pluginPath = QCoreApplication::applicationDirPath() + QStringLiteral("/../../../plugins");
+    pluginPaths << QCoreApplication::applicationDirPath() + QStringLiteral("/plugins");
+    pluginPaths << QCoreApplication::applicationDirPath() + QStringLiteral("/../../../plugins");
 #endif
 
-    QDir dir(pluginPath);
-    const QStringList fileNames = dir.entryList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot);
+    QStringList filePaths;
+    for(const QString &pluginPath : static_cast<const QStringList>(pluginPaths))
+    {
+        QDir dir(pluginPath);
+        const QStringList fileNames = dir.entryList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot);
+
+        for(const QString &fileName : fileNames)
+            filePaths << pluginPath + QStringLiteral("/") + fileName;
+    }
 
     QList<CarbonPlugin*> plugins;
 
-    for(const QString &fileName : fileNames)
+    for(const QString &filePath : static_cast<const QStringList>(filePaths))
     {
-        if(QLibrary::isLibrary(fileName))
-        {
-            QString filePath = pluginPath + QStringLiteral("/") + fileName;
+        DBG(QString("Loading plugin: '%1'.").arg(filePath));
+
+        if(QLibrary::isLibrary(filePath))
             plugins << new CarbonPlugin(filePath);
-        }
     }
 
     return plugins;

@@ -25,7 +25,7 @@
 
 #ifdef _DEBUG
 #include "log/consolelogger.h"
-#include "log/logfilterbyfile.h"
+//#include "log/logfilterbyfile.h"
 #endif // ! _DEBUG
 
 int main(int argc, char *argv[])
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     Log::LogSystem::logManager()->registerLogger(new Log::PredictiveLogger);
 
 #ifdef _DEBUG
-    Log::LogSystem::logManager()->registerLogger(new Log::LogFilterByFile(QStringLiteral("powerinfobase.cpp"), new Log::ConsoleLogger));
+    Log::LogSystem::logManager()->registerLogger(new Log::ConsoleLogger);
 #endif
 
     INF("===============================");
