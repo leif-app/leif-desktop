@@ -114,4 +114,5 @@ mac: LIBS += -framework CoreFoundation
 
 include('pri/appinfo.pri')
 win32: include('pri/predeps.pri')
+win32: include('pri/win.pri')
 mac: include('pri/mac.pri')
