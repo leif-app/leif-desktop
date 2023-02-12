@@ -15,9 +15,12 @@
 
 int main(int argc, char *argv[]);
 
-void setApplicationVersion();
+void setApplicationInfo();
 void loadTranslations(QTranslator *translator);
-void setStyleSheet();
 void cleanup();
+
+#ifdef _WIN32
+void setStyleSheet();
+#endif
 
 #endif // MAIN_H

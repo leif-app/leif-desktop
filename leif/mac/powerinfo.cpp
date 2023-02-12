@@ -72,6 +72,7 @@ bool PowerInfo::batteryFullyCharged()
 
 bool PowerInfo::batteryCharging()
 {
+    qDebug("In batteryCharging()");
     if(m_service == 0)
     {
         return false;
@@ -86,7 +87,7 @@ bool PowerInfo::batteryCharging()
     {
         Boolean bValue = CFBooleanGetValue((CFBooleanRef)prop);
 
-        isChargingKey = bValue != 0;
+        isCharging = bValue != 0;
 
         CFRelease(prop);
         prop = nullptr;

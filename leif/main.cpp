@@ -23,10 +23,10 @@
 #include "log/log.h"
 #include "log/predictivelogger.h"
 
-#ifdef _DEBUG
+#ifdef QT_DEBUG
 #include "log/consolelogger.h"
 //#include "log/logfilterbyfile.h"
-#endif // ! _DEBUG
+#endif // ! QT_DEBUG
 
 int main(int argc, char *argv[])
 {
@@ -36,11 +36,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false); // Very important with tray apps.
-    setApplicationVersion();
-
-    QCoreApplication::setOrganizationName(QStringLiteral("leif"));
-    QCoreApplication::setOrganizationDomain(QStringLiteral("leif.support"));
-    QCoreApplication::setApplicationName(QStringLiteral("leif carbon tracker"));
+    setApplicationInfo();
 
 #ifdef _WIN32
     setStyleSheet();
@@ -49,7 +45,7 @@ int main(int argc, char *argv[])
     // Initialize Log System
     Log::LogSystem::logManager()->registerLogger(new Log::PredictiveLogger);
 
-#ifdef _DEBUG
+#ifdef QT_DEBUG
     Log::LogSystem::logManager()->registerLogger(new Log::ConsoleLogger);
 #endif
 
@@ -78,11 +74,15 @@ int main(int argc, char *argv[])
     return result;
 }
 
-void setApplicationVersion()
+void setApplicationInfo()
 {
     QString ver = QStringLiteral("%1.%2.%3.%4");
     ver = ver.arg(QM_MAJOR_VERSION).arg(QM_MINOR_VERSION).arg(QM_PATCH_VERSION).arg(QM_BUILD_VERSION);
+
     QCoreApplication::setApplicationVersion(ver);
+    QCoreApplication::setOrganizationName(QStringLiteral("leif"));
+    QCoreApplication::setOrganizationDomain(QStringLiteral("leif.support"));
+    QCoreApplication::setApplicationName(QStringLiteral("leif carbon tracker"));
 }
 
 void loadTranslations(QTranslator *translator)
@@ -95,6 +95,7 @@ void loadTranslations(QTranslator *translator)
     }
 }
 
+#ifdef _WIN32
 void setStyleSheet()
 {
     qApp->setStyleSheet("QMenu {"
@@ -123,6 +124,7 @@ void setStyleSheet()
                         "}"
                         );
 }
+#endif
 
 void cleanup()
 {
