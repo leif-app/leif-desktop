@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false); // Very important with tray apps.
+    setApplicationVersion();
 
     QCoreApplication::setOrganizationName(QStringLiteral("leif"));
     QCoreApplication::setOrganizationDomain(QStringLiteral("leif.support"));
@@ -75,6 +76,13 @@ int main(int argc, char *argv[])
     cleanup();
 
     return result;
+}
+
+void setApplicationVersion()
+{
+    QString ver = QStringLiteral("%1.%2.%3.%4");
+    ver = ver.arg(QM_MAJOR_VERSION).arg(QM_MINOR_VERSION).arg(QM_PATCH_VERSION).arg(QM_BUILD_VERSION);
+    QCoreApplication::setApplicationVersion(ver);
 }
 
 void loadTranslations(QTranslator *translator)

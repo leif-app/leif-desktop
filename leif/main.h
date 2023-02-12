@@ -15,6 +15,7 @@
 
 int main(int argc, char *argv[]);
 
+void setApplicationVersion();
 void loadTranslations(QTranslator *translator);
 void setStyleSheet();
 void cleanup();
