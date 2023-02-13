@@ -1,11 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
-        <file>img/FairD.png</file>
-        <file>img/HappyD.png</file>
-        <file>img/SadD.png</file>
-        <file>img/VeryHappyD.png</file>
-        <file>img/VerySadD.png</file>
         <file>img/background.png</file>
         <file>img/leif_128.png</file>
         <file>img/cbindicator.png</file>
@@ -36,10 +31,15 @@
         <file>qml/RegionComboBox.qml</file>
         <file>img/flags/224.png</file>
         <file>qml/StatusPage.qml</file>
-        <file>img/FairL.png</file>
-        <file>img/HappyL.png</file>
-        <file>img/SadL.png</file>
-        <file>img/VeryHappyL.png</file>
-        <file>img/VerySadL.png</file>
+        <file>img/tray/dark/fair.svg</file>
+        <file>img/tray/dark/happy.svg</file>
+        <file>img/tray/dark/sad.svg</file>
+        <file>img/tray/dark/veryhappy.svg</file>
+        <file>img/tray/dark/verysad.svg</file>
+        <file>img/tray/light/fair.svg</file>
+        <file>img/tray/light/happy.svg</file>
+        <file>img/tray/light/sad.svg</file>
+        <file>img/tray/light/veryhappy.svg</file>
+        <file>img/tray/light/verysad.svg</file>
     </qresource>
 </RCC>

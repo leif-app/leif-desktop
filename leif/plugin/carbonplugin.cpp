@@ -97,10 +97,10 @@ CarbonData CarbonPlugin::carbonPerKiloWatt(const QLocale::Country country, const
 QList<CarbonPlugin *> CarbonPlugin::getPlugins()
 {
     QStringList pluginPaths;
-#ifdef Q_OS_WIN
     pluginPaths << QCoreApplication::applicationDirPath() + QStringLiteral("/plugins");
-#else
-    pluginPaths << QCoreApplication::applicationDirPath() + QStringLiteral("/plugins");
+
+#ifdef Q_OS_MACOS
+    // One is inside the package itself and the other is adjecent to the package.
     pluginPaths << QCoreApplication::applicationDirPath() + QStringLiteral("/../../../plugins");
 #endif
 
@@ -115,13 +115,24 @@ QList<CarbonPlugin *> CarbonPlugin::getPlugins()
     }
 
     QList<CarbonPlugin*> plugins;
+    QStringList names;
 
     for(const QString &filePath : static_cast<const QStringList>(filePaths))
     {
         DBG(QString("Loading plugin: '%1'.").arg(filePath));
 
         if(QLibrary::isLibrary(filePath))
-            plugins << new CarbonPlugin(filePath);
+        {
+            QScopedPointer<CarbonPlugin> plugin(new CarbonPlugin(filePath));
+
+            QString pluginName = plugin->pluginData().name();
+
+            if(!names.contains(pluginName))
+            {
+                names << pluginName;
+                plugins << plugin.take();
+            }
+        }
     }
 
     return plugins;

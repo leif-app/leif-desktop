@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="Leif" Language="1033" Version="1.0.0.6" Manufacturer="Tim Stone" UpgradeCode="0ea8e437-ec05-4096-932e-e4ec50cbacb9">
+	<Product Id="*" Name="Leif" Language="1033" Version="1.0.0.10" Manufacturer="Tim Stone" UpgradeCode="0ea8e437-ec05-4096-932e-e4ec50cbacb9">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
@@ -17,6 +17,9 @@
 		</InstallExecuteSequence>
 		
 		<CustomAction Id="LaunchInstalledExe" FileKey="filDAA1EF6C60744F2D8A8F0373FC230C0F" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
+
+		<Icon Id="icon.ico" SourceFile="../../../../leif/resources/ICO/leif.ico"/>
+		<Property Id="ARPPRODUCTICON" Value="icon.ico" />
 	</Product>
 
 	<Fragment>

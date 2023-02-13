@@ -187,7 +187,7 @@ QString TrayIcon::totalCarbonLabel(double value)
 
 QString TrayIcon::carbonLabel(const QString &labelText, double value)
 {
-    QString label = QStringLiteral("%1: %2 \\(%3)");
+    QString label = QStringLiteral("%1: %2 %3");
     label = label.arg(labelText, QLocale().toString(value), TrayIcon::co2Unit());
 
     return label;
@@ -287,27 +287,27 @@ QString TrayIcon::usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLe
     {
     case(CarbonProcessor::VeryHigh):
         //: The carbon usage intensity is very high
-        str = QStringLiteral("VerySad");
+        str = QStringLiteral("verysad");
         break;
 
     case(CarbonProcessor::High):
-        str = QStringLiteral("Sad");
+        str = QStringLiteral("sad");
         break;
 
     case(CarbonProcessor::Medium):
-        str = QStringLiteral("Fair");
+        str = QStringLiteral("fair");
         break;
 
     case(CarbonProcessor::Low):
-        str = QStringLiteral("Happy");
+        str = QStringLiteral("happy");
         break;
 
     case(CarbonProcessor::VeryLow):
-        str = QStringLiteral("VeryHappy");
+        str = QStringLiteral("veryhappy");
         break;
 
     default:
-        str = QStringLiteral("VerySad");
+        str = QStringLiteral("verysad");
         break;
     }
 
@@ -328,15 +328,15 @@ else
 
     if(contrastMode)
     {
-        str.append(QStringLiteral("L"));
+        str.prepend(QStringLiteral("light/"));
     }
     else
     {
-        str.append(QStringLiteral("D"));
+        str.prepend(QStringLiteral("dark/"));
     }
 
-    str.append(QStringLiteral(".png"));
-    str.prepend(QStringLiteral(":/img/"));
+    str.append(QStringLiteral(".svg"));
+    str.prepend(QStringLiteral(":/img/tray/"));
 
     return str;
 }

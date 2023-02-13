@@ -30,8 +30,6 @@
 	<string>Leif Carbon Tracker App</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>LSBackgroundOnly</key>
-	<true/>
         <key>NSHumanReadableCopyright</key>
         <string>(C) 2022 Tim Stone</string>
 </dict>
