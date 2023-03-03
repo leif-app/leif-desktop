@@ -134,7 +134,7 @@ int PowerInfo::chargeRate()
         return false;
     }
 
-    int adapterPower = 0;
+    qint32 adapterPower = 0;
     QString batteryDataKey = "BatteryData";
     CFTypeRef prop = IORegistryEntryCreateCFProperty(m_service, batteryDataKey.toCFString(), NULL, 0);
 
@@ -149,16 +149,28 @@ int PowerInfo::chargeRate()
             WRN(QString("DictRef Property with name '%1' not found.").arg(key));
         }
 
-        CFNumberGetValue((CFNumberRef)data, CFNumberGetType((CFNumberRef)data), &adapterPower);
-
-        QString powerStr = QString::number(adapterPower);
-        bool ok = false;
-        adapterPower = powerStr.toUInt(&ok, 16);
-
-        if(!ok)
+        if(CFNumberGetType((CFNumberRef)data) != kCFNumberSInt32Type)
         {
-            WRN(QString("Could not convert string value '%1' to a number.").arg(powerStr));
+            WRN("It seems we don't have a signed 32 bit integer. We will convert either way.");
         }
+
+        quint32 dataValue = 0;
+        CFNumberGetValue((CFNumberRef)data, kCFNumberSInt32Type, &dataValue);
+
+        DBG(QString("Raw data value is: %1.").arg(dataValue));
+
+        CFNumberRef chargeRateRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberFloatType, (const void *)&dataValue);
+        float chargeRate = 0.0;
+
+        CFNumberGetValue(chargeRateRef, kCFNumberFloatType, &chargeRate);
+        CFRelease(chargeRateRef);
+        chargeRateRef = nullptr;
+
+        DBG(QString("The determined raw charge rate is: %1.").arg(chargeRate));
+
+        chargeRate = chargeRate * 1000.0;
+
+        adapterPower = static_cast<int>(chargeRate);
 
         CFRelease(prop);
         prop = nullptr;
