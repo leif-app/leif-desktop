@@ -71,7 +71,7 @@ void TrayIcon::onResetStatsClicked()
     int answer = QMessageBox::question(nullptr, tr("Resetting stats"),
                                        tr("Do you really want to reset the "
                                           "carbon usage statistics?\n"
-                                          "This can not be undone."));
+                                          "This cannot be undone."));
 
     show();
 
@@ -147,7 +147,7 @@ void TrayIcon::setupMenu()
     menu->addAction(tr("Preferences..."), this, &TrayIcon::onPreferencesClicked);
     menu->addAction(tr("Reset stats"), this, &TrayIcon::onResetStatsClicked, Qt::Key_R);
 
-    d.iconContrastMode = menu->addAction(tr("Icon contrast mode"), this, &TrayIcon::doIconContrastModeToggled);
+    d.iconContrastMode = menu->addAction(tr("Dark mode"), this, &TrayIcon::doIconContrastModeToggled);
     d.iconContrastMode->setCheckable(true);
     d.iconContrastMode->setChecked(iconContrastMode());
 
@@ -175,13 +175,13 @@ QString TrayIcon::co2Unit()
 
 QString TrayIcon::sessionCarbonLabel(double value)
 {
-    QString labelText = tr("Session", "As in since the computer was turned on.");
+    QString labelText = tr("Session", "As in, since the computer was turned on.");
     return TrayIcon::carbonLabel(labelText, value);
 }
 
 QString TrayIcon::totalCarbonLabel(double value)
 {
-    QString labelText = tr("Lifetime", "As in total sum of consumption");
+    QString labelText = tr("Lifetime", "As in, total sum of consumption");
     return TrayIcon::carbonLabel(labelText, value);
 }
 

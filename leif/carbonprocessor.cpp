@@ -229,7 +229,7 @@ void CarbonProcessor::setCarbonUsageLevel(CarbonUsageLevel newLevel)
 {
     Q_ASSERT(d != nullptr);
 
-    INF(QString("New cabon usage level is: %1").arg(newLevel));
+    INF(QString("New carbon usage level is: %1").arg(newLevel));
 
     if(d->usageLevel != newLevel)
     {

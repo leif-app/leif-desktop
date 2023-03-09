@@ -25,7 +25,7 @@
 	<key>CFBundleVersion</key>
 	<string>@FULL_VERSION@</string>
 	<key>CFBundleName</key>
-	<string>leif desktop app</string>
+        <string>Leif</string>
 	<key>CFBundleDisplayName</key>
 	<string>Leif Carbon Tracker App</string>
 	<key>CFBundleDevelopmentRegion</key>
