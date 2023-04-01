@@ -129,7 +129,7 @@ void TrayIconModel::showDialog()
 {
     Q_ASSERT(d != nullptr);
 
-    if(d->qmlEngine != nullptr && d->qmlEngine->rootObjects().isEmpty())
+    if(d->qmlEngine != nullptr /* && d->qmlEngine->rootObjects().isEmpty() */)
     {
         d->qmlEngine->load("qrc:///qml/main.qml");
     }
