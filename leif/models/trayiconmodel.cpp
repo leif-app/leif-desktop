@@ -1,3 +1,5 @@
+#include <QQuickWindow>
+
 #include "models/carbonmodel.h"
 #include "models/trayiconmodel.h"
 #include "models/settingsmodel.h"
@@ -10,6 +12,7 @@ class TrayIconModelPrivate
     ~TrayIconModelPrivate();
 
     QQmlApplicationEngine *qmlEngine;
+    QQuickWindow *qmlWindow;
     SettingsModel *settingsModel;
     CarbonModel *carbonModel;
 
@@ -18,12 +21,16 @@ class TrayIconModelPrivate
 
 TrayIconModelPrivate::TrayIconModelPrivate():
     qmlEngine{new QQmlApplicationEngine},
+    qmlWindow{nullptr},
     settingsModel{new SettingsModel},
     carbonModel{new CarbonModel}
 {}
 
 TrayIconModelPrivate::~TrayIconModelPrivate()
 {
+    delete qmlWindow;
+    qmlWindow = nullptr;
+
     delete qmlEngine;
     qmlEngine = nullptr;
 
@@ -44,6 +51,7 @@ TrayIconModel::TrayIconModel(QObject *parent /* = nullptr */):
     connect(d->carbonModel, &CarbonModel::chargeForecastChanged, this, &TrayIconModel::chargeForecastChanged);
     connect(d->settingsModel, &SettingsModel::countryChanged, this, &TrayIconModel::configuredChanged);
     connect(d->settingsModel, &SettingsModel::regionIdChanged, this, &TrayIconModel::configuredChanged);
+    connect(d->qmlEngine, &QQmlApplicationEngine::objectCreated, this, &TrayIconModel::onObjectCreated);
 
     if(configured())
     {
@@ -129,7 +137,11 @@ void TrayIconModel::showDialog()
 {
     Q_ASSERT(d != nullptr);
 
-    if(d->qmlEngine != nullptr /* && d->qmlEngine->rootObjects().isEmpty() */)
+    if(d->qmlWindow != nullptr)
+    {
+        d->qmlWindow->show();
+    }
+    else if(d->qmlEngine != nullptr)
     {
         d->qmlEngine->load("qrc:///qml/main.qml");
     }
@@ -143,6 +155,19 @@ void TrayIconModel::onConfiguredChanged()
     if(manager != nullptr)
     {
         manager->loadPlugin(d->settingsModel->country());
+    }
+}
+
+void TrayIconModel::onObjectCreated(QObject *object, const QUrl &url)
+{
+    Q_ASSERT(d != nullptr);
+
+    Q_UNUSED(url);
+
+    QQuickWindow *qmlWindow = qobject_cast<QQuickWindow*>(object);
+    if(qmlWindow != nullptr)
+    {
+        d->qmlWindow = qmlWindow;
     }
 }
 

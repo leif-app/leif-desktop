@@ -44,6 +44,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void onConfiguredChanged();
+    void onObjectCreated(QObject *object, const QUrl &url);
 
 signals:
     void sessionCarbonChanged();
