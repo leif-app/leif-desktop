@@ -140,6 +140,7 @@ void TrayIconModel::showDialog()
     if(d->qmlWindow != nullptr)
     {
         d->qmlWindow->show();
+        d->qmlWindow->raise();
     }
     else if(d->qmlEngine != nullptr)
     {
