@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 #endif
 
     // Initialize Log System
-    Log::LogSystem::logManager()->registerLogger(new Log::PredictiveLogger);
+    Log::LogSystem::logManager()->registerLogger(new Log::FileLogger);
 
 #ifdef QT_DEBUG
     Log::LogSystem::logManager()->registerLogger(new Log::ConsoleLogger);

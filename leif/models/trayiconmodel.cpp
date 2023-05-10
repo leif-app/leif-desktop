@@ -5,6 +5,7 @@
 #include "models/settingsmodel.h"
 #include "plugin/carbonpluginmanager.h"
 #include "utils/qmlwarninglogger.h"
+#include "leifsettings.h"
 
 class TrayIconModelPrivate
 {

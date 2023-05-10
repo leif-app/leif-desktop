@@ -118,7 +118,7 @@ void TrayIcon::doCheckConfigured()
 void TrayIcon::doIconContrastModeToggled()
 {
    setIcon(QIcon(TrayIcon::usageLevelToIconName(d.model->carbonUsageLevel(), d.iconContrastMode->isChecked())));
-   saveIconContrastMode(d.iconContrastMode->isChecked());
+    saveIconContrastMode(d.iconContrastMode->isChecked());
 }
 
 void TrayIcon::setupMenu()

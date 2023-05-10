@@ -127,6 +127,7 @@ void CarbonProcessor::calculateCarbon()
     DBG_CALLED;
     Q_ASSERT(d != nullptr);
 
+
     LeifSettings *settings = LeifSettings::Instance();
     if(settings == nullptr)
     {
@@ -142,6 +143,12 @@ void CarbonProcessor::calculateCarbon()
     }
 
     float powerDraw = d->powerInfo->powerDrawInWatts();
+    if(powerDraw < 0)
+    {
+        WRN("Power draw seems to be negative. We will ignore it and set it to zero.");
+        powerDraw = 0;
+    }
+
     CarbonData data = d->cachedData;
     if(isOutOfDate(data))
     {
@@ -160,6 +167,12 @@ void CarbonProcessor::calculateCarbon()
 
         float carbon = (powerDraw * static_cast<float>(data.co2PerkWhNow)) / (60*1000);
         DBG(QString("Calculated carbon usage is: %1").arg(carbon));
+
+        if(carbon < 0)
+        {
+            WRN("Calculated carbon usage seems ot be negative. Correcting it now.");
+            carbon *= -1;
+        }
 
         setSessionCarbon(sessionCarbon() + carbon);
         setLifetimeCarbon(lifetimeCarbon() + carbon);

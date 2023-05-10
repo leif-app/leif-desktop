@@ -17,7 +17,7 @@ public:
     explicit TrayIcon(const QIcon &icon, QObject *parent = nullptr);
     virtual ~TrayIcon() = default;
 
-private Q_SLOTS:
+private slots:
     void onSessionCarbonChanged();
     void onTotalCarbonChanged();
     void onCarbonUsageLevelChanged();
