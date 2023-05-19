@@ -331,7 +331,7 @@ else
     const QStyleHints* styleHints = QGuiApplication::styleHints();
     const Qt::ColorScheme theme = styleHints->colorScheme();
 
-    if(contrastMode || theme == Qt::ColorScheme::Dark)
+    if(contrastMode || theme == Qt::ColorScheme::Light)
     {
         str.prepend(QStringLiteral("light/"));
     }
