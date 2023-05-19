@@ -1,6 +1,7 @@
 #ifndef REGIONMODEL_H
 #define REGIONMODEL_H
 
+#include "QtCore/qlocale.h"
 #include <QObject>
 #include <QAbstractListModel>
 #include <QQmlEngine>
