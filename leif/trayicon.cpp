@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QSysInfo>
+#include <QStyleHints>
 
 #include "leifsettings.h"
 #include "trayicon.h"
@@ -166,6 +167,7 @@ void TrayIcon::connectModel()
     connect(d.model, &TrayIconModel::carbonUsageLevelChanged, this, &TrayIcon::onCarbonUsageLevelChanged);
     connect(d.model, &TrayIconModel::chargeForecastChanged, this, &TrayIcon::onChargeForecastChanged);
     connect(d.model, &TrayIconModel::configuredChanged, this, &TrayIcon::onConfiguredChanged);
+    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged,this, &TrayIcon::onCarbonUsageLevelChanged);
 }
 
 QString TrayIcon::co2Unit()
@@ -326,7 +328,10 @@ else
 #endif
 #endif
 
-    if(contrastMode)
+    const QStyleHints* styleHints = QGuiApplication::styleHints();
+    const Qt::ColorScheme theme = styleHints->colorScheme();
+
+    if(contrastMode || theme == Qt::ColorScheme::Light)
     {
         str.prepend(QStringLiteral("light/"));
     }
