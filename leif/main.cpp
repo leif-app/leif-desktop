@@ -12,6 +12,8 @@
 #include <QLocale>
 #include <QQmlApplicationEngine>
 #include <QScopedPointer>
+#include <QDir>
+#include <QProcess>
 
 #include "main.h"
 #include "trayicon.h"
@@ -25,8 +27,65 @@
 
 #ifdef QT_DEBUG
 #include "log/consolelogger.h"
+
 //#include "log/logfilterbyfile.h"
 #endif // ! QT_DEBUG
+
+QString macOSXAppBundlePath()
+{
+#ifdef Q_OS_MAC
+    QDir dir = QDir ( QCoreApplication::applicationDirPath() );
+    dir.cdUp();
+    dir.cdUp();
+    QString absolutePath = dir.absolutePath();
+    // absolutePath will contain a "/" at the end,
+    // but we want the clean path to the .app bundle
+    if ( absolutePath.length() > 0 && absolutePath.right(1) == "/" ) {
+        absolutePath.chop(1);
+    }
+    return absolutePath;
+#else
+    return "";
+#endif
+}
+
+
+QString macOSXAppBundleName()
+{
+#ifdef Q_OS_MAC
+    QString bundlePath = macOSXAppBundlePath();
+    QFileInfo fileInfo(bundlePath);
+    return fileInfo.baseName();
+#else
+    return "";
+#endif
+}
+
+bool setAppToStartAutomatically ( bool startAutomatically ) {
+#if defined ( Q_OS_MAC )
+
+    // Remove any existing login entry for this app first, in case there was one
+    // from a previous installation, that may be under a different launch path.
+    {
+        QStringList args;
+        args << "-e tell application \"System Events\" to delete login item\""
+                    + macOSXAppBundleName() + "\"";
+
+        QProcess::execute("osascript", args);
+    }
+
+    // Now install the login item, if needed.
+    if ( startAutomatically )
+    {
+        QStringList args;
+        args << "-e tell application \"System Events\" to make login item at end with properties {path:\"" + macOSXAppBundlePath() + "\", hidden:false}";
+
+        QProcess::execute("osascript", args);
+    }
+
+#endif
+    return true;
+}
 
 int main(int argc, char *argv[])
 {
@@ -62,6 +121,7 @@ int main(int argc, char *argv[])
 
     QScopedPointer<TrayIcon> tray(new TrayIcon(trayModel.data()));
     tray->show();
+    setAppToStartAutomatically(true);
 
     int result = app.exec();
 
