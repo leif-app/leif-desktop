@@ -108,7 +108,7 @@ CarbonData Utilities::fromByteArray(const QByteArray &data)
     }
 
     QJsonObject reply = json.object();
-    QVariantHash hash = Utilities::flatJsonHash(reply);
+    QMultiHash hash = Utilities::flatJsonHash(reply);
 
     // There is a chance that we have received an error response. In that case
     // there will be only one key named "error" containing a code and a message.
@@ -130,7 +130,7 @@ CarbonData Utilities::fromByteArray(const QByteArray &data)
  * @param errorHash The flat JSON error code sent by the API.
  * @return The CarbonData object containing the error information.
  */
-CarbonData Utilities::fromApiError(const QVariantHash &errorHash)
+CarbonData Utilities::fromApiError(const QMultiHash<QString, QVariant> &errorHash)
 {
     if(errorHash.isEmpty())
     {
@@ -227,16 +227,16 @@ QMultiHash<QString, QVariant> Utilities::flatJsonHash(const QJsonObject &object)
         {
             QVariant value = checkMap.value(key);
 
-            if(value.type() == QVariant::Type::Map)
+            if(value.typeId() == QMetaType::QVariantMap)
             {
                 check << value.toMap();
             }
-            else if(value.type() == QVariant::Type::List)
+            else if(value.typeId() == QMetaType::QVariantList)
             {
                 const QVariantList vList = value.toList();
                 for(const QVariant &vListValue : vList)
                 {
-                    if(vListValue.type() == QVariant::Type::Map) {
+                    if(vListValue.typeId() == QMetaType::QVariantMap) {
                         check << vListValue.toMap();
                     }
                 }

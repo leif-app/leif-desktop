@@ -104,7 +104,7 @@ void UtilitiesTest::flatJsonHash()
 
     QVERIFY(jsonDocument.isObject());
 
-    QVariantHash flatHash = Utilities::flatJsonHash(jsonDocument.object());
+    QMultiHash flatHash = Utilities::flatJsonHash(jsonDocument.object());
 
     if(empty)
     {
@@ -136,7 +136,7 @@ void UtilitiesTest::fromApiResponse()
     QFETCH(QString, from);
     QFETCH(QString, to);
 
-    QVariantHash flatHash;
+    QMultiHash<QString, QVariant> flatHash;
     flatHash["forecast"] = QVariant::fromValue(forecast);
     flatHash["from"] = QVariant::fromValue(from);
     flatHash["to"] = QVariant::fromValue(to);
@@ -182,7 +182,7 @@ void UtilitiesTest::fromApiError()
     QFETCH(QVariant, code);
     QFETCH(QVariant, message);
 
-    QVariantHash flatHash;
+    QMultiHash<QString, QVariant> flatHash;
 
     if(!code.isNull())
         flatHash[QStringLiteral("code")] = code;
