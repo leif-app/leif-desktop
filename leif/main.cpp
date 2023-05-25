@@ -83,35 +83,9 @@ bool setAppToStartAutomatically ( bool startAutomatically ) {
         QProcess::execute("osascript", args);
     }
 
-#elif defined ( Q_OS_WIN )
-
-    QString key = "YouApplicationName";
-
-    QSettings registrySettings(
-        "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
-        QSettings::NativeFormat);
-
-    registrySettings.remove(key);
-
-    if ( startAutomatically ) {
-        registrySettings.setValue(key, QString("\"" + windowsAppPath() + "\""));
-    }
-
-    registrySettings.sync();
-
 #endif
     return true;
 }
-
-QString windowsAppPath()
-{
-#ifdef Q_OS_WIN
-    return QDir::toNativeSeparators(QCoreApplication::applicationFilePath());
-#else
-    return "";
-#endif
-}
-
 
 int main(int argc, char *argv[])
 {
