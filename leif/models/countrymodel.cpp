@@ -35,6 +35,9 @@ QVariant CountryModel::data(const QModelIndex &index, int role) const
     QLocale::Country country = manager->territories().at(row);
     if(role == Qt::DisplayRole)
     {
+        qDebug() << "The country: " << country;
+        qDebug() << "The country name: " << QLocale::countryToString(country);
+
         return QLocale::countryToString(country);
     }
 

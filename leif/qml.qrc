@@ -41,5 +41,6 @@
         <file>img/tray/light/sad.svg</file>
         <file>img/tray/light/veryhappy.svg</file>
         <file>img/tray/light/verysad.svg</file>
+        <file>img/flags/246.png</file>
     </qresource>
 </RCC>
