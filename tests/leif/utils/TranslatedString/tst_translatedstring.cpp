@@ -24,6 +24,7 @@ private slots:
     void translatedIdReturnsCorrectStringOnlyIfNotEmpty();
     void translateWillReturnTheStringForTheCurrentLocale();
     void fromJsonReturnsAValidObject();
+    void fromJsonArrayReturnsAListOfObjects();
 
     void ctorCreatesObjectWithCorrectIdAndTranslatedString_data();
     void isEmptyReturnsTrueOnlyIfIdIsEmpty_data();
@@ -31,6 +32,7 @@ private slots:
     void translatedIdReturnsCorrectStringOnlyIfNotEmpty_data();
     void translateWillReturnTheStringForTheCurrentLocale_data();
     void fromJsonReturnsAValidObject_data();
+    void fromJsonArrayReturnsAListOfObjects_data();
 };
 
 void TranslatedStringTest::emptyCtorCreatesEmptyObjectWithEmptyIdAndTranslatedId()
@@ -141,6 +143,26 @@ void TranslatedStringTest::fromJsonReturnsAValidObject()
     QCOMPARE(trs.isEmpty(), id.isEmpty());
 }
 
+void TranslatedStringTest::fromJsonArrayReturnsAListOfObjects()
+{
+    QFETCH(int, count);
+    QFETCH(QJsonValue, json);
+
+    QList<Utils::TranslatedString> trsList {Utils::TranslatedString::fromJsonArray(json)};
+
+    if(json.isNull())
+    {
+        QVERIFY(trsList.isEmpty());
+    }
+
+    if(!json.isArray())
+    {
+        QVERIFY(trsList.isEmpty());
+    }
+
+    QCOMPARE(count, trsList.count());
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void TranslatedStringTest::ctorCreatesObjectWithCorrectIdAndTranslatedString_data()
@@ -226,6 +248,37 @@ void TranslatedStringTest::fromJsonReturnsAValidObject_data()
         QByteArray jsonStr {"{\"id\": \"some_id\", \"translations\": [ { \"locale\": \"po_ID\", \"string\": \"gronk\" }, { \"locale\": \"" + localeName + "\", \"string\": \"tr_string\" } ] }"};
         QJsonValue json {QJsonDocument::fromJson(jsonStr).object()};
         QTest::addRow("full2") << QStringLiteral("some_id") << QStringLiteral("tr_string") << json;
+    }
+}
+
+void TranslatedStringTest::fromJsonArrayReturnsAListOfObjects_data()
+{
+    QTest::addColumn<int>("count");
+    QTest::addColumn<QJsonValue>("json");
+
+    QTest::addRow("null") << 0 << QJsonValue{};
+
+    {
+        QByteArray jsonStr {"{ \"some\": \"thing else\" }"};
+        QJsonValue json {QJsonDocument::fromJson(jsonStr).object()};
+
+        QTest::addRow("not_array") << 0 << json;
+    }
+
+    {
+        QByteArray jsonStr {"[ {\"id\": \"id1\", \"translations\": [ { \"locale\": \"loc1\", \"string\": \"str1\" }, { \"locale\": \"loc2\", \"string\": \"str2\" } ] } ]"};
+        QJsonValue json {QJsonDocument::fromJson(jsonStr).array()};
+
+        QTest::addRow("one") << 1 << json;
+    }
+
+    {
+        QByteArray jsonStr {"[ {\"id\": \"id1\", \"translations\": [ { \"locale\": \"loc1\", \"string\": \"str1\" }, { \"locale\": \"loc2\", \"string\": \"str2\" } ] },"
+                           "{\"id\": \"id2\", \"translations\": [ { \"locale\": \"loc1\", \"string\": \"str1\" }, { \"locale\": \"loc2\", \"string\": \"str2\" } ] },"
+                           "{\"id\": \"id3\", \"translations\": [ { \"locale\": \"loc1\", \"string\": \"str1\" }, { \"locale\": \"loc2\", \"string\": \"str2\" } ] } ]"};
+        QJsonValue json {QJsonDocument::fromJson(jsonStr).array()};
+
+        QTest::addRow("three") << 3 << json;
     }
 }
 

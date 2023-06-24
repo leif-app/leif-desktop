@@ -36,18 +36,14 @@ public:
     QStringList territoryNames() const;
     QList<TranslatedString> regionList(const QLocale::Country territory) const;
     QStringList regionIds(const QLocale::Country territory) const;
-    QString translatedRegion(const QLocale::Country country, const QString &regionId) const;
+    QString translatedRegion(const QLocale::Country territory, const QString &regionId) const;
 
     static CarbonPluginData fromJson(const QJsonValue &json);
 
 private:
-    class CarbonPluginDataPrivate
-    {
-    public:
-        QString name;
-        QString description;
-        QList<Territory> territories;
-    } d;
+    QString _name;
+    QString _description;
+    QList<Territory> _territories;
 };
 }
 

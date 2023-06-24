@@ -13,6 +13,18 @@
 #include "translation.h"
 
 /**
+ * @class Utils::Translation
+ *
+ * @brief Describes a translated string.
+ *
+ * The Translation class is a helper class that defines a translated string,
+ * that is a string that is paired with a QLocale object, that defines a
+ * language and a country selection (we need both, as some languages are spoken
+ * in several countries, with subtle differences, and some countries speak
+ * several languages).
+ */
+
+/**
  * @brief Creates an empty translation object.
  */
 Utils::Translation::Translation():

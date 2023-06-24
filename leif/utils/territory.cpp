@@ -13,15 +13,12 @@
 #include "territory.h"
 
 Utils::Territory::Territory():
-    Utils::Territory(QLocale::AnyCountry, QString(), QList<TranslatedString>())
+    Utils::Territory(QLocale::AnyCountry, QString {}, QList<TranslatedString> {})
 {}
 
-Utils::Territory::Territory(const QLocale::Country country, const QString &description, const QList<TranslatedString> &regions)
-{
-    d.country = country;
-    d.description = description;
-    d.regions = regions;
-}
+Utils::Territory::Territory(const QLocale::Country country, const QString &description, const QList<TranslatedString> &regions):
+    _country {country}, _description {description}, _regions {regions}
+{}
 
 bool Utils::Territory::isValid() const
 {
@@ -30,63 +27,56 @@ bool Utils::Territory::isValid() const
 
 QLocale::Country Utils::Territory::country() const
 {
-    return d.country;
+    return _country;
 }
 
 QString Utils::Territory::description() const
 {
-    return d.description;
+    return _description;
 }
 
 bool Utils::Territory::hasRegions() const
 {
-    return d.regions.count() > 0;
+    return _regions.count() > 0;
 }
 
 QList<Utils::TranslatedString> Utils::Territory::regions() const
 {
-    return d.regions;
+    return _regions;
 }
 
 Utils::Territory Utils::Territory::fromJson(const QJsonValue &json)
 {
     if(json.isNull() || !json.isObject())
-    {
-        return Territory();
-    }
+        return Territory {};
 
-    QJsonObject territoryObject = json.toObject();
+    auto territoryObject {json.toObject()};
 
     if(!territoryObject.contains(QStringLiteral("territory")))
-    {
-        return Territory();
-    }
+        return Territory {};
 
-    QLocale::Country country = static_cast<QLocale::Country>(territoryObject.value(QStringLiteral("territory")).toInt());
-    QString description = territoryObject.value(QStringLiteral("description")).toString();
-    QList<TranslatedString> regions = TranslatedString::fromJsonArray(territoryObject.value(QStringLiteral("regions")));
+    auto country {static_cast<QLocale::Country>(territoryObject.value(QStringLiteral("territory")).toInt())};
+    auto description {territoryObject.value(QStringLiteral("description")).toString()};
+    auto regions {TranslatedString::fromJsonArray(territoryObject.value(QStringLiteral("regions")))};
 
-    return Territory(country, description, regions);
+    return Territory {country, description, regions};
 }
 
 QList<Utils::Territory> Utils::Territory::fromJsonArray(const QJsonValue &json)
 {
     if(json.isNull() || !json.isArray())
-    {
-        return QList<Territory>();
-    }
+        return QList<Territory> {};
 
     QList<Territory> territories;
-    const QJsonArray jsonArray = json.toArray();
+    const auto &jsonArray = json.toArray();
 
-    for(const QJsonValue &value : jsonArray)
-    {
-        Territory territory = Territory::fromJson(value);
+    auto addTerritory {[&](const auto &json) {
+        auto territory = Territory::fromJson(json);
         if(territory.isValid())
-        {
             territories << territory;
-        }
-    }
+    }};
+
+    std::for_each(std::begin(jsonArray), std::end(jsonArray), addTerritory);
 
     return territories;
 }

@@ -24,12 +24,9 @@
  */
 Utils::CarbonPluginData::CarbonPluginData(const QString &name,
                                           const QString &description,
-                                          const QList<Territory> &territories)
-{
-    d.name = name;
-    d.description = description;
-    d.territories = territories;
-}
+                                          const QList<Territory> &territories):
+    _name {name}, _description {description}, _territories {territories}
+{}
 
 /**
  * @brief Checks if the plugin data is valid or not.
@@ -57,7 +54,7 @@ bool Utils::CarbonPluginData::isValid()
  */
 QString Utils::CarbonPluginData::name() const
 {
-    return d.name;
+    return _name;
 }
 
 /**
@@ -69,7 +66,7 @@ QString Utils::CarbonPluginData::name() const
  */
 QString Utils::CarbonPluginData::description() const
 {
-    return d.description;
+    return _description;
 }
 
 /**
@@ -82,7 +79,7 @@ QString Utils::CarbonPluginData::description() const
  */
 QList<Utils::Territory> Utils::CarbonPluginData::territoryList() const
 {
-    return d.territories;
+    return _territories;
 }
 
 /**
@@ -101,13 +98,10 @@ QList<Utils::Territory> Utils::CarbonPluginData::territoryList() const
 QList<QLocale::Country> Utils::CarbonPluginData::territories() const
 {
     QList<QLocale::Country> territories;
-    for(const Territory &territory : const_cast<const QList<Territory> &>(d.territories))
-    {
-        if(territory.isValid())
-        {
-            territories << territory.country();
-        }
-    }
+
+    std::transform(std::begin(territoryList()), std::end(territoryList()), std::back_inserter(territories),
+                   [](const Territory &territory) {
+                       return territory.country();});
 
     return territories;
 }
@@ -123,13 +117,11 @@ QList<QLocale::Country> Utils::CarbonPluginData::territories() const
 QStringList Utils::CarbonPluginData::territoryNames() const
 {
     QStringList territoryNames;
-    for(const Territory &territory : const_cast<const QList<Territory> &>(d.territories))
-    {
-        if(territory.isValid())
-        {
-            territoryNames << QLocale::countryToString(territory.country());
-        }
-    }
+
+    std::transform(std::begin(territoryList()), std::end(territoryList()), std::back_inserter(territoryNames),
+                   [](const Territory &territory) {
+                       return QLocale::countryToString(territory.country());
+    });
 
     return territoryNames;
 }
@@ -149,14 +141,13 @@ QStringList Utils::CarbonPluginData::territoryNames() const
 QList<Utils::TranslatedString> Utils::CarbonPluginData::regionList(const QLocale::Country country) const
 {
     QList<TranslatedString> regions;
-    for(const Territory &territory : const_cast<const QList<Territory> &>(d.territories))
-    {
-        if(territory.isValid() && territory.country() == country)
-        {
-            regions = territory.regions();
-            break;
-        }
-    }
+
+    auto territoryResult {std::find_if(std::begin(territoryList()), std::end(territoryList()), [&](const Territory &territory) {
+        return territory.isValid() && territory.country() == country;
+    })};
+
+    if(territoryResult != std::end(territoryList()))
+        regions = territoryResult->regions();
 
     return regions;
 }
@@ -173,16 +164,13 @@ QList<Utils::TranslatedString> Utils::CarbonPluginData::regionList(const QLocale
  */
 QStringList Utils::CarbonPluginData::regionIds(const QLocale::Country territory) const
 {
-    const QList<TranslatedString> regions = regionList(territory);
+    const auto &regions = regionList(territory);
+
     QStringList regionIdList;
 
-    for(const TranslatedString &region : regions)
-    {
-        if(!region.isEmpty())
-        {
-            regionIdList << region.id();
-        }
-    }
+    std::transform(std::begin(regions), std::end(regions), std::back_inserter(regionIdList), [](const TranslatedString &region) {
+        return region.id();
+    });
 
     return regionIdList;
 }
@@ -200,28 +188,21 @@ QStringList Utils::CarbonPluginData::regionIds(const QLocale::Country territory)
  * If no translation can be found for the provided \p country and \p regionId,
  * an empty QString will be returned.
  *
- * @param country The country/territory code we want the translation for.
+ * @param territory The country/territory code we want the translation for.
  * @param regionId The region ID we want the translated version of.
  * @return The translated version for the current locale as a QString.
  */
-QString Utils::CarbonPluginData::translatedRegion(const QLocale::Country country, const QString &regionId) const
+QString Utils::CarbonPluginData::translatedRegion(const QLocale::Country territory, const QString &regionId) const
 {
-    const QList<TranslatedString> regions = regionList(country);
+    const auto &regions = regionList(territory);
+
+    auto result = std::find_if(std::begin(regions), std::end(regions), [&](const TranslatedString &region) {
+        return region.id() == regionId;
+    });
+
     QString translated;
-
-    for(const TranslatedString &region : regions)
-    {
-        if(!region.isEmpty() && region.id() == regionId)
-        {
-            translated = region.translatedId();
-            if(translated.isEmpty())
-            {
-                translated = region.id();
-            }
-
-            break;
-        }
-    }
+    if(result != std::end(regions))
+        translated = result->translatedId().isEmpty() ? result->id() : result->translatedId();
 
     return translated;
 }
@@ -245,15 +226,13 @@ QString Utils::CarbonPluginData::translatedRegion(const QLocale::Country country
 Utils::CarbonPluginData Utils::CarbonPluginData::fromJson(const QJsonValue &json)
 {
     if(json.isNull() || !json.isObject())
-    {
         return CarbonPluginData();
-    }
 
-    QJsonObject jsonObject = json.toObject();
+    auto jsonObject {json.toObject()};
 
-    QString name = jsonObject.value(QStringLiteral("name")).toString();
-    QString description = jsonObject.value(QStringLiteral("description")).toString();
-    QList<Territory> territories = Territory::fromJsonArray(jsonObject.value(QStringLiteral("territories")));
+    auto name {jsonObject.value(QStringLiteral("name")).toString()};
+    auto description {jsonObject.value(QStringLiteral("description")).toString()};
+    auto territories {Territory::fromJsonArray(jsonObject.value(QStringLiteral("territories")))};
 
-    return CarbonPluginData(name, description, territories);
+    return CarbonPluginData {name, description, territories};
 }

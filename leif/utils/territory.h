@@ -15,6 +15,7 @@
 
 #include <QJsonValue>
 #include <QString>
+
 #include "translatedstring.h"
 
 namespace Utils {
@@ -38,12 +39,9 @@ public:
     static QList<Territory> fromJsonArray(const QJsonValue &json);
 
 private:
-    struct TerritoryPrivate
-    {
-        QLocale::Country country;
-        QString description;
-        QList<TranslatedString> regions;
-    } d;
+    QLocale::Country _country;
+    QString _description;
+    QList<TranslatedString> _regions;
 };
 
 }
