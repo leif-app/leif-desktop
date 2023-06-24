@@ -1,8 +1,8 @@
 #include <QTimer>
 #include <QDebug>
 
-#include "carbonprocessor.h"
-#include "leifsettings.h"
+#include "carbonservice.h"
+#include "settingsservice.h"
 #include "powerfactory.h"
 
 #include "plugin/carbonpluginmanager.h"
@@ -11,127 +11,94 @@
 
 #include "log/log.h"
 
-class CarbonProcessorPrivate
+class CarbonServicePrivate
 {
 private:
-    static CarbonProcessor *Instance;
-
     float session;
     float lifetime;
-    CarbonProcessor::CarbonUsageLevel usageLevel;
-    CarbonProcessor::ChargeForecast chargeForecast;
-    IPower *powerInfo;
+    CarbonUsageLevel usageLevel;
+    ChargeForecast chargeForecast;
+    QScopedPointer<IPower> powerInfo;
+    SettingsService *settings;
     CarbonData cachedData;
 
     QTimer calculateTimer;
-
-    friend class CarbonProcessor;
+    
+    friend class CarbonService;
 };
 
-CarbonProcessor * CarbonProcessorPrivate::Instance = nullptr;
-
-CarbonProcessor::CarbonProcessor(QObject *parent)
+CarbonService::CarbonService(SettingsService *settings, QObject *parent)
     : QObject{parent},
-      d{new CarbonProcessorPrivate}
+      d{new CarbonServicePrivate}
 {
     d->session = 0.0;
     d->lifetime = 0.0;
-    d->usageLevel = VeryHigh;
-    d->chargeForecast = ChargeWhenNeeded;
-    d->powerInfo = PowerFactory::getPowerInterface();
+    d->usageLevel = CarbonUsageLevel::VeryHigh;
+    d->chargeForecast = ChargeForecast::ChargeWhenNeeded;
+    d->powerInfo.reset(PowerFactory::getPowerInterface(settings).release());
+    d->settings = settings;
 
-    LeifSettings *settings = LeifSettings::Instance();
-    if(settings != nullptr)
-    {
+    if(d->settings != nullptr)
         setLifetimeCarbon(settings->lifeTimeCarbon());
-    }
 
     QTimer *checkTimer = new QTimer(this);
     checkTimer->setInterval(1000 * 60);
     checkTimer->setSingleShot(false);
-    connect(checkTimer, &QTimer::timeout, this, &CarbonProcessor::calculateCarbon);
+    connect(checkTimer, &QTimer::timeout, this, &CarbonService::calculateCarbon);
     checkTimer->start();
     calculateCarbon();
 }
 
-CarbonProcessor::~CarbonProcessor()
+CarbonService::~CarbonService()
 {
-    LeifSettings *settings = LeifSettings::Instance();
-    if(settings != nullptr)
-    {
-        settings->saveLifetimeCarbon(lifetimeCarbon());
-    }
+    if(d->settings != nullptr)
+        d->settings->saveLifetimeCarbon(lifetimeCarbon());
 
-    delete d->powerInfo;
-    d->powerInfo = nullptr;
-
-    delete d;
-    d = nullptr;
+    d->settings = nullptr;
 }
 
-CarbonProcessor *CarbonProcessor::Instance()
-{
-    if(CarbonProcessorPrivate::Instance == nullptr)
-    {
-        CarbonProcessorPrivate::Instance = new CarbonProcessor;
-    }
-
-    return CarbonProcessorPrivate::Instance;
-}
-
-void CarbonProcessor::Destroy()
-{
-    if(CarbonProcessorPrivate::Instance != nullptr)
-    {
-        delete CarbonProcessorPrivate::Instance;
-        CarbonProcessorPrivate::Instance = nullptr;
-    }
-}
-
-float CarbonProcessor::sessionCarbon() const
+float CarbonService::sessionCarbon() const
 {
     Q_ASSERT(d != nullptr);
 
     return d->session;
 }
 
-float CarbonProcessor::lifetimeCarbon() const
+float CarbonService::lifetimeCarbon() const
 {
     Q_ASSERT(d != nullptr);
 
     return d->lifetime;
 }
 
-CarbonProcessor::CarbonUsageLevel CarbonProcessor::carbonUsageLevel() const
+CarbonUsageLevel CarbonService::carbonUsageLevel() const
 {
     Q_ASSERT(d != nullptr);
 
     return d->usageLevel;
 }
 
-CarbonProcessor::ChargeForecast CarbonProcessor::chargeForecast() const
+ChargeForecast CarbonService::chargeForecast() const
 {
     Q_ASSERT(d != nullptr);
 
     return d->chargeForecast;
 }
 
-void CarbonProcessor::clearStats()
+void CarbonService::clearStats()
 {
     setSessionCarbon(0);
     setLifetimeCarbon(0);
 }
 
-void CarbonProcessor::calculateCarbon()
+void CarbonService::calculateCarbon()
 {
     DBG_CALLED;
     Q_ASSERT(d != nullptr);
 
-
-    LeifSettings *settings = LeifSettings::Instance();
-    if(settings == nullptr)
+    if(d->settings == nullptr)
     {
-        ERR("Can't calculate carbon, LeifSettings not available.");
+        ERR("Can't calculate carbon, SettingsService not available.");
         return;
     }
 
@@ -153,7 +120,7 @@ void CarbonProcessor::calculateCarbon()
     if(isOutOfDate(data))
     {
         DBG("Cached expired or invalid. Retrieving carbon data from plugin.");
-        data = manager->carbonPerKiloWatt(settings->country(), settings->regionId());
+        data = manager->carbonPerKiloWatt(d->settings->country(), d->settings->regionId());
     }
 
     INF(QString("Current power draw: %1.").arg(powerDraw));
@@ -186,37 +153,37 @@ void CarbonProcessor::calculateCarbon()
     }
 }
 
-CarbonProcessor::CarbonUsageLevel CarbonProcessor::calculateUsageLevel(int co2PerkWh)
+CarbonUsageLevel CarbonService::calculateUsageLevel(int co2PerkWh)
 {
     DBG_CALLED;
-
-    CarbonUsageLevel newLevel = CarbonProcessor::VeryHigh;
+    
+    CarbonUsageLevel newLevel = CarbonUsageLevel::VeryHigh;
 
     if(co2PerkWh <= 49)
     {
-        newLevel = CarbonProcessor::VeryLow;
+        newLevel = CarbonUsageLevel::VeryLow;
     }
     else if(co2PerkWh <= 129)
     {
-        newLevel = CarbonProcessor::Low;
+        newLevel = CarbonUsageLevel::Low;
     }
     else if(co2PerkWh <= 209)
     {
-        newLevel = CarbonProcessor::Medium;
+        newLevel = CarbonUsageLevel::Medium;
     }
     else if(co2PerkWh <= 310)
     {
-        newLevel = CarbonProcessor::High;
+        newLevel = CarbonUsageLevel::High;
     }
     else
     {
-        newLevel = CarbonProcessor::VeryHigh;
+        newLevel = CarbonUsageLevel::VeryHigh;
     }
 
     return newLevel;
 }
 
-void CarbonProcessor::setSessionCarbon(float newSessionCarbon)
+void CarbonService::setSessionCarbon(float newSessionCarbon)
 {
     Q_ASSERT(d != nullptr);
 
@@ -227,7 +194,7 @@ void CarbonProcessor::setSessionCarbon(float newSessionCarbon)
     }
 }
 
-void CarbonProcessor::setLifetimeCarbon(float newLifetimeCarbon)
+void CarbonService::setLifetimeCarbon(float newLifetimeCarbon)
 {
     Q_ASSERT(d != nullptr);
 
@@ -238,11 +205,11 @@ void CarbonProcessor::setLifetimeCarbon(float newLifetimeCarbon)
     }
 }
 
-void CarbonProcessor::setCarbonUsageLevel(CarbonUsageLevel newLevel)
+void CarbonService::setCarbonUsageLevel(CarbonUsageLevel newLevel)
 {
     Q_ASSERT(d != nullptr);
 
-    INF(QString("New carbon usage level is: %1").arg(newLevel));
+    INF(QString("New carbon usage level is: %1").arg(static_cast<int>(newLevel)));
 
     if(d->usageLevel != newLevel)
     {
@@ -251,11 +218,11 @@ void CarbonProcessor::setCarbonUsageLevel(CarbonUsageLevel newLevel)
     }
 }
 
-void CarbonProcessor::setChargeForecast(ChargeForecast newChargeForecast)
+void CarbonService::setChargeForecast(ChargeForecast newChargeForecast)
 {
     Q_ASSERT(d != nullptr);
 
-    INF(QString("New charge forecast: %1.").arg(newChargeForecast));
+    INF(QString("New charge forecast: %1.").arg(static_cast<int>(newChargeForecast)));
 
     if(d->chargeForecast != newChargeForecast)
     {
@@ -263,27 +230,22 @@ void CarbonProcessor::setChargeForecast(ChargeForecast newChargeForecast)
         emit chargeForecastChanged();
     }
 }
+
 /* static */
-bool CarbonProcessor::isOutOfDate(const CarbonData &data)
+bool CarbonService::isOutOfDate(const CarbonData &data)
 {
     if(!data.isValid)
-    {
         return true;
-    }
 
-    if(QDateTime::currentDateTime() <= data.validTo)
-    {
-        return false;
-    }
-
-    return true;
+    return QDateTime::currentDateTime() > data.validTo;
 }
+
 /* static */
-CarbonProcessor::ChargeForecast CarbonProcessor::calculateChargeForecast(const CarbonData &data)
+ChargeForecast CarbonService::calculateChargeForecast(const CarbonData &data)
 {
     if(!data.isValid)
     {
-        return ChargeWhenNeeded;
+        return ChargeForecast::ChargeWhenNeeded;
     }
 
     int now = data.co2PerkWhNow;
@@ -293,14 +255,14 @@ CarbonProcessor::ChargeForecast CarbonProcessor::calculateChargeForecast(const C
     // Now is less than anytime in near future
     if(now <= next && now < later)
     {
-        return ChargeNow;
+        return ChargeForecast::ChargeNow;
     } else if(now > next)
     {
-        return ChargeIn30;
+        return ChargeForecast::ChargeIn30;
     } else if(now > later)
     {
-        return ChargeIn60;
+        return ChargeForecast::ChargeIn60;
     }
 
-    return ChargeWhenNeeded;
+    return ChargeForecast::ChargeWhenNeeded;
 }

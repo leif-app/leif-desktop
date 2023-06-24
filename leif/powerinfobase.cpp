@@ -1,13 +1,17 @@
 #include <QTimer>
 
-#include "leifsettings.h"
 #include "powerinfobase.h"
 #include "log/log.h"
 
 class PowerInfoBasePrivate
 {
-    PowerInfoBasePrivate();
+public:
     ~PowerInfoBasePrivate() = default;
+
+private:
+    PowerInfoBasePrivate(int _avarageDischargeRate, std::function<void (int)> _storeAvarageDischargeRateFunc);
+
+    void updateAvarageDischargeRate(int newAvarageDischargeRate);
 
     // DATA
     int checkIntervalInMinutes;
@@ -17,23 +21,35 @@ class PowerInfoBasePrivate
     int currentDischargeRate;
     int avarageDischargeRate;
     PowerInfoBase::State state;
+    std::function<void(int)> storeAvarageDischargeRateFunc;
 
     friend class PowerInfoBase;
 };
 
-PowerInfoBasePrivate::PowerInfoBasePrivate():
+PowerInfoBasePrivate::PowerInfoBasePrivate(int _avarageDischargeRate, std::function<void(int)> _storeAvarageDischargeRateFunc):
     checkIntervalInMinutes {5},
     lastCapacity {0},
     currentCapacity {0},
     currentChargeRate {0},
     currentDischargeRate {0},
-    avarageDischargeRate {LeifSettings::Instance()->averageDischargeRate()},
-    state {PowerInfoBase::Unknown}
+    avarageDischargeRate {_avarageDischargeRate},
+    state {PowerInfoBase::Unknown},
+    storeAvarageDischargeRateFunc(_storeAvarageDischargeRateFunc)
 {}
 
-PowerInfoBase::PowerInfoBase(QObject *parent /* = nullptr */):
+void PowerInfoBasePrivate::updateAvarageDischargeRate(int newAvarageDischargeRate)
+{
+    avarageDischargeRate = newAvarageDischargeRate;
+
+    if(storeAvarageDischargeRateFunc != nullptr)
+        storeAvarageDischargeRateFunc(newAvarageDischargeRate);
+}
+
+PowerInfoBase::PowerInfoBase(int avarageDischargeRage,
+                             std::function<void(int)> storeAvarageDischargeRateFunc,
+                             QObject *parent /* = nullptr */):
     QObject(parent),
-    d {new PowerInfoBasePrivate}
+    d {new PowerInfoBasePrivate {avarageDischargeRage, storeAvarageDischargeRateFunc}}
 {
     QTimer *checkTimer = new QTimer(this);
     checkTimer->setInterval(d->checkIntervalInMinutes * 1000 * 60);
@@ -43,12 +59,7 @@ PowerInfoBase::PowerInfoBase(QObject *parent /* = nullptr */):
 }
 
 PowerInfoBase::~PowerInfoBase()
-{
-    LeifSettings::Instance()->saveAverageDischargeRate(d->avarageDischargeRate);
-
-    delete d;
-    d = nullptr;
-}
+{}
 
 PowerInfoBase::State PowerInfoBase::state() const
 {
@@ -122,11 +133,11 @@ void PowerInfoBase::checkLevels()
 
                 if(d->avarageDischargeRate == 0)
                 {
-                    d->avarageDischargeRate = dischargeRate;
+                    d->updateAvarageDischargeRate(dischargeRate);
                 }
                 else
                 {
-                    d->avarageDischargeRate = (d->avarageDischargeRate + dischargeRate) / 2;
+                    d->updateAvarageDischargeRate((d->avarageDischargeRate + dischargeRate) / 2);
                 }
 
                 DBG(QString("AVG DischargeRate = %1 - %2").arg(d->lastCapacity).arg(d->currentCapacity));

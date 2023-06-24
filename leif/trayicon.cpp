@@ -6,230 +6,107 @@
 #include <QSysInfo>
 #include <QStyleHints>
 
-#include "leifsettings.h"
+#include <controllers/trayiconcontroller.h>
+
 #include "trayicon.h"
 
-TrayIcon::TrayIcon(TrayIconModel *model, QObject *parent /* = nullptr */):
-    TrayIcon(QIcon(TrayIcon::usageLevelToIconName(CarbonProcessor::VeryHigh,TrayIcon::iconContrastMode())), parent)
+class TrayIconPrivate
 {
-    Q_ASSERT(model != nullptr);
+public:
+    ~TrayIconPrivate() = default;
 
-    d.model = model;
+private:
+    TrayIconPrivate(TrayIconController *_controller);
 
-    setupMenu();
-    connectModel();
+    static QString sessionCarbonLabel(double value);
+    static QString totalCarbonLabel(double value);
+    static QString carbonLabel(const QString &labelText, double value);
+    static QString intensityLabel(CarbonUsageLevel usageLevel);
+    static QString chargeForecastLabel(ChargeForecast chargeForecast);
 
-    QTimer::singleShot(500, this, &TrayIcon::doCheckConfigured);
-}
+    static QString co2Unit();
+    static QString usageLevelLabel(CarbonUsageLevel usageLevel);
+    static QString usageLevelIconName(CarbonUsageLevel usageLevel);
+    static QString contrastModeImagePath(bool contrastMode);
+    static QString iconName(CarbonUsageLevel usageLevel, bool contrastMode = true);
 
-TrayIcon::TrayIcon(const QIcon &icon, QObject *parent /* = nullptr */):
-    QSystemTrayIcon(icon, parent)
-{
-    d.model = nullptr;
-    d.notConfiguredAction = nullptr;
-    d.sessionCarbonAction = nullptr;
-    d.totalCarbonAction = nullptr;
-    d.carbonUsageLevelAction = nullptr;
-    d.chargeForecastAction = nullptr;
-    d.iconContrastMode = nullptr;
-}
+    TrayIconController *controller;
+    QAction *notConfiguredAction;
+    QAction *sessionCarbonAction;
+    QAction *totalCarbonAction;
+    QAction *carbonUsageLevelAction;
+    QAction *chargeForecastAction;
 
-void TrayIcon::onSessionCarbonChanged()
-{
-    Q_ASSERT(d.model != nullptr);
+    friend class TrayIcon;
+};
 
-    d.sessionCarbonAction->setText(TrayIcon::sessionCarbonLabel(d.model->sessionCarbon()));
-}
+TrayIconPrivate::TrayIconPrivate(TrayIconController *_controller):
+    controller {_controller},
+    notConfiguredAction {nullptr},
+    sessionCarbonAction {nullptr},
+    totalCarbonAction {nullptr},
+    carbonUsageLevelAction {nullptr},
+    chargeForecastAction {nullptr}
+{}
 
-void TrayIcon::onTotalCarbonChanged()
-{
-    Q_ASSERT(d.model != nullptr);
-
-    d.totalCarbonAction->setText(TrayIcon::totalCarbonLabel(d.model->lifetimeCarbon()));
-}
-
-void TrayIcon::onCarbonUsageLevelChanged()
-{
-    Q_ASSERT(d.model != nullptr);
-
-    d.carbonUsageLevelAction->setText(TrayIcon::intensityLabel(d.model->carbonUsageLevel()));
-
-    // Also set the icon
-    setIcon(QIcon(TrayIcon::usageLevelToIconName(d.model->carbonUsageLevel(), iconContrastMode())));
-}
-
-void TrayIcon::onChargeForecastChanged()
-{
-    Q_ASSERT(d.model != nullptr);
-
-    d.chargeForecastAction->setText(TrayIcon::chargeForecastLabel(d.model->chargeForecast()));
-}
-
-void TrayIcon::onResetStatsClicked()
-{
-    Q_ASSERT(d.model != nullptr);
-
-    int answer = QMessageBox::question(nullptr, tr("Resetting stats"),
-                                       tr("Do you really want to reset the "
-                                          "carbon usage statistics?\n"
-                                          "This cannot be undone."));
-
-    show();
-
-    if(answer != QMessageBox::Yes)
-    {
-        return;
-    }
-
-    showMessage(tr("Leif Information"), tr("The CO2 usage statistics have been cleared."),
-                QIcon("img/leif_128.png"));
-
-    d.model->resetStats();
-}
-
-void TrayIcon::onPreferencesClicked()
-{
-    Q_ASSERT(d.model != nullptr);
-
-    d.model->showDialog();
-}
-
-void TrayIcon::onConfiguredChanged()
-{
-    Q_ASSERT(d.model != nullptr);
-
-    if(d.notConfiguredAction != nullptr)
-    {
-        d.notConfiguredAction->setVisible(!d.model->configured());
-    }
-}
-
-void TrayIcon::doCheckConfigured()
-{
-    Q_ASSERT(d.model != nullptr);
-
-    if(!d.model->configured())
-    {
-        showMessage(tr("We need to talk"), tr("Hey there. I would love to go to "
-                                              "work, but I need to know where "
-                                              "you are."), QIcon("img/leif_128.png"));
-    }
-}
-
-void TrayIcon::doIconContrastModeToggled()
-{
-   setIcon(QIcon(TrayIcon::usageLevelToIconName(d.model->carbonUsageLevel(), d.iconContrastMode->isChecked())));
-    saveIconContrastMode(d.iconContrastMode->isChecked());
-}
-
-void TrayIcon::setupMenu()
-{
-    QMenu *menu = new QMenu;
-
-    d.notConfiguredAction = menu->addAction(tr("Leif is not configured yet"), this, &TrayIcon::onPreferencesClicked);
-    onConfiguredChanged();
-
-    d.sessionCarbonAction = menu->addAction(QString());
-    d.sessionCarbonAction->setDisabled(true);
-    onSessionCarbonChanged();
-
-    d.totalCarbonAction = menu->addAction(QString());
-    d.totalCarbonAction->setDisabled(true);
-    onTotalCarbonChanged();
-
-    d.carbonUsageLevelAction = menu->addAction(QString());
-    d.carbonUsageLevelAction->setDisabled(true);
-    onCarbonUsageLevelChanged();
-
-    d.chargeForecastAction = menu->addAction(QString());
-    d.chargeForecastAction->setDisabled(true);
-    onChargeForecastChanged();
-
-    menu->addAction(tr("Preferences..."), this, &TrayIcon::onPreferencesClicked);
-    menu->addAction(tr("Reset stats"), this, &TrayIcon::onResetStatsClicked, Qt::Key_R);
-
-    d.iconContrastMode = menu->addAction(tr("Dark mode"), this, &TrayIcon::doIconContrastModeToggled);
-    d.iconContrastMode->setCheckable(true);
-    d.iconContrastMode->setChecked(iconContrastMode());
-
-    menu->addSeparator();
-    menu->addAction(tr("Quit"), qApp, &QApplication::quit, Qt::Key_Q);
-
-    setContextMenu(menu);
-}
-
-void TrayIcon::connectModel()
-{
-    Q_ASSERT(d.model != nullptr);
-
-    connect(d.model, &TrayIconModel::sessionCarbonChanged, this, &TrayIcon::onSessionCarbonChanged);
-    connect(d.model, &TrayIconModel::lifetimeCarbonChanged, this, &TrayIcon::onTotalCarbonChanged);
-    connect(d.model, &TrayIconModel::carbonUsageLevelChanged, this, &TrayIcon::onCarbonUsageLevelChanged);
-    connect(d.model, &TrayIconModel::chargeForecastChanged, this, &TrayIcon::onChargeForecastChanged);
-    connect(d.model, &TrayIconModel::configuredChanged, this, &TrayIcon::onConfiguredChanged);
-    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged,this, &TrayIcon::onCarbonUsageLevelChanged);
-}
-
-QString TrayIcon::co2Unit()
+QString TrayIconPrivate::co2Unit()
 {
     return QString("gCO₂e");
 }
 
-QString TrayIcon::sessionCarbonLabel(double value)
+QString TrayIconPrivate::sessionCarbonLabel(double value)
 {
-    QString labelText = tr("Session", "As in, since the computer was turned on.");
-    return TrayIcon::carbonLabel(labelText, value);
+    QString labelText = QCoreApplication::translate("TrayIcon", "Session", "As in, since the computer was turned on.");
+    return TrayIconPrivate::carbonLabel(labelText, value);
 }
 
-QString TrayIcon::totalCarbonLabel(double value)
+QString TrayIconPrivate::totalCarbonLabel(double value)
 {
-    QString labelText = tr("Lifetime", "As in, total sum of consumption");
-    return TrayIcon::carbonLabel(labelText, value);
+    QString labelText = QCoreApplication::translate("TrayIcon", "Lifetime", "As in, total sum of consumption");
+    return TrayIconPrivate::carbonLabel(labelText, value);
 }
 
-QString TrayIcon::carbonLabel(const QString &labelText, double value)
+QString TrayIconPrivate::carbonLabel(const QString &labelText, double value)
 {
     QString label = QStringLiteral("%1: %2 %3");
-    label = label.arg(labelText, QLocale().toString(value), TrayIcon::co2Unit());
+    label = label.arg(labelText, QLocale().toString(value, 'g', 2), TrayIconPrivate::co2Unit());
 
     return label;
 }
 
-QString TrayIcon::intensityLabel(CarbonProcessor::CarbonUsageLevel usageLevel)
+QString TrayIconPrivate::intensityLabel(CarbonUsageLevel usageLevel)
 {
     QString intensity = QStringLiteral("%1: %2");
-    intensity = intensity.arg(tr("Current intensity", "Power usage intensity."), TrayIcon::usageLevelToString(usageLevel));
+    intensity = intensity.arg(QCoreApplication::translate("TrayIcon", "Current intensity", "Power usage intensity."), TrayIconPrivate::usageLevelLabel(usageLevel));
 
     return intensity;
 }
 
-QString TrayIcon::chargeForecastLabel(CarbonProcessor::ChargeForecast chargeForecast)
+QString TrayIconPrivate::chargeForecastLabel(ChargeForecast chargeForecast)
 {
-    static QHash<CarbonProcessor::ChargeForecast, QString> label;
+    static QHash<ChargeForecast, QString> label;
 
     if(label.contains(chargeForecast))
-    {
         return label.value(chargeForecast);
-    }
 
     QString str;
 
     switch(chargeForecast)
     {
-    case(CarbonProcessor::ChargeNow):
-        str = tr("Charge now");
+    case(ChargeForecast::ChargeNow):
+        str = QCoreApplication::translate("TrayIcon", "Charge now");
         break;
 
-    case(CarbonProcessor::ChargeIn30):
-        str = tr("Charge in 30 minutes");
+    case(ChargeForecast::ChargeIn30):
+        str = QCoreApplication::translate("TrayIcon", "Charge in 30 minutes");
         break;
 
-    case(CarbonProcessor::ChargeIn60):
-        str = tr("Charge in an hour or so");
+    case(ChargeForecast::ChargeIn60):
+        str = QCoreApplication::translate("TrayIcon", "Charge in an hour or so");
         break;
 
-    case(CarbonProcessor::ChargeWhenNeeded):
-        str = tr("Charge when needed");
+    case(ChargeForecast::ChargeWhenNeeded):
+        str = QCoreApplication::translate("TrayIcon", "Charge when needed");
         break;
     }
 
@@ -238,73 +115,74 @@ QString TrayIcon::chargeForecastLabel(CarbonProcessor::ChargeForecast chargeFore
     return str;
 }
 
-QString TrayIcon::usageLevelToString(CarbonProcessor::CarbonUsageLevel usageLevel)
+QString TrayIconPrivate::usageLevelLabel(CarbonUsageLevel usageLevel)
 {
-    static QHash<CarbonProcessor::CarbonUsageLevel, QString> usageLevelStrings;
+    static QHash<CarbonUsageLevel, QString> usageLevelLabels;
 
-    if(usageLevelStrings.contains(usageLevel))
-    {
-        return usageLevelStrings.value(usageLevel);
-    }
+    if(usageLevelLabels.contains(usageLevel))
+        return usageLevelLabels.value(usageLevel);
 
     QString str;
     switch(usageLevel)
     {
-    case(CarbonProcessor::VeryHigh):
+    case(CarbonUsageLevel::VeryHigh):
         //: The carbon usage intensity is very high
-        str = tr("Very high");
+        str = QCoreApplication::translate("TrayIcon", "Very high");
         break;
 
-    case(CarbonProcessor::High):
-        str = tr("High");
+    case(CarbonUsageLevel::High):
+        str = QCoreApplication::translate("TrayIcon", "High");
         break;
 
-    case(CarbonProcessor::Medium):
-        str = tr("Medium");
+    case(CarbonUsageLevel::Medium):
+        str = QCoreApplication::translate("TrayIcon", "Medium");
         break;
 
-    case(CarbonProcessor::Low):
-        str = tr("Low");
+    case(CarbonUsageLevel::Low):
+        str = QCoreApplication::translate("TrayIcon", "Low");
         break;
 
-    case(CarbonProcessor::VeryLow):
-        str = tr("Very low");
+    case(CarbonUsageLevel::VeryLow):
+        str = QCoreApplication::translate("TrayIcon", "Very low");
         break;
 
     default:
-        str = tr("unknown");
+        str = QCoreApplication::translate("TrayIcon", "unknown");
         break;
     }
 
-    usageLevelStrings.insert(usageLevel, str);
+    usageLevelLabels.insert(usageLevel, str);
 
     return str;
 }
 
-QString TrayIcon::usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLevel,
-                                       bool contrastMode /* = false */)
+QString TrayIconPrivate::usageLevelIconName(CarbonUsageLevel usageLevel)
 {
+    static QHash<CarbonUsageLevel, QString> iconNames;
+
+    if(iconNames.contains(usageLevel))
+        return iconNames.value(usageLevel);
+
     QString str;
     switch(usageLevel)
     {
-    case(CarbonProcessor::VeryHigh):
-        //: The carbon usage intensity is very high
+    case(CarbonUsageLevel::VeryHigh):
         str = QStringLiteral("verysad");
         break;
 
-    case(CarbonProcessor::High):
+    case(CarbonUsageLevel::High):
         str = QStringLiteral("sad");
         break;
 
-    case(CarbonProcessor::Medium):
+    case(CarbonUsageLevel::Medium):
         str = QStringLiteral("fair");
         break;
 
-    case(CarbonProcessor::Low):
+    case(CarbonUsageLevel::Low):
         str = QStringLiteral("happy");
         break;
 
-    case(CarbonProcessor::VeryLow):
+    case(CarbonUsageLevel::VeryLow):
         str = QStringLiteral("veryhappy");
         break;
 
@@ -313,45 +191,121 @@ QString TrayIcon::usageLevelToIconName(CarbonProcessor::CarbonUsageLevel usageLe
         break;
     }
 
-#if 0
-#ifdef Q_OS_WIN
-if(QSysInfo::productVersion() == QStringLiteral("11"))
-{
-    str.append(QStringLiteral("L"));
-}
-else
-{
-    str.append(QStringLiteral("D"));
-}
-#else
-    str.append(QStringLiteral("D"));
-#endif
-#endif
-
-    const QStyleHints* styleHints = QGuiApplication::styleHints();
-    const Qt::ColorScheme theme = styleHints->colorScheme();
-
-    if(contrastMode || theme == Qt::ColorScheme::Light)
-    {
-        str.prepend(QStringLiteral("light/"));
-    }
-    else
-    {
-        str.prepend(QStringLiteral("dark/"));
-    }
-
-    str.append(QStringLiteral(".svg"));
-    str.prepend(QStringLiteral(":/img/tray/"));
+    iconNames.insert(usageLevel, str);
 
     return str;
 }
 
-bool TrayIcon::iconContrastMode()
+QString TrayIconPrivate::contrastModeImagePath(bool contrastMode)
 {
-    return LeifSettings::Instance()->iconContrastMode();
+    if(contrastMode)
+        return QStringLiteral("dark");
+
+    return QStringLiteral("light");
 }
 
-void TrayIcon::saveIconContrastMode(bool iconContrastMode)
+QString TrayIconPrivate::iconName(CarbonUsageLevel usageLevel,
+                           bool contrastMode /* = true */)
 {
-    LeifSettings::Instance()->saveIconContrastMode(iconContrastMode);
+    QString theIconName = QStringLiteral(":/img/tray/%1/%2.svg");
+    theIconName = theIconName.arg(contrastModeImagePath(contrastMode),
+                                  usageLevelIconName(usageLevel));
+
+    return theIconName;
+}
+
+
+TrayIcon::TrayIcon(TrayIconController *model, QObject *parent /* = nullptr */):
+    TrayIcon(model, QIcon(TrayIconPrivate::iconName(CarbonUsageLevel::VeryHigh)), parent)
+{
+    setupMenu();
+    connectModel();
+
+    QTimer::singleShot(500, this, &TrayIcon::doCheckConfigured);
+}
+
+TrayIcon::TrayIcon(TrayIconController *controller, const QIcon &icon, QObject *parent /* = nullptr */):
+    QSystemTrayIcon(icon, parent),
+    d {new TrayIconPrivate {controller}}
+{}
+
+void TrayIcon::onCarbonUsageLevelChanged(CarbonUsageLevel newCarbonUsageLevel)
+{
+    Q_ASSERT(d != nullptr);
+
+    d->carbonUsageLevelAction->setText(TrayIconPrivate::intensityLabel(newCarbonUsageLevel));
+
+    // Also set the icon
+    setIcon(QIcon(TrayIconPrivate::iconName(newCarbonUsageLevel)));
+}
+
+void TrayIcon::onResetStatsClicked()
+{
+    Q_ASSERT(d != nullptr);
+
+    int answer = QMessageBox::question(nullptr, tr("Resetting stats"),
+                                       tr("Do you really want to reset the "
+                                          "carbon usage statistics?\n"
+                                          "This cannot be undone."));
+
+    if(answer != QMessageBox::Yes)
+        return;
+
+    showMessage(tr("Leif Information"), tr("The CO2 usage statistics have been cleared."),
+                QIcon("img/leif_128.png"));
+
+    d->controller->resetStats();
+}
+
+void TrayIcon::doCheckConfigured()
+{
+    Q_ASSERT(d != nullptr);
+
+    if(!d->controller->configured())
+        showMessage(tr("We need to talk"), tr("Hey there. I would love to go to "
+                                              "work, but I need to know where "
+                                              "you are."), QIcon("img/leif_128.png"));
+}
+
+void TrayIcon::setupMenu()
+{
+    QMenu *menu = new QMenu;
+
+    d->notConfiguredAction = menu->addAction(tr("Leif is not configured yet"), this, [=](){d->controller->showDialog();});
+    d->notConfiguredAction->setVisible(!d->controller->configured());
+
+    d->sessionCarbonAction = menu->addAction(QString());
+    d->sessionCarbonAction->setDisabled(true);
+    d->sessionCarbonAction->setText(TrayIconPrivate::sessionCarbonLabel(d->controller->sessionCarbon()));
+
+    d->totalCarbonAction = menu->addAction(QString());
+    d->totalCarbonAction->setDisabled(true);
+    d->totalCarbonAction->setText(TrayIconPrivate::totalCarbonLabel(d->controller->lifetimeCarbon()));
+
+    d->carbonUsageLevelAction = menu->addAction(QString());
+    d->carbonUsageLevelAction->setDisabled(true);
+    onCarbonUsageLevelChanged(d->controller->carbonUsageLevel());
+
+    d->chargeForecastAction = menu->addAction(QString());
+    d->chargeForecastAction->setDisabled(true);
+    d->chargeForecastAction->setText(TrayIconPrivate::chargeForecastLabel(d->controller->chargeForecast()));
+
+    menu->addAction(tr("Preferences..."), this, [=](){d->controller->showDialog();});
+    menu->addAction(tr("Reset stats"), Qt::Key_R, this, &TrayIcon::onResetStatsClicked);
+
+    menu->addSeparator();
+    menu->addAction(tr("Quit"), Qt::Key_Q, qApp, &QApplication::quit);
+
+    setContextMenu(menu);
+}
+
+void TrayIcon::connectModel()
+{
+    Q_ASSERT(d != nullptr);
+    
+    connect(d->controller, &TrayIconController::sessionCarbonChanged, this, [=](float sessionCarbon){d->sessionCarbonAction->setText(TrayIconPrivate::sessionCarbonLabel(sessionCarbon));});
+    connect(d->controller, &TrayIconController::lifetimeCarbonChanged, this, [=](float totalCarbon){d->totalCarbonAction->setText(TrayIconPrivate::totalCarbonLabel(totalCarbon));});
+    connect(d->controller, &TrayIconController::carbonUsageLevelChanged, this, &TrayIcon::onCarbonUsageLevelChanged);
+    connect(d->controller, &TrayIconController::chargeForecastChanged, this, [=](ChargeForecast newChargeForecast){d->chargeForecastAction->setText(TrayIconPrivate::chargeForecastLabel(newChargeForecast));});
+    connect(d->controller, &TrayIconController::configuredChanged, this, [=](){d->notConfiguredAction->setVisible(!d->controller->configured());});
 }

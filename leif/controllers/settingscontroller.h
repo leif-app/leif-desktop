@@ -1,20 +1,21 @@
-#ifndef SETTINGSMODEL_H
-#define SETTINGSMODEL_H
+#ifndef SETTINGSCONTROLLER_H
+#define SETTINGSCONTROLLER_H
 
 #include <QObject>
 #include <QLocale>
 #include <QQmlEngine>
 
-class SettingsModel : public QObject
+class SettingsService;
+
+class SettingsController : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QLocale::Country country READ country WRITE setCountry NOTIFY countryChanged)
     Q_PROPERTY(QString regionId READ regionId WRITE setRegionId NOTIFY regionIdChanged)
     Q_PROPERTY(float lifetimeCarbon READ lifetimeCarbon WRITE setLifetimeCarbon NOTIFY lifetimeCarbonChanged)
-    QML_ELEMENT
 
 public:
-    explicit SettingsModel(QObject *parent = nullptr);
+    explicit SettingsController(SettingsService *settings, QObject *parent = nullptr);
 
     QLocale::Country country() const;
     void setCountry(const QLocale::Country &newCountry);
@@ -29,6 +30,12 @@ signals:
     void countryChanged();
     void regionIdChanged();
     void lifetimeCarbonChanged();
+
+private:
+    struct SettingsControllerPrivate
+    {
+        SettingsService *settings;
+    } d;
 };
 
-#endif // SETTINGSMODEL_H
+#endif // SETTINGSCONTROLLER_H

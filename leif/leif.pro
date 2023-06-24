@@ -5,8 +5,8 @@ QT += quick widgets
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        carbonprocessor.cpp \
-        leifsettings.cpp \
+        controllers/carboncontroller.cpp \
+        controllers/settingscontroller.cpp \
         log/consolelogger.cpp \
         log/filelogger.cpp \
         log/iodevicelogger.cpp \
@@ -18,13 +18,13 @@ SOURCES += \
         log/predictivelogger.cpp \
         models/countrymodel.cpp \
         models/regionmodel.cpp \
-        models/settingsmodel.cpp \
+        controllers/trayiconcontroller.cpp \
         plugin/carbonplugin.cpp \
         main.cpp \
-        models/carbonmodel.cpp \
-        models/trayiconmodel.cpp \
         plugin/carbonpluginmanager.cpp \
         powerinfobase.cpp \
+        services/carbonservice.cpp \
+        services/settingsservice.cpp \
         trayicon.cpp \
         utils/carbonplugindata.cpp \
         utils/qmlwarninglogger.cpp \
@@ -50,7 +50,7 @@ TRANSLATIONS += \
 CONFIG += lrelease
 CONFIG += embed_translations qmltypes
 
-INCLUDEPATH += include/ models/
+INCLUDEPATH += include/ models/ controllers/ services/
 
 QML_IMPORT_NAME = Leif
 QML_IMPORT_MAJOR_VERSION = 1
@@ -67,8 +67,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    carbonprocessor.h \
-    leifsettings.h \
+    controllers/carboncontroller.h \
+    controllers/settingscontroller.h \
+    include/carbonusagelevel.h \
+    include/chargeforecast.h \
     log/consolelogger.h \
     log/filelogger.h \
     log/ilogger.h \
@@ -85,17 +87,17 @@ HEADERS += \
     log/predictivelogger.h \
     models/countrymodel.h \
     models/regionmodel.h \
-    models/settingsmodel.h \
+    controllers/trayiconcontroller.h \
     plugin/carbonplugin.h \
     include/carbondata.h \
     include/interfaces/IDataProvider.h \
     include/interfaces/IPower.h \
     main.h \
-    models/carbonmodel.h \
-    models/trayiconmodel.h \
     plugin/carbonpluginmanager.h \
     powerfactory.h \
     powerinfobase.h \
+    services/carbonservice.h \
+    services/settingsservice.h \
     trayicon.h \
     utils/carbonplugindata.h \
     utils/qmlwarninglogger.h \

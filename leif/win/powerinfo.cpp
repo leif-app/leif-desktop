@@ -56,8 +56,8 @@ bool PowerInfoHelper::batteryFullyCharged(PSYSTEM_BATTERY_STATE pBatteryState)
 }
 
 
-PowerInfo::PowerInfo(QObject *parent /* = nullptr */):
-    PowerInfoBase(parent)
+PowerInfo::PowerInfo(int avarageDischargeRate, std::function<void (int)> storeAvarageDischargeRateFunc, QObject *parent /* = nullptr */):
+    PowerInfoBase {avarageDischargeRate, storeAvarageDischargeRateFunc, parent}
 {}
 
 bool PowerInfo::hasBattery()

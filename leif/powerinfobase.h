@@ -15,7 +15,7 @@ public:
     Q_ENUM(State)
     Q_INTERFACES(IPower)
 
-    explicit PowerInfoBase(QObject *parent = nullptr);
+    explicit PowerInfoBase(int avarageDischargeRate, std::function<void(int)> storeAvarageDischargeRateFunc, QObject *parent = nullptr);
     virtual ~PowerInfoBase();
 
     State state() const;
@@ -41,6 +41,6 @@ private:
 
 private:
     Q_DISABLE_COPY_MOVE(PowerInfoBase)
-    PowerInfoBasePrivate *d;
+    QScopedPointer<PowerInfoBasePrivate> d;
 };
 #endif // POWERINFOBASE_H

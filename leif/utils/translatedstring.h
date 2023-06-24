@@ -33,18 +33,13 @@ public:
     QString id() const;
     QString translatedId() const;
 
+    static QString translate(const QList<Translation> &translations);
     static TranslatedString fromJson(const QJsonValue &json);
     static QList<TranslatedString> fromJsonArray(const QJsonValue &json);
 
 private:
-    void translate(const QList<Translation> &translations);
-
-private:
-    struct TranslatedStringPrivate
-    {
-        QString id;
-        QString translatedId;
-    } d;
+    QString _id;
+    QString _translatedId;
 };
 }
 

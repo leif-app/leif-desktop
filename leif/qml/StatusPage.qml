@@ -2,12 +2,13 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import Leif 1.0
+import Leif.Controllers 1.0
 
 BasePage {
     stateShownIn: "STATUS"
 
-    property real sessionDisplay: carbonModel.sessionCarbon
-    property real lifetimeDisplay: carbonModel.lifetimeCarbon
+    property real sessionDisplay: CarbonController.sessionCarbon
+    property real lifetimeDisplay: CarbonController.lifetimeCarbon
 
     Behavior on sessionDisplay {
         NumberAnimation {
@@ -21,10 +22,6 @@ BasePage {
             duration: 1000
             easing.type: Easing.InOutQuad
         }
-    }
-
-    CarbonModel {
-        id: carbonModel
     }
 
     Column {

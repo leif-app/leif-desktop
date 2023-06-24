@@ -15,13 +15,15 @@
 
 #include "main.h"
 #include "trayicon.h"
-#include "models/trayiconmodel.h"
 
-#include "carbonprocessor.h"
-#include "leifsettings.h"
+#include <controllers/trayiconcontroller.h>
+#include <controllers/carboncontroller.h>
+
+#include <services/carbonservice.h>
+#include <services/settingsservice.h>
 
 #include "log/log.h"
-#include "log/predictivelogger.h"
+#include "log/filelogger.h"
 
 #ifdef QT_DEBUG
 #include "log/consolelogger.h"
@@ -30,10 +32,6 @@
 
 int main(int argc, char *argv[])
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
-
     QApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false); // Very important with tray apps.
     setApplicationInfo();
@@ -57,10 +55,11 @@ int main(int argc, char *argv[])
     QScopedPointer<QTranslator> translator(new QTranslator);
     loadTranslations(translator.data());
     */
-
-    QScopedPointer<TrayIconModel> trayModel(new TrayIconModel);
-
-    QScopedPointer<TrayIcon> tray(new TrayIcon(trayModel.data()));
+    
+    QScopedPointer<SettingsService> settingsService(new SettingsService);
+    QScopedPointer<CarbonService> carbonService(new CarbonService(settingsService.get()));
+    QScopedPointer<TrayIconController> trayController(new TrayIconController(settingsService.get(), carbonService.get()));
+    QScopedPointer<TrayIcon> tray(new TrayIcon(trayController.get()));
     tray->show();
 
     int result = app.exec();
@@ -68,8 +67,6 @@ int main(int argc, char *argv[])
     INF("==================================");
     INF("Leif application is shutting down.");
     INF("==================================");
-
-    cleanup();
 
     return result;
 }
@@ -125,10 +122,3 @@ void setStyleSheet()
                         );
 }
 #endif
-
-void cleanup()
-{
-    CarbonProcessor::Destroy();
-    LeifSettings::Destroy();
-    Log::LogSystem::Destroy();
-}

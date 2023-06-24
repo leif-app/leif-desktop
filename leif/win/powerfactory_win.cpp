@@ -5,10 +5,19 @@
  *
  * @date 23.09.2022
  */
+#include "settingsservice.h"
 #include "powerfactory.h"
 #include "powerinfo.h"
 
-IPower * PowerFactory::getPowerInterface()
+std::unique_ptr<IPower> PowerFactory::getPowerInterface(SettingsService *settings)
 {
-    return new PowerInfo;
+    if(settings == nullptr)
+        return nullptr;
+
+    auto storeFunc = [=](int avgDischargeRate)
+    {
+        settings->saveAverageDischargeRate(avgDischargeRate);
+    };
+
+    return std::make_unique<PowerInfo>(settings->averageDischargeRate(), storeFunc);
 }

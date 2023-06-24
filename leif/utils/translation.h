@@ -38,11 +38,8 @@ public:
     static QList<Utils::Translation> fromJsonArray(const QJsonValue &json);
 
 private:
-    struct TranslationPrivate
-    {
-        QString string;
-        QLocale locale;
-    } d;
+    QString _string;
+    QLocale _locale;
 };
 }
 

@@ -17,7 +17,6 @@ int main(int argc, char *argv[]);
 
 void setApplicationInfo();
 void loadTranslations(QTranslator *translator);
-void cleanup();
 
 #ifdef _WIN32
 void setStyleSheet();

@@ -1,7 +1,7 @@
 #ifndef REGIONMODEL_H
 #define REGIONMODEL_H
 
-#include "QtCore/qlocale.h"
+#include <QLocale>
 #include <QObject>
 #include <QAbstractListModel>
 #include <QQmlEngine>
@@ -13,6 +13,7 @@ class RegionModel : public QAbstractListModel
     QML_ELEMENT
 public:
     explicit RegionModel(QObject *parent = nullptr);
+    virtual ~RegionModel() = default;
 
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;

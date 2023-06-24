@@ -37,16 +37,6 @@ ApplicationWindow {
         }
     }
 
-    Timer {
-        interval: 3000
-        repeat: true
-        running: true
-        onTriggered: {
-            rootWindow.sessionCarbon += 3;
-            rootWindow.lifeTimeCarbon += 3;
-        }
-    }
-
     Image {
         source: "../img/leif.png"
         anchors.bottom: parent.bottom

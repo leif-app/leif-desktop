@@ -6,7 +6,7 @@
 class PowerInfo : public PowerInfoBase
 {
 public:
-    explicit PowerInfo(QObject *parent = nullptr);
+    explicit PowerInfo(int avarageDischargeRate, std::function<void(int)> storeAvarageDischargeRateFunc, QObject *parent = nullptr);
     virtual ~PowerInfo() = default;
 
     // PowerInfoBase interface

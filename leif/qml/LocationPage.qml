@@ -2,13 +2,10 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import Leif 1.0
+import Leif.Controllers 1.0
 
 BasePage {
     stateShownIn: "LOCATION"
-
-    SettingsModel {
-        id: settings
-    }
 
     Item {
         anchors.fill: parent
@@ -31,8 +28,8 @@ BasePage {
 
                 model: CountryModel {}
 
-                Component.onCompleted: currentIndex = indexOfValue(settings.country)
-                onCurrentValueChanged: settings.country = currentValue
+                Component.onCompleted: currentIndex = indexOfValue(SettingsController.country)
+                onCurrentValueChanged: SettingsController.country = currentValue
             }
 
             RegionComboBox {
@@ -45,13 +42,13 @@ BasePage {
                 }
 
                 Component.onCompleted: {
-                    regionModel.country = settings.country;
-                    currentIndex = indexOfValue(settings.regionId);
+                    regionModel.country = SettingsController.country;
+                    currentIndex = indexOfValue(SettingsController.regionId);
                 }
 
                 onCurrentValueChanged: {
                     console.log("Current value changed!");
-                    settings.regionId = currentValue;
+                    SettingsController.regionId = currentValue;
                 }
             }
         }

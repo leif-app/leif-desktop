@@ -13,10 +13,12 @@
 
 #include <interfaces/IPower.h>
 
+class SettingsService;
+
 class PowerFactory
 {
 public:
-    static IPower * getPowerInterface();
+    static std::unique_ptr<IPower> getPowerInterface(SettingsService *settings);
 };
 
 #endif // POWERFACTORY_H
