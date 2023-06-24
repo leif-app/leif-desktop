@@ -85,16 +85,56 @@ void Utils::Translation::setString(const QString &string)
     _string = string;
 }
 
+/**
+ * @brief Returns the set locale object.
+ *
+ * The locale object determines, for which language, this string is supposed to
+ * be used.
+ *
+ * You can set the locale either via the constructor or by calling setLocale().
+ *
+ * @sa setLocale()
+ *
+ * @return The current locale as a QLocale object.
+ */
 QLocale Utils::Translation::locale() const
 {
     return _locale;
 }
 
+/**
+ * @brief Sets the current locale to \p locale.
+ *
+ * To get the currently set locale, call locale().
+ *
+ * @sa locale()
+ *
+ * @param locale The new locale to be used by this translation string.
+ */
 void Utils::Translation::setLocale(const QLocale &locale)
 {
     _locale = locale;
 }
 
+/**
+ * @brief Returns the \c Translation given it's JSON representation.
+ *
+ * The JSON must be an object with following format:
+ * \code
+ * {
+ *   locale: "en_GB",
+ *   string: "translated string"
+ * }
+ * \endcode
+ *
+ * \remark
+ * If the \p json is \c null or not a valid JSON object, the method will return
+ * an empty Translation object.
+ *
+ * @param json The JSON value (object) to be used to construct a Translation.
+ *
+ * @return The Translation object.
+ */
 Utils::Translation Utils::Translation::fromJson(const QJsonValue &json)
 {
     if(json.isNull() || !json.isObject())
@@ -106,13 +146,39 @@ Utils::Translation Utils::Translation::fromJson(const QJsonValue &json)
     return Translation {string, locale};
 }
 
+/**
+ * @brief Returns a list of Translation objects given it's JSON representation.
+ *
+ * To construct the list of Transaction objects, we need to provide a \p json
+ * value, which should be a JSON array with the following format:
+ * \code
+ * [
+ *   {
+ *     "string": "translated string",
+ *     "locale": "en_GB"
+ *   },
+ *   ...
+ * ]
+ * \endcode
+ *
+ * \remark
+ * If the \p json object is \c null or not an array, then this method will
+ * return an empty list.
+ *
+ * \remark
+ * Only non-empty Translation objects will be stored in the list.
+ *
+ * @param json The JSON array containing the Translation definitions.
+ *
+ * @return The list of Translation objects as a QList<Utils::Translation> object.
+ */
 QList<Utils::Translation> Utils::Translation::fromJsonArray(const QJsonValue &json)
 {
     if(json.isNull() || !json.isArray())
-        return QList<Translation>();
+        return QList<Translation> {};
 
     const auto &jsonArray {json.toArray()};
-    QList<Translation> translations;
+    QList<Translation> translations {};
 
     auto addToList = [&](const auto &jsonValue) {
         auto translation {Translation::fromJson(jsonValue)};

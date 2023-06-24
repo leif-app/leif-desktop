@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QSysInfo>
-#include <QStyleHints>
+#include <QSysInfo>
 
 #include <controllers/trayiconcontroller.h>
 
@@ -28,7 +28,8 @@ private:
     static QString usageLevelLabel(CarbonUsageLevel usageLevel);
     static QString usageLevelIconName(CarbonUsageLevel usageLevel);
     static QString contrastModeImagePath(bool contrastMode);
-    static QString iconName(CarbonUsageLevel usageLevel, bool contrastMode = true);
+    static QString iconName(CarbonUsageLevel usageLevel, bool contrastMode);
+    static bool currentContrastMode();
 
     TrayIconController *controller;
     QAction *notConfiguredAction;
@@ -204,8 +205,7 @@ QString TrayIconPrivate::contrastModeImagePath(bool contrastMode)
     return QStringLiteral("light");
 }
 
-QString TrayIconPrivate::iconName(CarbonUsageLevel usageLevel,
-                           bool contrastMode /* = true */)
+QString TrayIconPrivate::iconName(CarbonUsageLevel usageLevel, bool contrastMode)
 {
     QString theIconName = QStringLiteral(":/img/tray/%1/%2.svg");
     theIconName = theIconName.arg(contrastModeImagePath(contrastMode),
@@ -214,9 +214,23 @@ QString TrayIconPrivate::iconName(CarbonUsageLevel usageLevel,
     return theIconName;
 }
 
+bool TrayIconPrivate::currentContrastMode()
+{
+#ifdef Q_OS_WINDOWS
+    QString productVersion {QSysInfo::productVersion()};
+    bool ok {false};
+    unsigned int version {productVersion.toUInt(&ok)};
+
+    if(!ok || version < 11)
+        return true;
+#endif // Q_OS_WINDOWS
+
+    return false;
+}
+
 
 TrayIcon::TrayIcon(TrayIconController *model, QObject *parent /* = nullptr */):
-    TrayIcon(model, QIcon(TrayIconPrivate::iconName(CarbonUsageLevel::VeryHigh)), parent)
+    TrayIcon(model, QIcon(TrayIconPrivate::iconName(CarbonUsageLevel::VeryHigh, TrayIconPrivate::currentContrastMode())), parent)
 {
     setupMenu();
     connectModel();
@@ -236,7 +250,7 @@ void TrayIcon::onCarbonUsageLevelChanged(CarbonUsageLevel newCarbonUsageLevel)
     d->carbonUsageLevelAction->setText(TrayIconPrivate::intensityLabel(newCarbonUsageLevel));
 
     // Also set the icon
-    setIcon(QIcon(TrayIconPrivate::iconName(newCarbonUsageLevel)));
+    setIcon(QIcon(TrayIconPrivate::iconName(newCarbonUsageLevel, TrayIconPrivate::currentContrastMode())));
 }
 
 void TrayIcon::onResetStatsClicked()
