@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS = Translation TranslatedString CarbonPluginData
+SUBDIRS = Translation TranslatedString Territory CarbonPluginData

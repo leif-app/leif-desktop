@@ -101,7 +101,7 @@ QList<QLocale::Country> Utils::CarbonPluginData::territories() const
 
     std::transform(std::begin(territoryList()), std::end(territoryList()), std::back_inserter(territories),
                    [](const Territory &territory) {
-                       return territory.country();});
+                       return territory.territory();});
 
     return territories;
 }
@@ -120,7 +120,7 @@ QStringList Utils::CarbonPluginData::territoryNames() const
 
     std::transform(std::begin(territoryList()), std::end(territoryList()), std::back_inserter(territoryNames),
                    [](const Territory &territory) {
-                       return QLocale::countryToString(territory.country());
+                       return QLocale::countryToString(territory.territory());
     });
 
     return territoryNames;
@@ -143,7 +143,7 @@ QList<Utils::TranslatedString> Utils::CarbonPluginData::regionList(const QLocale
     QList<TranslatedString> regions;
 
     auto territoryResult {std::find_if(std::begin(territoryList()), std::end(territoryList()), [&](const Territory &territory) {
-        return territory.isValid() && territory.country() == country;
+        return territory.isValid() && territory.territory() == country;
     })};
 
     if(territoryResult != std::end(territoryList()))

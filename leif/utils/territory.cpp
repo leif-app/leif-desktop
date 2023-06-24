@@ -16,18 +16,18 @@ Utils::Territory::Territory():
     Utils::Territory(QLocale::AnyCountry, QString {}, QList<TranslatedString> {})
 {}
 
-Utils::Territory::Territory(const QLocale::Country country, const QString &description, const QList<TranslatedString> &regions):
-    _country {country}, _description {description}, _regions {regions}
+Utils::Territory::Territory(const QLocale::Territory territory, const QString &description, const QList<TranslatedString> &regions):
+    _territory {territory}, _description {description}, _regions {regions}
 {}
 
 bool Utils::Territory::isValid() const
 {
-    return country() != QLocale::AnyCountry;
+    return territory() != QLocale::AnyCountry;
 }
 
-QLocale::Country Utils::Territory::country() const
+QLocale::Territory Utils::Territory::territory() const
 {
-    return _country;
+    return _territory;
 }
 
 QString Utils::Territory::description() const
@@ -37,7 +37,7 @@ QString Utils::Territory::description() const
 
 bool Utils::Territory::hasRegions() const
 {
-    return _regions.count() > 0;
+    return regions().count() > 0;
 }
 
 QList<Utils::TranslatedString> Utils::Territory::regions() const
@@ -55,11 +55,11 @@ Utils::Territory Utils::Territory::fromJson(const QJsonValue &json)
     if(!territoryObject.contains(QStringLiteral("territory")))
         return Territory {};
 
-    auto country {static_cast<QLocale::Country>(territoryObject.value(QStringLiteral("territory")).toInt())};
+    auto territory {static_cast<QLocale::Country>(territoryObject.value(QStringLiteral("territory")).toInt())};
     auto description {territoryObject.value(QStringLiteral("description")).toString()};
     auto regions {TranslatedString::fromJsonArray(territoryObject.value(QStringLiteral("regions")))};
 
-    return Territory {country, description, regions};
+    return Territory {territory, description, regions};
 }
 
 QList<Utils::Territory> Utils::Territory::fromJsonArray(const QJsonValue &json)

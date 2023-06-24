@@ -24,12 +24,12 @@ class Territory
 {
 public:
     Territory();
-    Territory(const QLocale::Country country, const QString &description, const QList<TranslatedString> &regions);
+    Territory(const QLocale::Territory territory, const QString &description, const QList<TranslatedString> &regions);
     ~Territory() = default;
 
     bool isValid() const;
 
-    QLocale::Country country() const;
+    QLocale::Territory territory() const;
     QString description() const;
 
     bool hasRegions() const;
@@ -39,7 +39,7 @@ public:
     static QList<Territory> fromJsonArray(const QJsonValue &json);
 
 private:
-    QLocale::Country _country;
+    QLocale::Country _territory;
     QString _description;
     QList<TranslatedString> _regions;
 };
