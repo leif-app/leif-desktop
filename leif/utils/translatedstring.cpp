@@ -118,10 +118,10 @@ QString Utils::TranslatedString::translate(const QList<Translation> &translation
 
     auto result = std::find_if(std::begin(translations), std::end(translations), localeFits);
 
-    if(result == std::end(translations))
-        return QString {};
+    if(result != std::end(translations))
+        return result->string();
 
-    return result->string();
+    return QString {};
 }
 
 /**
@@ -148,18 +148,18 @@ QString Utils::TranslatedString::translate(const QList<Translation> &translation
 Utils::TranslatedString Utils::TranslatedString::fromJson(const QJsonValue &json)
 {
     if(json.isNull() || !json.isObject())
-        return TranslatedString();
+        return TranslatedString {};
 
-    auto jsonObject = json.toObject();
+    const auto &jsonObject {json.toObject()};
 
-    auto id = jsonObject.value(QStringLiteral("id")).toString();
+    auto id {jsonObject.value(QStringLiteral("id")).toString()};
 
-    QList<Translation> translations;
+    QList<Translation> translations {};
 
     if(jsonObject.contains(QStringLiteral("translations")))
         translations = Translation::fromJsonArray(jsonObject.value(QStringLiteral("translations")));
 
-    return TranslatedString (id, translations);
+    return TranslatedString {id, translations};
 }
 
 /**
@@ -198,21 +198,24 @@ Utils::TranslatedString Utils::TranslatedString::fromJson(const QJsonValue &json
 QList<Utils::TranslatedString> Utils::TranslatedString::fromJsonArray(const QJsonValue &json)
 {
     if(json.isNull() || !json.isArray())
-        return QList<TranslatedString>();
+        return QList<TranslatedString> {};
 
-    QList<TranslatedString> translatedStrings;
+    constexpr auto makeTrString {[](const auto &json) { return TranslatedString::fromJson(json);}};
+    constexpr auto stringNotEmpty {[](const auto &str) { return !str.isEmpty();}};
 
-    // This lambda method will be called on each JSON object stored in the json
-    // array.
-    auto addTranslatedString {[&](const auto &jsonValue) {
-        auto translatedString {TranslatedString::fromJson(jsonValue)};
-
-        if(!translatedString.isEmpty())
-            translatedStrings << translatedString;
-    }};
-
+    QList<TranslatedString> translatedStrings {};
     const auto &jsonArray {json.toArray()};
-    std::for_each(std::begin(jsonArray), std::end(jsonArray), addTranslatedString);
 
-    return translatedStrings;
+    std::transform(std::begin(jsonArray),
+                   std::end(jsonArray),
+                   std::back_inserter(translatedStrings),
+                   makeTrString);
+
+    QList<TranslatedString> validStrings {};
+    std::copy_if(std::begin(translatedStrings),
+                 std::end(translatedStrings),
+                 std::back_inserter(validStrings),
+                 stringNotEmpty);
+
+    return validStrings;
 }

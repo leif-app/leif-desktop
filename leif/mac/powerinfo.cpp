@@ -4,8 +4,8 @@
 
 #include "powerinfo.h"
 
-PowerInfo::PowerInfo(QObject *parent /* = nullptr */):
-    PowerInfoBase(parent)
+PowerInfo::PowerInfo(int avarageDischargeRate, std::function<void (int)> storeAvarageDischargeRateFunc, QObject *parent /* = nullptr */):
+    PowerInfoBase {avarageDischargeRate, storeAvarageDischargeRateFunc, parent}
 {
     m_service = IOServiceGetMatchingService(kIOMasterPortDefault,
                                             IOServiceNameMatching("AppleSmartBattery"));

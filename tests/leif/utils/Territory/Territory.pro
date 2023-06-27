@@ -13,6 +13,8 @@ SOURCES =  ../../../../leif/utils/translation.cpp           \
 
 HEADERS = ../../../../leif/utils/translation.h \
           ../../../../leif/utils/translatedstring.h \
-          ../../../../leif/utils/territory.h
+          ../../../../leif/utils/territory.h \
+          ../common/common.h
 
-INCLUDEPATH *= ../../../../leif/utils
+
+INCLUDEPATH *= ../../../../leif/utils ../common

@@ -15,6 +15,8 @@ SOURCES =  ../../../../leif/utils/carbonplugindata.cpp \
 HEADERS = ../../../../leif/utils/carbonplugindata.h \
           ../../../../leif/utils/translatedstring.h \
           ../../../../leif/utils/translation.h      \
-          ../../../../leif/utils/territory.h
+          ../../../../leif/utils/territory.h        \
+          ../common/common.h
 
-INCLUDEPATH *= ../../../../leif/utils
+
+INCLUDEPATH *= ../../../../leif/utils ../common

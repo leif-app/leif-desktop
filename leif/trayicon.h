@@ -14,7 +14,7 @@ class TrayIcon : public QSystemTrayIcon
 public:
     TrayIcon(TrayIconController *model, QObject *parent = nullptr);
     explicit TrayIcon(TrayIconController *controller, const QIcon &icon, QObject *parent = nullptr);
-    virtual ~TrayIcon() = default;
+    virtual ~TrayIcon();
 
 private slots:
     void onCarbonUsageLevelChanged(CarbonUsageLevel newCarbonUsageLevel);

@@ -189,16 +189,22 @@ QList<Utils::Translation> Utils::Translation::fromJsonArray(const QJsonValue &js
     if(json.isNull() || !json.isArray())
         return QList<Translation> {};
 
+    constexpr auto makeTr {[](const auto &json) { return Translation::fromJson(json);}};
+    constexpr auto translationNotEmpty {[](const auto &translation) { return !translation.isEmpty();}};
+
     const auto &jsonArray {json.toArray()};
     QList<Translation> translations {};
 
-    auto addToList = [&](const auto &jsonValue) {
-        auto translation {Translation::fromJson(jsonValue)};
-        if(!translation.isEmpty())
-            translations << translation;
-    };
+    std::transform(std::begin(jsonArray),
+                   std::end(jsonArray),
+                   std::back_inserter(translations),
+                   makeTr);
 
-    std::for_each(std::begin(jsonArray), std::end(jsonArray), addToList);
+    QList<Translation> validTranslations {};
+    std::copy_if(std::begin(translations),
+                 std::end(translations),
+                 std::back_inserter(validTranslations),
+                 translationNotEmpty);
 
-    return translations;
+    return validTranslations;
 }

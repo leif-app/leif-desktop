@@ -243,6 +243,9 @@ TrayIcon::TrayIcon(TrayIconController *controller, const QIcon &icon, QObject *p
     d {new TrayIconPrivate {controller}}
 {}
 
+TrayIcon::~TrayIcon()
+{}
+
 void TrayIcon::onCarbonUsageLevelChanged(CarbonUsageLevel newCarbonUsageLevel)
 {
     Q_ASSERT(d != nullptr);
