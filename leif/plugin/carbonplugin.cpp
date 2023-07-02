@@ -5,93 +5,105 @@
 
 #include "carbonplugin.h"
 
-
-CarbonPlugin::CarbonPlugin(const QString &fileName)
+class CarbonPluginPrivate
 {
-    d.loader = new QPluginLoader(fileName);
-    d.pluginData = Utils::CarbonPluginData::fromJson(d.loader->metaData().value(QStringLiteral("MetaData")));
-    d.pluginInterface = nullptr;
+public:
+    ~CarbonPluginPrivate();
+
+private:
+    CarbonPluginPrivate(const QString &fileName);
+
+    // DATA
+    QScopedPointer<QPluginLoader> loader;
+    IDataProvider *pluginInterface;
+    Utils::CarbonPluginData pluginData;
+
+    friend class CarbonPlugin;
+};
+
+CarbonPluginPrivate::CarbonPluginPrivate(const QString &fileName):
+    loader {new QPluginLoader {fileName}},
+    pluginInterface {nullptr}
+{
+    pluginData = Utils::CarbonPluginData::fromJson(loader->metaData().value(QStringLiteral("MetaData")));
 }
+
+CarbonPluginPrivate::~CarbonPluginPrivate()
+{
+    if(loader)
+        loader->unload();
+
+    pluginInterface = nullptr;
+}
+
+CarbonPlugin::CarbonPlugin(const QString &fileName):
+    d {new CarbonPluginPrivate {fileName}}
+{}
 
 CarbonPlugin::~CarbonPlugin()
-{
-    d.pluginInterface = nullptr;
+{}
 
-    if(d.loader != nullptr)
-    {
-        d.loader->unload();
-
-        delete d.loader;
-        d.loader = nullptr;
-    }
-}
-
+#if 0
 QString CarbonPlugin::errorString() const
 {
-    Q_ASSERT(d.loader != nullptr);
+    Q_ASSERT(d->loader != nullptr);
 
-    return d.loader->errorString();
+    return d->loader->errorString();
 }
 
 QString CarbonPlugin::fileName() const
 {
-    Q_ASSERT(d.loader != nullptr);
+    Q_ASSERT(d->loader != nullptr);
 
-    return d.loader->fileName();
+    return d->loader->fileName();
 }
+#endif
 
 bool CarbonPlugin::isLoaded() const
 {
-    Q_ASSERT(d.loader != nullptr);
+    Q_ASSERT(d->loader != nullptr);
 
-    return d.loader->isLoaded();
+    return d->loader->isLoaded();
 }
 
 bool CarbonPlugin::load()
 {
-    Q_ASSERT(d.loader != nullptr);
+    Q_ASSERT(d->loader != nullptr);
 
-    return d.loader->load();
+    return d->loader->load();
 }
 
 bool CarbonPlugin::unload()
 {
-    Q_ASSERT(d.loader != nullptr);
+    Q_ASSERT(d->loader != nullptr);
 
-    d.pluginInterface = nullptr;
+    d->pluginInterface = nullptr;
 
-    return d.loader->unload();
+    return d->loader->unload();
 }
-
 
 Utils::CarbonPluginData CarbonPlugin::pluginData() const
 {
-    return d.pluginData;
+    return d->pluginData;
 }
 
 CarbonData CarbonPlugin::carbonPerKiloWatt(const QLocale::Country country, const QString &region)
 {
-    Q_ASSERT(d.loader != nullptr);
+    Q_ASSERT(d->loader != nullptr);
 
     if(!isLoaded())
-    {
         return CarbonData::error(tr("The plugin for the country: '%1' is not loade yet.")
                                  .arg(QLocale::countryToString(country)));
-    }
 
-    if(d.pluginInterface == nullptr)
-    {
-        d.pluginInterface = qobject_cast<IDataProvider*>(d.loader->instance());
-    }
+    if(d->pluginInterface == nullptr)
+        d->pluginInterface = qobject_cast<IDataProvider*>(d->loader->instance());
 
-    if(d.pluginInterface == nullptr)
-    {
+    if(d->pluginInterface == nullptr)
         return CarbonData::error(tr("The plugin for the country: '%1' seems not "
                                     "to be a valid carbon data provider plugin.")
                                  .arg(QLocale::countryToString(country)));
-    }
 
-    return d.pluginInterface->carbonPerKiloWatt(country, region);
+    return d->pluginInterface->carbonPerKiloWatt(country, region);
 }
 
 QList<CarbonPlugin *> CarbonPlugin::getPlugins()
@@ -105,35 +117,41 @@ QList<CarbonPlugin *> CarbonPlugin::getPlugins()
 #endif
 
     QStringList filePaths;
-    for(const QString &pluginPath : static_cast<const QStringList>(pluginPaths))
-    {
-        QDir dir(pluginPath);
-        const QStringList fileNames = dir.entryList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot);
 
-        for(const QString &fileName : fileNames)
-            filePaths << pluginPath + QStringLiteral("/") + fileName;
-    }
+    auto getFilePaths {[&](const QString &pluginPath) {
+        QDir dir{pluginPath};
+        const QStringList &fileNames {dir.entryList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot)};
+
+        auto filePathTransform {[&](const QString &fileName) { return pluginPath + QStringLiteral("/") + fileName; }};
+        std::transform(std::begin(fileNames), std::end(fileNames), std::back_inserter(filePaths), filePathTransform);
+    }};
+    std::for_each(std::begin(pluginPaths), std::end(pluginPaths), getFilePaths);
+
+
+    QStringList libraryFilePaths {};
+    auto isLibrary {[](const QString &filePath) { return QLibrary::isLibrary(filePath); }};
+    std::copy_if(std::begin(filePaths), std::end(filePaths), std::back_inserter(libraryFilePaths), isLibrary);
 
     QList<CarbonPlugin*> plugins;
-    QStringList names;
 
-    for(const QString &filePath : static_cast<const QStringList>(filePaths))
-    {
+    auto makePlugin {[&](const QString &filePath) {
         DBG(QString("Loading plugin: '%1'.").arg(filePath));
+        std::unique_ptr<CarbonPlugin> plugin = std::make_unique<CarbonPlugin>(filePath);
 
-        if(QLibrary::isLibrary(filePath))
+        QString pluginName = plugin->pluginData().name();
+
+        struct HasName
         {
-            QScopedPointer<CarbonPlugin> plugin(new CarbonPlugin(filePath));
+            const QString &_name;
+            HasName(const QString &name): _name{name} {}
+            bool operator()(const CarbonPlugin *p) const {return p->pluginData().name() == _name; }
+        };
 
-            QString pluginName = plugin->pluginData().name();
+        if(std::none_of(std::begin(plugins), std::end(plugins), HasName(pluginName)))
+            plugins << plugin.release();
+    }};
 
-            if(!names.contains(pluginName))
-            {
-                names << pluginName;
-                plugins << plugin.take();
-            }
-        }
-    }
+    std::for_each(std::begin(libraryFilePaths), std::end(libraryFilePaths), makePlugin);
 
     return plugins;
 }

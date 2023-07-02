@@ -50,7 +50,7 @@ void CarbonPluginManagerPrivate::initPluginMap()
             continue;
         }
 
-        const QList<QLocale::Country> territories = plugin->pluginData().territories();
+        const QList<QLocale::Country> territories = plugin->pluginData().territoryList();
 
         for(const QLocale::Country &territory : territories)
         {
@@ -114,7 +114,7 @@ QList<QLocale::Country> CarbonPluginManager::territories() const
     QList<QLocale::Country> list;
     for(int i = 0; i < d->plugins.count(); ++i)
     {
-        list.append(d->plugins.at(i)->pluginData().territories());
+        list.append(d->plugins.at(i)->pluginData().territoryList());
     }
 
     return list;
@@ -170,8 +170,8 @@ QString CarbonPluginManager::translatedRegion(const QLocale::Country country, co
     {
         return QString();
     }
-
-    return plugin->pluginData().translatedRegion(country, regionId);
+    
+    return plugin->pluginData().translatedRegionId(country, regionId);
 }
 
 bool CarbonPluginManager::loadPlugin(const QLocale::Country country)
@@ -194,7 +194,16 @@ bool CarbonPluginManager::loadPlugin(const QLocale::Country country)
         return true;
     }
 
-    d->currentPlugin = plugin;
+    if(d->currentPlugin != plugin)
+    {
+        if(d->currentPlugin != nullptr)
+        {
+            d->currentPlugin->unload();
+        }
+
+        d->currentPlugin = plugin;
+    }
+
     return plugin->load();
 }
 

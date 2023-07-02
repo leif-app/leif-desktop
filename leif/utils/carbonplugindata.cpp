@@ -77,7 +77,7 @@ QString Utils::CarbonPluginData::description() const
  *
  * @return A QList with all the Utils::Territory definitions.
  */
-QList<Utils::Territory> Utils::CarbonPluginData::territoryList() const
+QList<Utils::Territory> Utils::CarbonPluginData::territories() const
 {
     return _territories;
 }
@@ -95,15 +95,18 @@ QList<Utils::Territory> Utils::CarbonPluginData::territoryList() const
  *
  * @return A QList with QLocale::Country codes representing the countries.
  */
-QList<QLocale::Country> Utils::CarbonPluginData::territories() const
+QList<QLocale::Territory> Utils::CarbonPluginData::territoryList() const
 {
-    QList<QLocale::Country> territories;
+    QList<QLocale::Territory> tList {};
 
-    std::transform(std::begin(territoryList()), std::end(territoryList()), std::back_inserter(territories),
-                   [](const Territory &territory) {
-                       return territory.territory();});
+    constexpr auto territoryTransform {[](const Territory &territory) { return territory.territory(); }};
 
-    return territories;
+    std::transform(std::begin(territories()),
+                   std::end(territories()),
+                   std::back_inserter(tList),
+                   territoryTransform);
+
+    return tList;
 }
 
 /**
@@ -116,12 +119,14 @@ QList<QLocale::Country> Utils::CarbonPluginData::territories() const
  */
 QStringList Utils::CarbonPluginData::territoryNames() const
 {
-    QStringList territoryNames;
+    QStringList territoryNames {};
 
-    std::transform(std::begin(territoryList()), std::end(territoryList()), std::back_inserter(territoryNames),
-                   [](const Territory &territory) {
-                       return QLocale::countryToString(territory.territory());
-    });
+    constexpr auto nameTransform {[](const Territory &territory) { return QLocale::territoryToString(territory.territory()); }};
+
+    std::transform(std::begin(territories()),
+                   std::end(territories()),
+                   std::back_inserter(territoryNames),
+                   nameTransform);
 
     return territoryNames;
 }
@@ -138,16 +143,18 @@ QStringList Utils::CarbonPluginData::territoryNames() const
  * @param territory The country we want the region IDs for.
  * @return A list with the regions as a QList of Utils::TranslatedString objects.
  */
-QList<Utils::TranslatedString> Utils::CarbonPluginData::regionList(const QLocale::Country country) const
+QList<Utils::TranslatedString> Utils::CarbonPluginData::regions(const QLocale::Territory territory) const
 {
-    QList<TranslatedString> regions;
+    QList<TranslatedString> regions {};
 
-    auto territoryResult {std::find_if(std::begin(territoryList()), std::end(territoryList()), [&](const Territory &territory) {
-        return territory.isValid() && territory.territory() == country;
-    })};
+    auto findTerritory {[&](const Territory &t) { return t.isValid() && t.territory() == territory; }};
 
-    if(territoryResult != std::end(territoryList()))
-        regions = territoryResult->regions();
+    auto findResult {std::find_if(std::begin(territories()),
+                                  std::end(territories()),
+                                  findTerritory)};
+
+    if(findResult != std::end(territories()))
+        regions = findResult->regions();
 
     return regions;
 }
@@ -162,15 +169,17 @@ QList<Utils::TranslatedString> Utils::CarbonPluginData::regionList(const QLocale
  * @param territory The country we want the region IDs for.
  * @return A list with region IDs as a QStringList.
  */
-QStringList Utils::CarbonPluginData::regionIds(const QLocale::Country territory) const
+QStringList Utils::CarbonPluginData::regionIds(const QLocale::Territory territory) const
 {
-    const auto &regions = regionList(territory);
+    QStringList regionIdList {};
 
-    QStringList regionIdList;
+    constexpr auto idTransform {[](const TranslatedString &region) {return region.id();}};
+    const auto &useRegions {regions(territory)};
 
-    std::transform(std::begin(regions), std::end(regions), std::back_inserter(regionIdList), [](const TranslatedString &region) {
-        return region.id();
-    });
+    std::transform(std::begin(useRegions),
+                   std::end(useRegions),
+                   std::back_inserter(regionIdList),
+                   idTransform);
 
     return regionIdList;
 }
@@ -192,19 +201,22 @@ QStringList Utils::CarbonPluginData::regionIds(const QLocale::Country territory)
  * @param regionId The region ID we want the translated version of.
  * @return The translated version for the current locale as a QString.
  */
-QString Utils::CarbonPluginData::translatedRegion(const QLocale::Country territory, const QString &regionId) const
+QString Utils::CarbonPluginData::translatedRegionId(const QLocale::Territory territory,
+                                                    const QString &regionId) const
 {
-    const auto &regions = regionList(territory);
+    const auto &useRegions = regions(territory);
 
-    auto result = std::find_if(std::begin(regions), std::end(regions), [&](const TranslatedString &region) {
-        return region.id() == regionId;
-    });
+    auto findId {[&](const TranslatedString &region) { return region.id() == regionId; }};
 
-    QString translated;
-    if(result != std::end(regions))
-        translated = result->translatedId().isEmpty() ? result->id() : result->translatedId();
+    auto result = std::find_if(std::begin(useRegions),
+                               std::end(useRegions),
+                               findId);
 
-    return translated;
+    QString translatedId {};
+    if(result != std::end(useRegions))
+        translatedId = result->translatedId().isEmpty() ? result->id() : result->translatedId();
+
+    return translatedId;
 }
 
 /**

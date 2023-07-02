@@ -32,6 +32,7 @@ public:
     bool loadPlugin(const QLocale::Country country);
     bool hasCurrentPlugin() const;
     CarbonPlugin * currentPlugin() const;
+
     virtual CarbonData carbonPerKiloWatt(const QLocale::Country country, const QString &region) override;
 
 private:

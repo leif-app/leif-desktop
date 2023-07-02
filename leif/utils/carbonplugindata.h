@@ -31,12 +31,12 @@ public:
     QString name() const;
     QString description() const;
 
-    QList<Territory> territoryList() const;
-    QList<QLocale::Country> territories() const;
+    QList<Territory> territories() const;
+    QList<QLocale::Territory> territoryList() const;
     QStringList territoryNames() const;
-    QList<TranslatedString> regionList(const QLocale::Country territory) const;
-    QStringList regionIds(const QLocale::Country territory) const;
-    QString translatedRegion(const QLocale::Country territory, const QString &regionId) const;
+    QList<TranslatedString> regions(const QLocale::Territory territory) const;
+    QStringList regionIds(const QLocale::Territory territory) const;
+    QString translatedRegionId(const QLocale::Territory territory, const QString &regionId) const;
 
     static CarbonPluginData fromJson(const QJsonValue &json);
 
